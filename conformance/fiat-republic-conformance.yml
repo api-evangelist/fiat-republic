@@ -1,0 +1,39 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/docs/authentication
+standards:
+- id: oauth2
+  conforms: true
+  evidence: OAuth 2.0 client-credentials flow documented; bearer JWT access tokens
+- id: oidc
+  conforms: false
+  evidence: No OpenID Connect discovery document served (/.well-known/openid-configuration 404 on API host)
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Custom JSON error envelope (errorCode/message/warnings), not application/problem+json
+- id: http-message-signatures
+  conforms: true
+  evidence: Webhooks signed per the HTTP Message Signatures standard (signature / signature-input / digest headers)
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: /.well-known/security.txt published with Contact and Expires
+- id: psd2
+  conforms: true
+  evidence: Regulated Electronic Money Institution operating under EU/UK payments regulation; PSD2 documentation published
+- id: idempotency
+  conforms: true
+  evidence: Idempotency-Key request header supported on mutating operations
+- id: pagination
+  conforms: true
+  evidence: Offset pagination with Prefer/Pagination-* headers
+compliance:
+  program: true
+  page: https://fiatrepublic.com/compliance
+  licenses:
+  - {jurisdiction: UK, regulator: Financial Conduct Authority (FCA), type: Electronic Money Institution (EMI), reference: 'FRN 900524', entity: Fiat Republic Financial Services Ltd}
+  - {jurisdiction: Netherlands, regulator: De Nederlandsche Bank, type: Electronic Money Institution (EMI), reference: 'R190553', entity: Fiat Republic Netherlands BV}
+  - {jurisdiction: Canada, regulator: FINTRAC, type: Money Service Business (MSB), reference: 'M22599700', entity: Fiat Republic Canada Inc}
+  - {jurisdiction: United States, regulator: FinCEN, type: Money Service Business (MSB), reference: '31000235244531', entity: Fiat Republic US Inc}
+notes: >-
+  Compliance posture is regulatory (EMI/MSB licensing) rather than security-attestation based; no
+  SOC 2 / ISO 27001 / PCI DSS certification was published on the compliance page at capture time.

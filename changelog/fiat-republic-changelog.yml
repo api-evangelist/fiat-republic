@@ -1,0 +1,30 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/changelog
+docs: https://docs.fiatrepublic.com/changelog
+scheme: dated
+current_version: v1
+entries:
+- title: Updates to VoP Handling for Non-Euro SEPA Jurisdictions
+  type: improvement
+  breaking: false
+  url: https://docs.fiatrepublic.com/changelog/updates-to-vop-handling-for-non-euro-sepa-jurisdictions
+- title: 'Action Required: New paymentScheme Values for USD Payments'
+  type: breaking
+  breaking: true
+  url: https://docs.fiatrepublic.com/changelog/action-required-new-paymentscheme-values-for-usd-payments
+- title: 'Fix: Business Sector Enum Values'
+  type: fix
+  breaking: false
+  url: https://docs.fiatrepublic.com/changelog/fix-business-sector-enum-values
+- title: Updates for USD Implementation and Document Management
+  type: improvement
+  breaking: false
+  url: https://docs.fiatrepublic.com/changelog/updates-for-usd-implementation-and-document-management
+- title: Upcoming breaking changes announcement
+  type: breaking
+  breaking: true
+  url: https://docs.fiatrepublic.com/changelog/29-january-2025
+notes: >-
+  Recent window of the ReadMe-hosted changelog. Exact publish dates are not machine-readable on
+  the changelog index (shown as relative ages); the live changelog is the source of truth.

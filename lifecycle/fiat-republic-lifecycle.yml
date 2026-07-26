@@ -1,0 +1,23 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/changelog
+versioning:
+  scheme: uri-path
+  current: v1
+  base_path: /api/v1
+deprecation:
+  policy: >-
+    Breaking changes are announced in advance via the dated changelog with "Action Required" /
+    "Upcoming breaking changes" notices (e.g. new paymentScheme values for USD payments, business
+    sector enum changes). No machine-readable Sunset/Deprecation header contract is documented.
+  changelog: https://docs.fiatrepublic.com/changelog
+  sunset_header: false
+status_page: https://status.fiatrepublic.com
+changelog: https://docs.fiatrepublic.com/changelog
+sla:
+  url: null
+  note: No public uptime SLA target found; a status page is published.
+notes: >-
+  Fiat Republic communicates lifecycle changes through its ReadMe-hosted dated changelog and a
+  public status page. Breaking changes are pre-announced but there is no documented RFC 8594
+  Sunset/Deprecation header mechanism.

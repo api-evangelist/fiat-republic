@@ -1,0 +1,72 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/docs/webhooks
+spec_type: Webhooks
+docs:
+  setup: https://docs.fiatrepublic.com/docs/webhooks
+  signatures: https://docs.fiatrepublic.com/docs/webhook-signatures
+  create_webhook: https://docs.fiatrepublic.com/reference/create-webhook
+delivery:
+  transport: HTTPS POST to subscriber endpoint
+  retry: retried 10 times, once every 10 minutes
+  signing:
+    algorithm: HMAC-SHA256 over an HTTP Message Signatures signature base
+    digest: SHA-1 hex digest of the JSON payload
+    headers: [signature, signature-input, digest]
+    key: endpoint Secret Key from the Dashboard
+envelope:
+  fields:
+  - {name: id, description: Unique id of the event}
+  - {name: event, description: Name of the event}
+  - {name: data, description: Full body of the object on which the event was triggered}
+  - {name: previousValues, description: Previous values of the object params that were updated}
+  - {name: createdAt, description: Time of event creation}
+events:
+  individual_end_user:
+  - INDIVIDUAL_END_USER.CREATED
+  - INDIVIDUAL_END_USER.UPDATED
+  - INDIVIDUAL_END_USER.STATUS_UPDATED
+  - INDIVIDUAL_END_USER.PERSONAL_DETAILS_UPDATED
+  - INDIVIDUAL_END_USER.METADATA_UPDATED
+  - INDIVIDUAL_END_USER.LINKED_CRYPTO_WALLETS_UPDATED
+  business_end_user:
+  - BUSINESS_END_USER.CREATED
+  - BUSINESS_END_USER.UPDATED
+  - BUSINESS_END_USER.DELETED
+  - BUSINESS_END_USER.STATUS_UPDATED
+  - BUSINESS_END_USER.BUSINESS_DETAILS_UPDATED
+  - BUSINESS_END_USER.METADATA_UPDATED
+  - BUSINESS_END_USER.LINKED_CRYPTO_WALLETS_UPDATED
+  fiat_account:
+  - FIAT_ACCOUNT.CREATED
+  - FIAT_ACCOUNT.UPDATED
+  - FIAT_ACCOUNT.STATUS_UPDATED
+  - FIAT_ACCOUNT.BALANCE_UPDATED
+  - FIAT_ACCOUNT.BANK_DETAILS_UPDATED
+  - FIAT_ACCOUNT.LABEL_UPDATED
+  - FIAT_ACCOUNT.METADATA_UPDATED
+  - FIAT_ACCOUNT.TAGS_UPDATED
+  virtual_account:
+  - VIRTUAL_ACCOUNT.CREATED
+  - VIRTUAL_ACCOUNT.UPDATED
+  - VIRTUAL_ACCOUNT.STATUS_UPDATED
+  - VIRTUAL_ACCOUNT.BANK_DETAILS_UPDATED
+  - VIRTUAL_ACCOUNT.LABEL_UPDATED
+  - VIRTUAL_ACCOUNT.METADATA_UPDATED
+  payment:
+  - PAYMENT.CREATED
+  - PAYMENT.UPDATED
+  - PAYMENT.STATUS_UPDATED
+  - PAYMENT.METADATA_UPDATED
+  - PAYMENT.PROCESSED_PAYMENT_SCHEME_UPDATED
+  payee:
+  - PAYEE.CREATED
+  - PAYEE.DELETED
+  - PAYEE.STATUS_UPDATED
+  return:
+  - RETURN.CREATED
+  - RETURN.UPDATED
+  - RETURN.STATUS_UPDATED
+notes: >-
+  Fiat Republic documents webhooks but publishes no AsyncAPI document. This is the captured webhook
+  event catalog (type Webhooks). Events can be subscribed via the Dashboard or the Create Webhook API.

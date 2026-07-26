@@ -1,0 +1,60 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/docs/introduction
+authentication:
+  style: OAuth 2.0 client-credentials bearer token
+  header: Authorization Bearer
+  docs: https://docs.fiatrepublic.com/docs/authentication
+  see: authentication/fiat-republic-authentication.yml
+idempotency:
+  supported: true
+  header: Idempotency-Key
+  key_format: UUID (v4 recommended)
+  scope: mutating requests (e.g. create payment)
+  retention: >-
+    No validity period for reuse with matching parameters — the same key with an identical payload
+    always returns the original object rather than creating a new one.
+  conflict_behavior: >-
+    Reusing a key with a different payload returns HTTP 409 Conflict, e.g. "Payment with given
+    idempotency key was already created with different payload".
+  docs: https://docs.fiatrepublic.com/docs/idempotency
+pagination:
+  style: offset
+  request_params: [limit, offset]
+  first_page: offset=0
+  opt_in_header: 'Prefer: pagination=basic'
+  response_headers:
+  - Preference-Applied
+  - Pagination-Total-Count
+  - Pagination-Limit
+  - Pagination-Offset
+  docs: https://docs.fiatrepublic.com/docs/pagination
+filters:
+  supported: true
+  docs: https://docs.fiatrepublic.com/docs/filters
+data_formats:
+  docs: https://docs.fiatrepublic.com/docs/data-formats
+  validation_regexes: https://docs.fiatrepublic.com/docs/validation-regexes
+versioning:
+  scheme: uri-path
+  current: v1
+  base_path: /api/v1
+error_envelope:
+  format: custom-json
+  fields: [errorCode, message, warnings]
+  rfc9457: false
+  see: errors/fiat-republic-problem-types.yml
+  docs: https://docs.fiatrepublic.com/docs/error-handling
+rate_limiting:
+  see: rate-limits/fiat-republic-rate-limits.yml
+  docs: https://docs.fiatrepublic.com/docs/rate-limiting
+webhooks:
+  signing: HMAC-SHA256 over an HTTP Message Signatures signature base (SHA-1 digest of payload)
+  signature_headers: [signature, signature-input, digest]
+  retry: retried 10 times, once every 10 minutes
+  docs: https://docs.fiatrepublic.com/docs/webhook-signatures
+  see: asyncapi/fiat-republic-webhooks.yml
+notes: >-
+  Cross-cutting request/response semantics for the Fiat Republic API, captured from the developer
+  docs. Idempotency is genuinely supported via an Idempotency-Key request header (see the
+  Idempotency common[] pointer).

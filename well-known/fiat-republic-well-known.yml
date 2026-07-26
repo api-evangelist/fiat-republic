@@ -1,0 +1,30 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/.well-known/security.txt
+hosts:
+- host: https://docs.fiatrepublic.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: fiat-republic-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+- host: https://fiatrepublic.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: fiat-republic-security.txt
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: >-
+      Returns the marketing site SPA HTML shell (Angular catch-all), not a valid OIDC discovery
+      document. Not treated as a real well-known resource.
+- host: https://sandbox.fiatrepublic.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+notes: >-
+  Only /.well-known/security.txt is a real discovery document. It is served identically from
+  both the marketing host and the docs host and carries a Contact and Expires but no Policy line.

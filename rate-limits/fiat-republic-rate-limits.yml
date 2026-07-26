@@ -1,0 +1,41 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/docs/rate-limiting
+docs: https://docs.fiatrepublic.com/docs/rate-limiting
+window: per-minute
+exceeded_status: 429
+limits:
+- scope: oauth-token-endpoint
+  limit_count: 180
+  window: minute
+  per: clientId and userId
+  environment: all
+- scope: /api/v1/ authenticated
+  limit_count: 100
+  window: minute
+  environment: sandbox
+- scope: /eagle-eye authenticated
+  limit_count: 50
+  window: minute
+  environment: sandbox
+- scope: unauthenticated
+  limit_count: 100
+  window: minute
+  environment: sandbox
+- scope: /api/v1/ authenticated
+  limit_count: 500
+  window: minute
+  environment: production
+- scope: /eagle-eye authenticated
+  limit_count: 100
+  window: minute
+  environment: production
+- scope: unauthenticated
+  limit_count: 150
+  window: minute
+  environment: production
+notes: >-
+  Rate limits are per minute and differ between sandbox and production. Exceeding the OAuth token
+  endpoint limit returns a JSON body {errorCode: "AUTHENTICATION FAILED", message: "Too many
+  requests, please try again after [X] seconds."}. Exceeding API limits returns HTTP 429. The docs
+  do not publish X-RateLimit-* response headers.

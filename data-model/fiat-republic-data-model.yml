@@ -1,0 +1,54 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/reference/create-api-token
+docs: https://docs.fiatrepublic.com/reference
+note: >-
+  Entity graph derived from the Fiat Republic API object reference (no downloadable OpenAPI is
+  published). Relationships are inferred from the documented object model and payment flows; field
+  names for the linking references are indicative.
+entities:
+- name: IndividualEndUser
+  reference: https://docs.fiatrepublic.com/reference/individual-end-user-object
+- name: BusinessEndUser
+  reference: https://docs.fiatrepublic.com/reference/the-business-end-user-object
+- name: FiatAccount
+  reference: https://docs.fiatrepublic.com/reference/fiat-account-object
+- name: VirtualAccount
+  reference: https://docs.fiatrepublic.com/reference/the-virtual-account-object
+- name: Payee
+  reference: https://docs.fiatrepublic.com/reference/payee-object
+- name: PayeeVerification
+  reference: https://docs.fiatrepublic.com/reference/payee-verification
+- name: Payment
+  reference: https://docs.fiatrepublic.com/reference/the-payments-object
+- name: Return
+  reference: https://docs.fiatrepublic.com/reference/the-returns-object
+- name: Conversion
+  reference: https://docs.fiatrepublic.com/reference/create-conversion
+- name: Webhook
+  reference: https://docs.fiatrepublic.com/reference/the-webhook-object
+- name: Document
+  reference: https://docs.fiatrepublic.com/reference/the-document-object
+- name: OxygenEntity
+  reference: https://docs.fiatrepublic.com/reference/oxygen-entities
+- name: OxygenPaymentChannel
+  reference: https://docs.fiatrepublic.com/reference/oxygen-payment-channels
+- name: OxygenTransaction
+  reference: https://docs.fiatrepublic.com/reference/oxygen-transactions
+- name: OxygenRule
+  reference: https://docs.fiatrepublic.com/reference/oxygen-rules
+- name: EMTWallet
+  reference: https://docs.fiatrepublic.com/reference/the-wallet-object
+relationships:
+- {from: FiatAccount, type: belongs_to, to: IndividualEndUser, via: endUser}
+- {from: FiatAccount, type: belongs_to, to: BusinessEndUser, via: endUser}
+- {from: VirtualAccount, type: belongs_to, to: FiatAccount, via: fiatAccount}
+- {from: FiatAccount, type: has_many, to: VirtualAccount, via: fiatAccount}
+- {from: Payee, type: belongs_to, to: BusinessEndUser, via: endUser}
+- {from: PayeeVerification, type: belongs_to, to: Payee, via: payee}
+- {from: Payment, type: belongs_to, to: FiatAccount, via: fiatAccount}
+- {from: Payment, type: belongs_to, to: Payee, via: payee}
+- {from: Return, type: belongs_to, to: Payment, via: payment}
+- {from: Document, type: belongs_to, to: BusinessEndUser, via: endUser}
+- {from: OxygenPaymentChannel, type: belongs_to, to: OxygenEntity, via: entity}
+- {from: OxygenTransaction, type: belongs_to, to: OxygenPaymentChannel, via: paymentChannel}

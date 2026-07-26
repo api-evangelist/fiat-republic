@@ -1,0 +1,66 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/docs/error-handling
+format: custom-json
+envelope:
+  fields:
+  - name: errorCode
+    description: Machine-readable error type
+  - name: message
+    description: Human-readable description of the error
+  - name: warnings
+    description: Optional array of {position, issue} objects detailing specific validation problems
+error_codes:
+- code: INTERNAL_ERROR
+  http_status: 500
+  title: An error occurred within the API
+- code: INVALID_REQUEST
+  http_status: 400
+  title: The request is invalid (also used when warnings are present)
+- code: INVALID_REQUEST_DATA
+  http_status: 400
+  title: The request data is invalid
+- code: INVALID_REQUEST_URL
+  http_status: 400
+  title: The request URL is invalid
+- code: INVALID_REQUEST_HEADERS
+  http_status: 400
+  title: The request headers are invalid
+- code: INVALID_REQUEST_URL_PARAMS
+  http_status: 400
+  title: The URL parameters are invalid
+- code: INVALID_REQUEST_QUERY_PARAMS
+  http_status: 400
+  title: The query parameters are invalid
+- code: RESOURCE_MISSING
+  http_status: 404
+  title: The requested resource could not be found
+- code: AUTHENTICATION_FAILED
+  http_status: 401
+  title: You couldn't log in
+- code: AUTHORIZATION_FAILED
+  http_status: 403
+  title: You don't have permission to do that
+- code: UNSUPPORTED_MEDIA_TYPE
+  http_status: 415
+  title: The request's media type is unsupported
+status_codes:
+- {status: 200, meaning: OK - request successful, body contains requested data}
+- {status: 201, meaning: Created - new resource created}
+- {status: 202, meaning: Accepted - request accepted, processing not yet complete}
+- {status: 204, meaning: No Content - successful, no body}
+- {status: 400, meaning: Bad Request - malformed or invalid parameters}
+- {status: 401, meaning: Unauthorised - authentication required}
+- {status: 403, meaning: Forbidden - no permission}
+- {status: 404, meaning: Not Found}
+- {status: 405, meaning: Method Not Allowed}
+- {status: 409, meaning: Conflict - conflict with existing data (e.g. idempotency key reuse)}
+- {status: 429, meaning: Too Many Requests - rate limit exceeded}
+- {status: 500, meaning: Internal Server Error}
+- {status: 503, meaning: Service Unavailable}
+docs:
+  error_handling: https://docs.fiatrepublic.com/docs/error-handling
+  status_codes: https://docs.fiatrepublic.com/docs/status-codes
+notes: >-
+  Fiat Republic uses a custom JSON error envelope (errorCode / message / optional warnings[]),
+  not RFC 9457 application/problem+json.

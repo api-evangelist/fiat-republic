@@ -1,0 +1,32 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.fiatrepublic.com/docs/environments
+docs:
+  environments: https://docs.fiatrepublic.com/docs/environments
+  create_payin: https://docs.fiatrepublic.com/reference/create-payin
+  testing_vop: https://docs.fiatrepublic.com/docs/testing-vop-on-sandbox
+environments:
+- name: sandbox
+  api_base_url: https://sandbox.fiatrepublic.com/api/v1
+  dashboard: https://sandbox.fiatrepublic.com/dashboard
+  oauth_token_url: https://sandbox.fiatrepublic.com/passport/oauth/token
+- name: production
+  api_base_url: https://member.fiatrepublic.com/api/v1
+  dashboard: https://member.fiatrepublic.com/dashboard
+test_vs_live:
+  separation: separate hostnames and separately-issued client credentials per environment
+simulation:
+  - name: Simulate Payins
+    description: >-
+      POST to the Create Payin endpoint on Sandbox to create a COMPLETED payin, simulating funds
+      received from an external bank account in production. Also triggers events to relevant webhooks.
+    endpoint: https://docs.fiatrepublic.com/reference/create-payin
+  - name: Verification of Payee (VoP) simulation
+    description: >-
+      Simulate VoP match/close-match/no-match statuses in the sandbox mock environment.
+    endpoint: https://docs.fiatrepublic.com/docs/testing-vop-on-sandbox
+notes: >-
+  Fiat Republic provides a dedicated sandbox with its own base URL, dashboard and OAuth credentials.
+  Test scenarios are driven by simulation endpoints (Create Payin, VoP status simulation) rather than
+  by magic card/account numbers. No published static test card or IBAN values were found — none are
+  invented here.
