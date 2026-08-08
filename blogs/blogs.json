@@ -3,12 +3,9 @@
   "feeds": [
     {
       "source": "https://docs.fiatrepublic.com/docs/authentication-webhook-setup",
-      "feed_url": "https://docs.fiatrepublic.com/docs/authentication-webhook-setup",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "error": "HTTPError"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-01T15:49:00Z"
+  "fetched": "2026-08-06T14:08:46Z"
 }
