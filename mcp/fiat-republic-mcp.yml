@@ -6,23 +6,56 @@ server:
   name: fiat-republic
   transport: http
   url: null
-note: >-
-  No official Fiat Republic MCP server was found (docs, npm @modelcontextprotocol, MCP registries).
-  This is a CANDIDATE tool list derived from the documented API reference operations so a server
-  could be generated. Source operations are ReadMe reference pages (no downloadable OpenAPI /
-  operationIds are published).
+note: No official Fiat Republic MCP server was found (docs, npm @modelcontextprotocol, MCP registries).
+  This is a CANDIDATE tool list derived from the documented API reference operations so a server could
+  be generated. Source operations are ReadMe reference pages (no downloadable OpenAPI / operationIds are
+  published).
 tools:
-- {name: create_api_token, description: Mint an OAuth client-credentials access token, source: https://docs.fiatrepublic.com/reference/create-api-token}
-- {name: create_individual_end_user, description: Create an individual end user, source: https://docs.fiatrepublic.com/reference/create-individual-end-user}
-- {name: create_business_end_user, description: Create a business end user, source: https://docs.fiatrepublic.com/reference/create-business-end-user}
-- {name: create_fiat_account, description: Open a fiat account for an end user, source: https://docs.fiatrepublic.com/reference/create-fiat-account}
-- {name: create_virtual_account, description: Create a virtual account, source: https://docs.fiatrepublic.com/reference/create-virtual-account}
-- {name: create_payee, description: Create a payee, source: https://docs.fiatrepublic.com/reference/create-payee}
-- {name: verify_payee, description: Run Verification of Payee (VoP), source: https://docs.fiatrepublic.com/reference/verify-payee}
-- {name: create_payment, description: Create a payout/payment, source: https://docs.fiatrepublic.com/reference/create-payment}
-- {name: list_payments, description: List payments, source: https://docs.fiatrepublic.com/reference/list-payments}
-- {name: create_payin, description: Simulate a completed payin on sandbox, source: https://docs.fiatrepublic.com/reference/create-payin}
-- {name: create_conversion, description: Create an FX conversion, source: https://docs.fiatrepublic.com/reference/create-conversion}
-- {name: create_return, description: Create a return, source: https://docs.fiatrepublic.com/reference/create-return}
-- {name: create_webhook, description: Register a webhook subscription, source: https://docs.fiatrepublic.com/reference/create-webhook}
-- {name: get_transactions_summary, description: Get a transactions summary, source: https://docs.fiatrepublic.com/reference/transactions-summary}
+- name: create_api_token
+  description: Mint an OAuth client-credentials access token
+  source: https://docs.fiatrepublic.com/reference/create-api-token
+- name: create_individual_end_user
+  description: Create an individual end user
+  source: https://docs.fiatrepublic.com/reference/create-individual-end-user
+- name: create_business_end_user
+  description: Create a business end user
+  source: https://docs.fiatrepublic.com/reference/create-business-end-user
+- name: create_fiat_account
+  description: Open a fiat account for an end user
+  source: https://docs.fiatrepublic.com/reference/create-fiat-account
+- name: create_virtual_account
+  description: Create a virtual account
+  source: https://docs.fiatrepublic.com/reference/create-virtual-account
+- name: create_payee
+  description: Create a payee
+  source: https://docs.fiatrepublic.com/reference/create-payee
+- name: verify_payee
+  description: Run Verification of Payee (VoP)
+  source: https://docs.fiatrepublic.com/reference/verify-payee
+- name: create_payment
+  description: Create a payout/payment
+  source: https://docs.fiatrepublic.com/reference/create-payment
+- name: list_payments
+  description: List payments
+  source: https://docs.fiatrepublic.com/reference/list-payments
+- name: create_payin
+  description: Simulate a completed payin on sandbox
+  source: https://docs.fiatrepublic.com/reference/create-payin
+- name: create_conversion
+  description: Create an FX conversion
+  source: https://docs.fiatrepublic.com/reference/create-conversion
+- name: create_return
+  description: Create a return
+  source: https://docs.fiatrepublic.com/reference/create-return
+- name: create_webhook
+  description: Register a webhook subscription
+  source: https://docs.fiatrepublic.com/reference/create-webhook
+- name: get_transactions_summary
+  description: Get a transactions summary
+  source: https://docs.fiatrepublic.com/reference/transactions-summary
+deployment:
+  mode: none
+  verified: derived
+  tools: 14
+  checked: '2026-08-12'
+  source: catalog MCP census
