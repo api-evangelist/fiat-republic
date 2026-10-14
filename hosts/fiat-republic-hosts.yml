@@ -1,0 +1,83 @@
+generated: '2026-10-14'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 6
+  own: 4
+  other_domain: 1
+  platform: 1
+  roles:
+  - collections
+  - docs
+  - identity
+  - status
+  - support
+  - website
+hosts:
+- host: docs.fiatrepublic.com
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - Documentation
+  - APIReference
+  - GettingStarted
+  - ChangeLog
+  serves:
+  - docs
+  registrable_domain: fiatrepublic.com
+  role: docs
+  relation: own
+- host: fiatrepublic.atlassian.net
+  found_by:
+  - pointer
+  types:
+  - Support
+  serves: []
+  registrable_domain: atlassian.net
+  role: support
+  relation: other-domain
+- host: fiatrepublic.com
+  found_by:
+  - pointer
+  types:
+  - Website
+  - DeveloperPortal
+  - Blog
+  - PrivacyPolicy
+  - Compliance
+  serves: []
+  registrable_domain: fiatrepublic.com
+  role: website
+  relation: own
+- host: member.fiatrepublic.com
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - SignUp
+  - Login
+  serves:
+  - api
+  registrable_domain: fiatrepublic.com
+  role: identity
+  relation: own
+- host: status.fiatrepublic.com
+  found_by:
+  - pointer
+  types:
+  - StatusPage
+  serves: []
+  registrable_domain: fiatrepublic.com
+  role: status
+  relation: own
+- host: www.postman.com
+  found_by:
+  - pointer
+  types:
+  - Postman
+  serves: []
+  registrable_domain: postman.com
+  role: collections
+  relation: platform

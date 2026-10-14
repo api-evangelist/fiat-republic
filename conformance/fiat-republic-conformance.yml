@@ -26,14 +26,35 @@ standards:
 - id: pagination
   conforms: true
   evidence: Offset pagination with Prefer/Pagination-* headers
+- id: openapi-3.1
+  conforms: true
+  evidence: the document declares 3.1.0
+- id: rfc9457
+  conforms: false
+  evidence: no response declares application/problem+json
 compliance:
   program: true
   page: https://fiatrepublic.com/compliance
   licenses:
-  - {jurisdiction: UK, regulator: Financial Conduct Authority (FCA), type: Electronic Money Institution (EMI), reference: 'FRN 900524', entity: Fiat Republic Financial Services Ltd}
-  - {jurisdiction: Netherlands, regulator: De Nederlandsche Bank, type: Electronic Money Institution (EMI), reference: 'R190553', entity: Fiat Republic Netherlands BV}
-  - {jurisdiction: Canada, regulator: FINTRAC, type: Money Service Business (MSB), reference: 'M22599700', entity: Fiat Republic Canada Inc}
-  - {jurisdiction: United States, regulator: FinCEN, type: Money Service Business (MSB), reference: '31000235244531', entity: Fiat Republic US Inc}
-notes: >-
-  Compliance posture is regulatory (EMI/MSB licensing) rather than security-attestation based; no
-  SOC 2 / ISO 27001 / PCI DSS certification was published on the compliance page at capture time.
+  - jurisdiction: UK
+    regulator: Financial Conduct Authority (FCA)
+    type: Electronic Money Institution (EMI)
+    reference: FRN 900524
+    entity: Fiat Republic Financial Services Ltd
+  - jurisdiction: Netherlands
+    regulator: De Nederlandsche Bank
+    type: Electronic Money Institution (EMI)
+    reference: R190553
+    entity: Fiat Republic Netherlands BV
+  - jurisdiction: Canada
+    regulator: FINTRAC
+    type: Money Service Business (MSB)
+    reference: M22599700
+    entity: Fiat Republic Canada Inc
+  - jurisdiction: United States
+    regulator: FinCEN
+    type: Money Service Business (MSB)
+    reference: '31000235244531'
+    entity: Fiat Republic US Inc
+notes: Compliance posture is regulatory (EMI/MSB licensing) rather than security-attestation based; no SOC 2 / ISO 27001 / PCI DSS certification
+  was published on the compliance page at capture time.

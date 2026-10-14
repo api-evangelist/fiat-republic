@@ -1,24 +1,29 @@
 aid: fiat-republic
+
 name: Fiat Republic
-description: >-
-  Fiat Republic is a UK- and EU-regulated Banking-as-a-Service provider that gives crypto
-  platforms, exchanges and stablecoin issuers a single API and single liability contract for
-  local fiat rails. Its RESTful API automates end-user onboarding with embedded KYC/AML,
-  named and virtual fiat accounts, pay-ins and payouts across GBP (Faster Payments / CHAPS),
-  EUR (SEPA / SEPA Instant) and USD schemes, FX conversion, Verification of Payee (VoP),
-  returns and recalls, and its Oxygen transaction-monitoring product. Access is via OAuth 2.0
-  client-credentials with PAYMENTS and OXYGEN scopes, HMAC-SHA256-signed webhooks using the
-  HTTP Message Signatures standard, idempotency keys, and separate sandbox and production
-  environments. Fiat Republic operates as an Electronic Money Institution regulated by the FCA
-  (UK) and De Nederlandsche Bank (NL), with MSB registrations in the US and Canada.
+
+description: Fiat Republic is a UK- and EU-regulated Banking-as-a-Service provider that gives crypto platforms, exchanges and stablecoin issuers
+  a single API and single liability contract for local fiat rails. Its RESTful API automates end-user onboarding with embedded KYC/AML, named
+  and virtual fiat accounts, pay-ins and payouts across GBP (Faster Payments / CHAPS), EUR (SEPA / SEPA Instant) and USD schemes, FX conversion,
+  Verification of Payee (VoP), returns and recalls, and its Oxygen transaction-monitoring product. Access is via OAuth 2.0 client-credentials
+  with PAYMENTS and OXYGEN scopes, HMAC-SHA256-signed webhooks using the HTTP Message Signatures standard, idempotency keys, and separate sandbox
+  and production environments. Fiat Republic operates as an Electronic Money Institution regulated by the FCA (UK) and De Nederlandsche Bank (NL),
+  with MSB registrations in the US and Canada.
+
 url: https://raw.githubusercontent.com/api-evangelist/fiat-republic/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: vc-portfolio
+
 x-backed-by:
 - seedcamp
 - speedinvest
+
 x-tier: profiled
+
 x-tier-reason: enriched-from-developer-portal
+
 deliveryModel:
   model: saas
   open_source: false
@@ -30,6 +35,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -42,13 +48,21 @@ accessModel:
   - authentication
   generated: '2026-07-22'
   method: derived
+
 specificationVersion: '0.23'
+
 created: '2026-07-17'
+
 modified: '2026-07-19'
+
 image: https://fiatrepublic.com/images/og-image.png
+
 x-docs-platform: readme
+
 x-docs-platform-confidence: medium
+
 x-docs-platform-checked: 2026-10-03
+
 tags:
 - Company
 - Banking
@@ -62,6 +76,7 @@ tags:
 - KYC
 - SEPA
 - Faster Payments
+
 tags_raw:
 - Company
 - Banking
@@ -75,51 +90,24 @@ tags_raw:
 - KYC
 - SEPA
 - Faster Payments
-apis:
-- name: Fiat Republic API
-  description: >-
-    RESTful API for crypto and stablecoin platforms to onboard end users (KYC/AML), open named
-    and virtual fiat accounts, receive pay-ins and send payouts across GBP, EUR and USD schemes,
-    run FX conversions, verify payees (VoP), handle returns/recalls, manage HMAC-signed webhooks,
-    and use the Oxygen transaction-monitoring product.
-  humanURL: https://docs.fiatrepublic.com/docs/introduction
-  baseURL: https://member.fiatrepublic.com/api/v1
-  properties:
-  - type: Documentation
-    url: https://docs.fiatrepublic.com/docs/introduction
-  - type: APIReference
-    url: https://docs.fiatrepublic.com/reference/create-api-token
-  - type: GettingStarted
-    url: https://docs.fiatrepublic.com/docs/authentication-webhook-setup
-  - type: Authentication
-    url: authentication/fiat-republic-authentication.yml
-  - type: OAuthScopes
-    url: scopes/fiat-republic-scopes.yml
-  - type: Conventions
-    url: conventions/fiat-republic-conventions.yml
-  - type: Idempotency
-    url: conventions/fiat-republic-conventions.yml
-  - type: RateLimits
-    url: rate-limits/fiat-republic-rate-limits.yml
-  - type: ErrorCatalog
-    url: errors/fiat-republic-problem-types.yml
-  - type: DataModel
-    url: data-model/fiat-republic-data-model.yml
-  - type: Sandbox
-    url: sandbox/fiat-republic-sandbox.yml
-  - type: Webhooks
-    url: asyncapi/fiat-republic-webhooks.yml
-  - type: Conformance
-    url: conformance/fiat-republic-conformance.yml
-  - type: X-MCPServerCandidate
-    url: mcp/fiat-republic-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/fiat-republic-agentic-access.yml
+- type: Spectral
+  url: rules/fiat-republic-rules.yml
+- type: Hosts
+  url: hosts/fiat-republic-hosts.yml
+- type: IntegrationEdges
+  url: integrations/fiat-republic-integration-edges.yml
+- type: Vendors
+  url: vendors/fiat-republic-vendors.yml
 - type: VulnerabilityDisclosure
   url: security/fiat-republic-vulnerability-disclosure.yml
 - type: Security
@@ -184,13 +172,93 @@ common:
   url: conformance/fiat-republic-conformance.yml
 - type: X-MCPServerCandidate
   url: mcp/fiat-republic-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+    API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+    the artifact-type surfaces with a server that does not exist.'
 - type: WellKnown
   url: well-known/fiat-republic-well-known.yml
 - type: SecurityTxt
   url: well-known/fiat-republic-security.txt
+
+apis:
+- name: Fiat Republic API
+  description: RESTful API for crypto and stablecoin platforms to onboard end users (KYC/AML), open named and virtual fiat accounts, receive pay-ins
+    and send payouts across GBP, EUR and USD schemes, run FX conversions, verify payees (VoP), handle returns/recalls, manage HMAC-signed webhooks,
+    and use the Oxygen transaction-monitoring product.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  properties:
+  - type: Documentation
+    url: https://docs.fiatrepublic.com/docs/introduction
+  - type: APIReference
+    url: https://docs.fiatrepublic.com/reference/create-api-token
+  - type: GettingStarted
+    url: https://docs.fiatrepublic.com/docs/authentication-webhook-setup
+  - type: Authentication
+    url: authentication/fiat-republic-authentication.yml
+  - type: OAuthScopes
+    url: scopes/fiat-republic-scopes.yml
+  - type: Conventions
+    url: conventions/fiat-republic-conventions.yml
+  - type: Idempotency
+    url: conventions/fiat-republic-conventions.yml
+  - type: RateLimits
+    url: rate-limits/fiat-republic-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/fiat-republic-problem-types.yml
+  - type: DataModel
+    url: data-model/fiat-republic-data-model.yml
+  - type: Sandbox
+    url: sandbox/fiat-republic-sandbox.yml
+  - type: Webhooks
+    url: asyncapi/fiat-republic-webhooks.yml
+  - type: Conformance
+    url: conformance/fiat-republic-conformance.yml
+  - type: X-MCPServerCandidate
+    url: mcp/fiat-republic-mcp.yml
+    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+      API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+      the artifact-type surfaces with a server that does not exist.'
+  aid: fiat-republic:fiat-republic-api
+- aid: fiat-republic:fiat-republic-authentication
+  name: Fiat Republic Republic Authentication Openapi.Yml API
+  description: The Republic Authentication Openapi.Yml API from Fiat Republic — 1 operation(s) for republic authentication openapi.yml.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Republic Authentication Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-authentication-openapi.yml
+- aid: fiat-republic:fiat-republic-republic
+  name: Fiat Republic Republic Republic Openapi.Yml API
+  description: The Republic Republic Openapi.Yml API from Fiat Republic — 48 operation(s) for republic republic openapi.yml.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Republic Republic Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-republic-openapi.yml
+- aid: fiat-republic:fiat-republic-transaction-monitoring
+  name: Fiat Republic Republic Transaction Monitoring Openapi.Yml API
+  description: The Republic Transaction Monitoring Openapi.Yml API from Fiat Republic — 18 operation(s) for republic transaction monitoring openapi.yml.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Republic Transaction Monitoring Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-transaction-monitoring-openapi.yml
+
 x-enrichment:
   date: '2026-07-19'
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
+
+x-readme-harvest:
+  date: '2026-10-14'
+  ops: 95
+  tool: harvest-readme-openapi.py
+  portal: https://docs.fiatrepublic.com
