@@ -1,0 +1,301 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Transactions API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Transactions
+paths:
+  /transactions:
+    get:
+      summary: List Transactions
+      description: ''
+      operationId: list-transactions
+      parameters:
+      - name: amount(gte)
+        in: query
+        description: Greater than or equal to the transaction amount.
+        schema:
+          type: number
+          format: float
+      - name: amount(lte)
+        in: query
+        description: Less than or equal to the transaction amount.
+        schema:
+          type: number
+          format: float
+      - name: cause.id
+        in: query
+        description: One or more Id's of the entity that resulted in the creation of the transaction. Multiple `cause.id` params can be provided. e.g. pmt_ov8jkx67nog0dbglam
+        schema:
+          type: string
+      - name: createdAt(gte)
+        in: query
+        description: Greater than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      - name: createdAt(lte)
+        in: query
+        description: Less than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      - name: currency
+        in: query
+        description: List of 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency codes. Accepts multiple codes.
+        schema:
+          type: string
+          enum:
+          - ''
+      - name: direction
+        in: query
+        description: Direction of the transaction with respect to the Fiat Account.
+        schema:
+          type: string
+          enum:
+          - DEBIT
+          - CREDIT
+      - name: fiatAccountId
+        in: query
+        description: Id of a Fiat Account for getting transactions on that account only.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: paymentId
+        in: query
+        description: One of more Payment id's. Multiple `paymentId` params can be provided.<br> **This field is scheduled to be deprecated. Please use `cause.id` instead.**
+        schema:
+          type: string
+      - name: paymentScheme
+        in: query
+        description: List of Payment Schemes used for transactions. Accepts multiple Payment Schemes.
+        schema:
+          type: string
+          enum:
+          - FPS
+          - CHAPS
+          - SCT
+          - EAGLE_NET_TRANSFER
+      - name: search
+        in: query
+        description: Search by the transaction `currency`, `direction`, `id`, `paymentReference` or `type`
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: Type of the Transaction. Multiple `type` params can be provided.
+        schema:
+          type: string
+          enum:
+          - FEE
+          - RETURN
+          - TRANSFER
+          - PAYMENT
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n   \"id\":\"txn_d4pmer37x8182gkv5b\",\n   \"fiatAccountId\":\"fac_ejl2vpn1m305rxko6b\",\n   \"amount\":\"1013.00\",\n   \"balanceAfter\":\"3139.00\",\n   \"currency\":\"GBP\",\n   \"direction\":\"DEBIT\",\n   \"type\":\"PAYMENT\",\n   \"cause\":{\n      \"type\":\"PAYMENT\",\n      \"id\":\"pmt_d4pmer37x8182gkv5b\",\n      \"reference\":\"Fiat Withdrawal\"\n   },\n   \"counterparty\":\"Satoshi Nakamoto\",\n   \"createdAt\":1637511388049\n\t},\n  {...},\n  {...}\n]\n    "
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/transactions \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Transactions
+  /transactions/{id}:
+    get:
+      summary: Get Transaction
+      description: ''
+      operationId: get-transaction
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Transaction.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"txn_d4pmer37x8182gkv5b\",\n   \"fiatAccountId\":\"fac_ejl2vpn1m305rxko6b\",\n   \"amount\":\"1013.00\",\n   \"balanceAfter\":\"3139.00\",\n   \"currency\":\"GBP\",\n   \"direction\":\"DEBIT\",\n   \"type\":\"PAYMENT\",\n   \"cause\":{\n      \"type\":\"PAYMENT\",\n      \"id\":\"pmt_d4pmer37x8182gkv5b\",\n      \"reference\":\"Fiat Withdrawal\"\n   },\n   \"counterparty\":\"Satoshi Nakamoto\",\n   \"createdAt\":1637511388049\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: txn_d4pmer37x8182gkv5b
+                  fiatAccountId:
+                    type: string
+                    example: fac_ejl2vpn1m305rxko6b
+                  amount:
+                    type: string
+                    example: '1013.00'
+                  balanceAfter:
+                    type: string
+                    example: '3139.00'
+                  currency:
+                    type: string
+                    example: GBP
+                  direction:
+                    type: string
+                    example: DEBIT
+                  type:
+                    type: string
+                    example: PAYMENT
+                  cause:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: PAYMENT
+                      id:
+                        type: string
+                        example: pmt_d4pmer37x8182gkv5b
+                      reference:
+                        type: string
+                        example: Fiat Withdrawal
+                  counterparty:
+                    type: string
+                    example: Satoshi Nakamoto
+                  createdAt:
+                    type: integer
+                    example: 1637511388049
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/transactions/txn_d4pmer37x8182gkv5b \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Transactions
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

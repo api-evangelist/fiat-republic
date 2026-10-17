@@ -1,0 +1,511 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Fiat Accounts API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Fiat Accounts
+paths:
+  /fiat-accounts:
+    post:
+      summary: Create Fiat Account
+      description: ''
+      operationId: create-fiat-account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - currency
+              - ibanCountry
+              properties:
+                businessId:
+                  type: string
+                  description: Required if you have contracted with Fiat Republic via multiple legal entities.
+                currency:
+                  type: string
+                  description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency in which you want to create the Fiat Account. e.g. `GBP` for Pound Sterling
+                  enum:
+                  - GBP
+                  - EUR
+                  - USD
+                  - AUD
+                label:
+                  type: string
+                  description: An optional label to easily identify the account on the Dashboard.
+                ibanCountry:
+                  type: string
+                  description: Required field for all currencies, except GBP and USD
+                  enum:
+                  - LU
+                  - DE
+                  - DK
+                  - GB
+                metadata:
+                  type: array
+                  items:
+                    type: string
+                  description: Map of Strings format
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: fac_ov8jkx67ndy1dbglam
+                    owner:
+                      type: MEMBER
+                      id: mbr_d8ovyep1r8x0kx65n2
+                    balance:
+                      actual: '0.00'
+                      available: '0.00'
+                      reserved: '0.00'
+                    currency: GBP
+                    bankDetails: null
+                    label: Quantum LTD
+                    status: CREATED
+                    tags:
+                    - CLIENT_MONEY
+                    createdAt: 1637593856104
+                    updatedAt: 1637593856104
+                    metadata: null
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: fac_ov8jkx67ndy1dbglam
+                  owner:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: END_USER
+                      id:
+                        type: string
+                        example: eus_j82rl497g47g5ykvzn
+                  balance:
+                    type: object
+                    properties:
+                      actual:
+                        type: string
+                        example: '0.00'
+                      available:
+                        type: string
+                        example: '0.00'
+                      reserved:
+                        type: string
+                        example: '0.00'
+                  currency:
+                    type: string
+                    example: GBP
+                  bankDetails: {}
+                  label:
+                    type: string
+                    example: Satoshis Solana Account
+                  status:
+                    type: string
+                    example: CREATED
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                      example: CLIENT_MONEY
+                  createdAt:
+                    type: integer
+                    example: 1637593856104
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1637593856104
+                    default: 0
+                  metadata: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request POST \\\n     --url https://sandbox.fiatrepublic.com/api/v1/fiat-accounts \\\n     --header 'Accept: application/json' \\\n     --header 'Authorization: Bearer ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\\n     --header 'Content-Type: application/json' \\\n     --data '\n{\n    \"label\": \"Satoshis Solana Account\",\n    \"currency\": \"GBP\",\n    \"metadata\": null\n}\n'"
+        samples-languages:
+        - curl
+      tags:
+      - Fiat Accounts
+    get:
+      summary: List Fiat Accounts
+      description: ''
+      operationId: list-fiat-accounts
+      parameters:
+      - name: balance.actual(gte)
+        in: query
+        description: Greater than or equal to the actual Fiat Account balance.
+        schema:
+          type: number
+          format: float
+      - name: balance.actual(lte)
+        in: query
+        description: Less than or equal to the actual Fiat Account balance.
+        schema:
+          type: string
+      - name: currency
+        in: query
+        description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) code of the Fiat Account currency. Multiple `currency` params can be provided.
+        schema:
+          type: string
+          enum:
+          - GBP
+          - EUR
+          - USD
+          - AUD
+      - name: id
+        in: query
+        description: One or more Fiat Account id's. Multiple `id` params can be provided.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: One or more Fiat Account id's. Multiple `id` params can be provided.
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: owner.type
+        in: query
+        required: false
+        description: ''
+        schema:
+          type: string
+          default: ''
+      - name: search
+        in: query
+        schema:
+          type: string
+          enum:
+          - MEMBER
+          - END_USER
+        description: Search by the Fiat Account `id` or `label`.
+      - name: status
+        in: query
+        description: Status of the Fiat Account. Multiple values can be provided.
+        schema:
+          type: string
+          enum:
+          - CREATED
+          - ACTIVE
+          - BLOCKED
+          - CLOSED
+          - ACTIVATION_FAILED
+      - name: tags
+        in: query
+        description: Status of the Fiat Account. Multiple values can be provided.
+        schema:
+          type: string
+          enum:
+          - MASTER
+          - ACTIVE
+          - BLOCKED
+          - CLOSED
+          - ACTIVATION_FAILED
+      - name: owner.id
+        in: query
+        schema:
+          type: string
+          enum:
+          - MASTER
+          default: ''
+        required: false
+        description: ''
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n    {\n      \"id\": \"fac_ov8jkx67ndy1dbglam\",\n\t    \"owner\": {\n          \"type\": \"MEMBER\",\n          \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"balance\": {\n            \"actual\": \"0.00\",\n            \"available\": \"0.00\",\n            \"reserved\": \"0.00\"\n        },\n        \"currency\": \"GBP\",\n        \"bankDetails\": {\n            \"bankAddress\": null,\n            \"bankName\": \"JP Morgan\",\n            \"accountHolderName\": \"Quantum LTD\",\n            \"country\": \"UK\",\n            \"currency\": \"GBP\",\n            \"iban\": null,\n            \"bic\": null,\n            \"accountNumber\": \"70653664\",\n            \"routingCodes\":[\n              {\n                \"value\":\"000000\",\n                \"type\":\"SORT_CODE\"\n              }\n      \t\t\t]\n        },\n        \"label\": \"Quantum LTD\",\n        \"status\": \"ACTIVE\",\n        \"tags\": [\n            \"CLIENT_MONEY\"\n        ],\n        \"createdAt\": 1637593856104,\n        \"updatedAt\": 1637593859370,\n        \"metadata\": null\n    },\n    {...},\n    {...}\n]"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/fiat-accounts \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Fiat Accounts
+  /fiat-accounts/{id}:
+    get:
+      summary: Get Fiat Account
+      description: ''
+      operationId: get-fiat-account
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Fiat Account.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"fac_ov8jkx67ndy1dbglam\",\n    \"owner\": {\n        \"type\": \"END_USER\",\n        \"id\": \"eus_j82rl497g47g5ykvzn\"\n    },\n    \"balance\": {\n        \"actual\": \"0.00\",\n        \"available\": \"0.00\",\n        \"reserved\": \"0.00\"\n    },\n    \"currency\": \"GBP\",\n    \"bankDetails\": {\n      \"bankAddress\": null,\n      \"bankName\":\"JP Morgan\",\n      \"accountHolderName\": \"Satoshi Nakamoto\",\n      \"country\":\"GB\",\n      \"iban\":null,\n      \"bic\":null,\n      \"accountNumber\":\"12345678\",\n      \"routingCodes\":[\n        {\n         \"value\":\"000000\",\n         \"type\":\"SORT_CODE\"\n        }\n      ],\n    \"label\": \"Satoshis GBP Account\",\n    \"status\": \"ACTIVE\",\n    \"tags\": [\n        \"CLIENT_MONEY\"\n    ],\n    \"createdAt\": 1637593856104,\n    \"updatedAt\": 1637593856104,\n    \"metadata\": null\n}"
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"RESOURCE_MISSING\",\n    \"message\": \"FiatAccount with 'fac_xxxxyyyyzzzz' id does not exist.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: RESOURCE_MISSING
+                  message:
+                    type: string
+                    example: FiatAccount with 'fac_xxxxyyyyzzzz' id does not exist.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/fiat-accounts/fac_ov8jkx67ndy1dbglam \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Fiat Accounts
+    patch:
+      summary: Update Fiat Account
+      description: ''
+      operationId: update-fiat-account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label:
+                  type: string
+                  description: An optional label to easily identify the account on the Dashboard.
+                metadata:
+                  type: array
+                  items:
+                    type: string
+                status:
+                  type: string
+                  description: Block/Unblock a fiat account temporarily or Close it permanently by updating its' status.
+                  enum:
+                  - BLOCKED
+                  - ACTIVE
+                  - CLOSED
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"fac_ov8jkx67ndy1dbglam\",\n    \"balance\": {\n        \"actual\": \"0.00\",\n        \"available\": \"0.00\",\n        \"reserved\": \"0.00\"\n    },\n    \"currency\": \"GBP\",\n    \"bankDetails\": {\n      \"bankAddress\": null,\n      \"bankName\":\"JP Morgan\",\n      \"accountHolderName\": \"Quantum LTD\",\n      \"country\":\"GB\",\n      \"iban\":null,\n      \"bic\":null,\n      \"accountNumber\":\"12345678\",\n      \"routingCodes\":[\n        {\n         \"value\":\"000000\",\n         \"type\":\"SORT_CODE\"\n        }\n      ],\n    \"label\": \"Quantum LTD GBP Account\",\n    \"status\": \"ACTIVE\",\n    \"tags\": [\n        \"CLIENT_MONEY\"\n    ],\n    \"createdAt\": 1637593856104,\n    \"updatedAt\": 1637593856104,\n    \"metadata\": {\n        \"userId\": \"abc12345678\"\n    }\n}"
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"RESOURCE_MISSING\",\n    \"message\": \"FiatAccount with 'fac_xxxxyyyyzzzz' id does not exist.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: RESOURCE_MISSING
+                  message:
+                    type: string
+                    example: FiatAccount with 'fac_xxxxyyyyzzzz' id does not exist.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request PATCH \\\n     --url https://sandbox.fiatrepublic.com/api/v1/fiat-accounts/fac_ov8jkx67ndy1dbglam \\\n     --header 'Accept: application/json' \\\n     --header 'Authorization: Bearer ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\\n     --header 'Content-Type: application/json' \\\n     --data '\n{\n    \"label\": \"Nakamotos GBP Account\",\n    \"metadata\": {\n        \"userId\": \"abc12345678\"\n    }\n}\n'"
+        samples-languages:
+        - curl
+      tags:
+      - Fiat Accounts
+  /fiat-accounts/{id}/statement:
+    get:
+      summary: Get Fiat Account Statement
+      description: ''
+      operationId: get-fiat-account-copy
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Fiat Account.
+        schema:
+          type: string
+        required: true
+      - name: createdAt(gte)
+        in: query
+        description: Greater than or equal to the created date. ISO 8601 Date format. e.g. 2021-11-18
+        schema:
+          type: string
+          format: date
+      - name: createdAt(lte)
+        in: query
+        description: Less than or equal to the created date. ISO 8601 Date format. e.g. 2021-11-18
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: 'Date,Type,Scheme,Counterparty,Reference,Dr/Cr,Currency,Amount,Balance
+
+
+                    There were no transactions in the specified period'
+                  summary: Result
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"RESOURCE_MISSING\",\n    \"message\": \"FiatAccount with 'fac_xxxxyyyyzzzz' id does not exist.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: RESOURCE_MISSING
+                  message:
+                    type: string
+                    example: FiatAccount with 'fac_xxxxyyyyzzzz' id does not exist.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/fiat-accounts/fac_ov8jkx67ndy1dbglam \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Fiat Accounts
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

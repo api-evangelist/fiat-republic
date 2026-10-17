@@ -1,0 +1,507 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Payments API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Payments
+paths:
+  /payments:
+    post:
+      summary: Create Payment
+      description: ''
+      operationId: create-payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - amount
+              - fromId
+              - paymentScheme
+              - reference
+              - toId
+              properties:
+                amount:
+                  type: string
+                  description: Amount of the payment in 2 decimal places eg. `210000.00`
+                fromId:
+                  type: string
+                  description: Id of the source of the payment. Source can be a Fiat Account or a Virtual Account.
+                paymentScheme:
+                  type: string
+                  description: The payment scheme you want to use to make the Payment. For internal payments between 2 Fiat Accounts, use `EAGLE_NET_TRANSFER`.
+                  enum:
+                  - FPS
+                  - CHAPS
+                  - SCT
+                  - EAGLE_NET_TRANSFER
+                  - BACS
+                  - DE
+                  - NPP
+                  - ACH
+                  - ACH_SAME_DAY
+                  - INTERNATIONAL_WIRE
+                  - DOMESTIC_WIRE
+                reference:
+                  type: string
+                  description: Reference for the Payment. For payments to external Payees, the reference will appear on the Payee's bank statement.
+                toId:
+                  type: string
+                  description: Id of the destination of the payment. Destination can be a Fiat Account or a Payee.
+                metadata:
+                  type: array
+                  items:
+                    type: string
+                payeeVerificationId:
+                  type: string
+                  description: Unique identifier of the Payee Verification. Required for EUR SEPA Payments
+                name:
+                  type: string
+            examples: {}
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"pmt_nx83lr41ov7dy5va2g\",\n    \"fromId\": \"fac_ejl2vpn1m305rxko6b\",\n    \"toId\": \"pye_oka2yeb7y6d15np3jv\",\n    \"reference\": \"Fiat Withdrawal\",\n    \"amount\": \"0.01\",\n    \"currency\": \"GBP\",\n    \"paymentScheme\": \"FPS\",\n    \"paymentReturnId\": null,\n    \"memberReview\": null,\n    \"status\": \"CREATED\",\n    \"createdAt\": 1637256502721,\n    \"updatedAt\": 1637256502721,\n    \"metadata\": {}\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: pmt_nx83lr41ov7dy5va2g
+                  fromId:
+                    type: string
+                    example: fac_ejl2vpn1m305rxko6b
+                  toId:
+                    type: string
+                    example: pye_oka2yeb7y6d15np3jv
+                  reference:
+                    type: string
+                    example: Fiat Withdrawal
+                  amount:
+                    type: string
+                    example: '0.01'
+                  currency:
+                    type: string
+                    example: GBP
+                  paymentScheme:
+                    type: string
+                    example: FPS
+                  updatedAt:
+                    type: integer
+                    example: 1637256502721
+                    default: 0
+                  metadata:
+                    type: object
+                    properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request POST \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payments \\\n     --header 'Accept: application/json' \\\n     --header 'Authorization: Bearer ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\\n     --header 'Content-Type: application/json' \\\n     --data '\n{\n    \"fromId\": \"fac_ejl2vpn1m305rxko6b\",\n    \"toId\": \"pye_oka2yeb7y6d15np3jv\",\n    \"reference\": \"Fiat Withdrawal\",\n    \"amount\": \"2100.00\", \n    \"paymentScheme\": \"FPS\",\n    \"metadata\": {}\n}\n'"
+        samples-languages:
+        - curl
+      tags:
+      - Payments
+    get:
+      summary: List Payments
+      description: ''
+      operationId: list-payments
+      parameters:
+      - name: amount(gte)
+        in: query
+        description: Greater than or equal to the payment amount.
+        schema:
+          type: string
+      - name: amount(lte)
+        in: query
+        description: Less than or equal to the payment amount.
+        schema:
+          type: string
+      - name: createdAt(gte)
+        in: query
+        description: Greater than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      - name: createdAt(lte)
+        in: query
+        description: Less than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      - name: currency
+        in: query
+        description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code. Accepts multiple codes.
+        schema:
+          type: string
+          enum:
+          - EUR
+          - GBP
+      - name: direction
+        in: query
+        description: Direction of the Payment. Multiple values can be provided.
+        schema:
+          type: string
+          enum:
+          - PAYIN
+          - PAYOUT
+          - TRANSFER
+      - name: endUserId
+        in: query
+        description: Id of the End User on whose Fiat Account the Payment was created.
+        schema:
+          type: string
+      - name: fromId
+        in: query
+        description: Id of the Fiat Account, Virtual Account or Payer from where the Payment was made.
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: One of more Payment id's. Multiple `id` params can be provided.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: memberReview.decision
+        in: query
+        description: Decision taken by a Member on a Payment (Payin) if it went through the Member Review flow.
+        schema:
+          type: string
+          enum:
+          - ACCEPT
+          - REJECT
+          - REJECT_AND_RETURN
+          - NONE
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: owner.type
+        in: query
+        schema:
+          type: string
+          enum:
+          - MEMBER
+          - END_USER
+      - name: paymentScheme
+        in: query
+        description: Payment Scheme that was used to process the Payment. Accepts multiple Payment Schemes.
+        schema:
+          type: string
+          enum:
+          - FPS
+          - CHAPS
+          - SCT
+          - EAGLE_NET_TRANSFER
+      - name: search
+        in: query
+        description: Search by the Payment `id` or `reference`
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Status of the Payment. Accepts multiple statues.
+        schema:
+          type: string
+          enum:
+          - CREATED
+          - COMPLIANCE_REVIEW
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+          - REJECTED
+          - RETURNED
+      - name: toId
+        in: query
+        description: Id of the Fiat Account, Virtual Account or Payee to which the Payment was made.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n    {\n    \"id\": \"pmt_nx83lr41ov7dy5va2g\",\n    \"fromId\": \"fac_ejl2vpn1m305rxko6b\",\n    \"toId\": \"pye_oka2yeb7y6d15np3jv\",\n    \"reference\": \"Fiat Withdrawal\",\n    \"effectiveReference\": \"Fiat Withdrawal\",\n    \"amount\": \"0.01\",\n    \"currency\": \"GBP\",\n    \"paymentScheme\": \"FPS\",\n    \"paymentReturnId\": null,\n    \"memberReview\": null,\n    \"status\": \"CREATED\",\n    \"createdAt\": 1637256502721,\n    \"updatedAt\": 1637256502721,\n    \"metadata\": {}\n    },\n    {...},\n    {...}\n]"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payments \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Payments
+  /payments/{id}:
+    get:
+      summary: Get Payment
+      description: ''
+      operationId: get-payment
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Payment.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"pmt_nx83lr41ov7dy5va2g\",\n    \"fromId\": \"fac_ejl2vpn1m305rxko6b\",\n    \"toId\": \"pye_oka2yeb7y6d15np3jv\",\n    \"reference\": \"Fiat Withdrawal\",\n    \"effectiveReference\": \"Fiat Withdrawal\",\n    \"amount\": \"0.01\",\n    \"currency\": \"GBP\",\n    \"paymentScheme\": \"FPS\",\n    \"paymentReturnId\": null,\n    \"memberReview\": null,\n    \"status\": \"CREATED\",\n    \"createdAt\": 1637256502721,\n    \"updatedAt\": 1637256502721,\n    \"metadata\": {}\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: pmt_nx83lr41ov7dy5va2g
+                  fromId:
+                    type: string
+                    example: fac_ejl2vpn1m305rxko6b
+                  toId:
+                    type: string
+                    example: pye_oka2yeb7y6d15np3jv
+                  reference:
+                    type: string
+                    example: Fiat Withdrawal
+                  effectiveReference:
+                    type: string
+                    example: Fiat Withdrawal
+                  amount:
+                    type: string
+                    example: '0.01'
+                  currency:
+                    type: string
+                    example: GBP
+                  paymentScheme:
+                    type: string
+                    example: FPS
+                  paymentReturnId: {}
+                  memberReview: {}
+                  status:
+                    type: string
+                    example: CREATED
+                  createdAt:
+                    type: integer
+                    example: 1637256502721
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1637256502721
+                    default: 0
+                  metadata:
+                    type: object
+                    properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payments/pmt_nx83lr41ov7dy5va2g \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Payments
+  /payments/{id}/review:
+    post:
+      summary: Member Review
+      description: ''
+      operationId: payment-review
+      parameters:
+      - name: id
+        in: path
+        description: ID of the payment
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - decision
+              - reason
+              properties:
+                decision:
+                  type: string
+                  enum:
+                  - APPROVE
+                  - REJECT
+                  - REJECT_AND_RETURN
+                reason:
+                  type: string
+                  description: Reason is required for REJECT and REJECT_AND_RETURN decisions. Must be at least 6 characters and not more than 255
+                returnDetails:
+                  type: object
+                  properties:
+                    payeeId:
+                      type: string
+                      description: Id of an existing Payee (other than the sender) to who you want to return the payment.
+                    paymentScheme:
+                      type: string
+                      description: Payment Scheme to use for the return if you want to return the payment via a scheme that is different to the scheme via which it was received.
+                      enum:
+                      - FPS
+                      - CHAPS
+                      - SCT
+                    reference:
+                      type: string
+                      description: Alternative reference to use for the Return. If not provided, the original reference on the Payin will be used prefixed with `RET`
+      responses:
+        '202':
+          description: '202'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Payments
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

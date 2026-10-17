@@ -1,12 +1,13 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: fiat-republic-authentication
+  title: fiat-republic-authentication OAuth API
   version: '1.0'
 servers:
 - url: https://sandbox.fiatrepublic.com/passport
 security:
 - sec0: []
-x-readme-fauxas: true
+tags:
+- name: OAuth
 paths:
   /oauth/token:
     post:
@@ -101,11 +102,14 @@ paths:
             --data-urlencode ''client_secret=your_client_secret'''
         samples-languages:
         - curl
+      tags:
+      - OAuth
 components:
   securitySchemes:
     sec0:
       type: oauth2
       flows: {}
+x-readme-fauxas: true
 x-provenance:
   method: searched
   source: https://docs.fiatrepublic.com/reference

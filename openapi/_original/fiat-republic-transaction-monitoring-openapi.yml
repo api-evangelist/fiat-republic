@@ -1,3 +1,5 @@
+# x-archived-from: fiat-republic-transaction-monitoring-openapi.yml
+# x-archived-on: 2026-10-16
 openapi: 3.1.0
 info:
   title: transaction-monitoring

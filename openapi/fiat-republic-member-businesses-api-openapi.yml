@@ -1,0 +1,292 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Member Businesses API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Member Businesses
+paths:
+  /member-businesses:
+    get:
+      summary: List Member Businesses
+      description: ''
+      operationId: list-member-businesses
+      parameters:
+      - name: relationship
+        in: query
+        schema:
+          type: string
+          enum:
+          - REGULAR
+          - LINKED
+      - name: country
+        in: query
+        description: The two-letter code used to identify a country. ISO 3166-1 alpha-2 country code e.g. GB or US
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: ID of the business
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n    {\n        \"id\": \"biz_jalpeo0e8ol0bkx39z\",\n        \"companyName\": \"Innovatech Solutions SARL\",\n        \"tradingName\": \"Innovatech Solutions\",\n        \"type\": \"LLC\",\n        \"registrationNumber\": \"092181223\",\n        \"registeredAddress\": {\n            \"line1\": \"12 Rue de la République\",\n            \"line2\": null,\n            \"city\": \"Lyon\",\n            \"state\": null,\n            \"postalCode\": \"69002\",\n            \"country\": \"FR\"\n        },\n        \"tradingAddress\": null,\n        \"phone\": \"+33472000102\",\n        \"website\": \"www.innovatech-solutions-fr.example.com\",\n        \"signedWith\": [],\n        \"businessPersons\": [\n            {\n                \"id\": \"mbp_9eaxp4n748g0l58vmy\",\n                \"firstName\": \"Amélie\",\n                \"middleName\": null,\n                \"lastName\": \"Bernard\",\n                \"address\": {\n                    \"line1\": \"45 Avenue Jean Jaurès\",\n                    \"line2\": null,\n                    \"city\": \"Paris\",\n                    \"state\": null,\n                    \"postalCode\": \"75019\",\n                    \"country\": \"FR\"\n                },\n                \"email\": \"amelie.bernard.pro@example.com\",\n                \"phone\": \"+33140050607\",\n                \"birthCountry\": \"FR\",\n                \"nationality\": [\n                    \"FR\"\n                ],\n                \"dob\": \"1985-04-12\",\n                \"identificationDocument\": {\n                    \"number\": \"FR85B12345\",\n                    \"type\": \"NATIONAL_ID\"\n                },\n                \"types\": [\n                    \"DIRECTOR\",\n                    \"UBO\",\n                    \"CONTACT\"\n                ],\n                \"ownership\": \"66.00\"\n            }\n        ],\n        \"relationship\": \"LINKED\"\n    },\n    {\n        \"id\": \"biz_grbvdy1vvyd1z54n6m\",\n        \"companyName\": \"Global Media Ventures Ltd.\",\n        \"tradingName\": \"Global Media Ventures\",\n        \"type\": \"LIMITED\",\n        \"registrationNumber\": \"12987321\",\n        \"registeredAddress\": {\n            \"line1\": \"33 Boulevard Haussmann\",\n            \"line2\": null,\n            \"city\": \"Paris\",\n            \"state\": null,\n            \"postalCode\": \"75009\",\n            \"country\": \"FR\"\n        },\n        \"tradingAddress\": {\n            \"line1\": \"10 Park Lane\",\n            \"line2\": \"Suite 5A\",\n            \"city\": \"London\",\n            \"state\": null,\n            \"postalCode\": \"W1K 1AB\",\n            \"country\": \"GB\"\n        },\n        \"phone\": \"+33140060708\",\n        \"website\": \"www.globalmediaventures.example.com\",\n        \"signedWith\": [\n            {\n                \"name\": \"Fiat Republic Financial Services Ltd\",\n                \"country\": \"GB\"\n            },\n            {\n                \"name\": \"Fiat Republic Netherlands BV\",\n                \"country\": \"NL\"\n            }\n        ],\n        \"businessPersons\": [\n            {\n                \"id\": \"mbp_vkoep8y1da51rmnbal\",\n                \"firstName\": \"Oliver\",\n                \"middleName\": \"James\",\n                \"lastName\": \"Smith\",\n                \"address\": {\n                    \"line1\": \"25 Baker Street\",\n                    \"line2\": null,\n                    \"city\": \"London\",\n                    \"state\": null,\n                    \"postalCode\": \"NW1 6XE\",\n                    \"country\": \"GB\"\n                },\n                \"email\": \"oliver.smith.biz@example.co.uk\",\n                \"phone\": \"+442079460123\",\n                \"birthCountry\": \"GB\",\n                \"nationality\": [\n                    \"GB\"\n                ],\n                \"dob\": \"1978-09-22\",\n                \"identificationDocument\": {\n                    \"number\": \"GBPAS123456S\",\n                    \"type\": \"PASSPORT\"\n                },\n                \"types\": [\n                    \"DIRECTOR\",\n                    \"UBO\"\n                ],\n                \"ownership\": \"22.50\"\n            }\n        ],\n        \"relationship\": \"LINKED\"\n    }\n]"
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: biz_jalpeo0e8ol0bkx39z
+                    companyName:
+                      type: string
+                      example: Innovatech Solutions SARL
+                    tradingName:
+                      type: string
+                      example: Innovatech Solutions
+                    type:
+                      type: string
+                      example: LLC
+                    registrationNumber:
+                      type: string
+                      example: 092181223
+                    registeredAddress:
+                      type: object
+                      properties:
+                        line1:
+                          type: string
+                          example: 12 Rue de la République
+                        line2: {}
+                        city:
+                          type: string
+                          example: Lyon
+                        state: {}
+                        postalCode:
+                          type: string
+                          example: '69002'
+                        country:
+                          type: string
+                          example: FR
+                    tradingAddress: {}
+                    phone:
+                      type: string
+                      example: '+33472000102'
+                    website:
+                      type: string
+                      example: www.innovatech-solutions-fr.example.com
+                    signedWith:
+                      type: array
+                    businessPersons:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: mbp_9eaxp4n748g0l58vmy
+                          firstName:
+                            type: string
+                            example: Amélie
+                          middleName: {}
+                          lastName:
+                            type: string
+                            example: Bernard
+                          address:
+                            type: object
+                            properties:
+                              line1:
+                                type: string
+                                example: 45 Avenue Jean Jaurès
+                              line2: {}
+                              city:
+                                type: string
+                                example: Paris
+                              state: {}
+                              postalCode:
+                                type: string
+                                example: '75019'
+                              country:
+                                type: string
+                                example: FR
+                          email:
+                            type: string
+                            example: amelie.bernard.pro@example.com
+                          phone:
+                            type: string
+                            example: '+33140050607'
+                          birthCountry:
+                            type: string
+                            example: FR
+                          nationality:
+                            type: array
+                            items:
+                              type: string
+                              example: FR
+                          dob:
+                            type: string
+                            example: '1985-04-12'
+                          identificationDocument:
+                            type: object
+                            properties:
+                              number:
+                                type: string
+                                example: FR85B12345
+                              type:
+                                type: string
+                                example: NATIONAL_ID
+                          types:
+                            type: array
+                            items:
+                              type: string
+                              example: DIRECTOR
+                          ownership:
+                            type: string
+                            example: '66.00'
+                    relationship:
+                      type: string
+                      example: LINKED
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Member Businesses
+  /member-businesses/{id}:
+    get:
+      summary: Get Member Business
+      description: ''
+      operationId: get-business
+      parameters:
+      - name: id
+        in: path
+        description: Unique Business identifier
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Member Businesses
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

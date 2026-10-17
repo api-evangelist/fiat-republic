@@ -1,0 +1,1832 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic End Users API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: End Users
+paths:
+  /end-users/businesses:
+    post:
+      summary: Create Business End User
+      description: ''
+      operationId: create-business-end-user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - businessPersons
+              - ipAddress
+              - sector
+              properties:
+                business:
+                  type: object
+                  required:
+                  - companyName
+                  - tradingName
+                  - type
+                  - registrationNumber
+                  - registrationDate
+                  properties:
+                    companyName:
+                      type: string
+                      description: 'Cannot contain any of these special chars: **\<!&|$\*;^%\_>#@="~   {}\\**'
+                    tradingName:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                      - LIMITED
+                    registrationNumber:
+                      type: string
+                    registrationDate:
+                      type: string
+                      format: date
+                    registeredAddress:
+                      type: object
+                      required:
+                      - line 1
+                      - city
+                      - postal code
+                      - country
+                      properties:
+                        line 1:
+                          type: string
+                          description: First line of the company registration address
+                        line 2:
+                          type: string
+                          description: Second line of the company registration address
+                        city:
+                          type: string
+                          description: City of the registration address
+                        state:
+                          type: string
+                          description: Required for entity with address in CA and US
+                        postal code:
+                          type: string
+                          description: Postal code of the registration address
+                        country:
+                          type: string
+                          description: Country code of the registration address
+                    tradingAddress:
+                      type: object
+                      required:
+                      - line1
+                      - city
+                      - postalCode
+                      - country
+                      properties:
+                        line1:
+                          type: string
+                          description: First line of the company trading address
+                        line2:
+                          type: string
+                          description: Second line of the company trading address
+                        city:
+                          type: string
+                          description: City of the trading address
+                        state:
+                          type: string
+                          description: State or region of the trading address
+                        postalCode:
+                          type: string
+                          description: Postal code of the trading address
+                        country:
+                          type: string
+                          description: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+                    website:
+                      type: string
+                    phone:
+                      type: string
+                      description: Phone number of the Individual including country prefix. e.g. +447788661100
+                businessPersons:
+                  type: array
+                  items:
+                    properties:
+                      person:
+                        type: object
+                        required:
+                        - dob
+                        - email
+                        - firstName
+                        - lastName
+                        properties:
+                          address:
+                            type: object
+                            description: Home Address of the Individual. Is required
+                            required:
+                            - line1
+                            - city
+                            - postalCode
+                            - country
+                            properties:
+                              line1:
+                                type: string
+                              line2:
+                                type: string
+                              city:
+                                type: string
+                              state:
+                                type: string
+                                description: Required for entity with address in CA and US
+                              postalCode:
+                                type: string
+                              country:
+                                type: string
+                                description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                          birthCountry:
+                            type: string
+                            description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                          dob:
+                            type: string
+                            description: Date of Birth of the Individual in `YYYY-MM-DD` format. e.g. `1975-04-05`
+                            format: date
+                          email:
+                            type: string
+                            description: Email of the Individual.
+                          firstName:
+                            type: string
+                            description: First Name of the Individual.
+                          middleName:
+                            type: string
+                            description: Middle Name(s) of the Individual.
+                          lastName:
+                            type: string
+                            description: Last Name of the Individual.
+                          nationality:
+                            type: array
+                            description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom. One of more nationalities can be provided. Required for USD.
+                            items:
+                              type: string
+                          phone:
+                            type: string
+                            description: Phone number of the Individual including country prefix. e.g. `+447788661100` Required for USD
+                          identificationDocument:
+                            type: object
+                            description: Required for USD
+                            properties:
+                              number:
+                                type: string
+                              type:
+                                type: string
+                                description: Type of identity document
+                                enum:
+                                - WORK_PERMIT
+                                - PASSPORT
+                                - NATIONAL_ID
+                                - DRIVERS_LICENCE
+                      types:
+                        type: array
+                        description: Type of the Business Person. Can be CONTACT, DIRECTOR or UBO. Multiple choice field
+                        default: []
+                        items:
+                          type: string
+                      ownership:
+                        type: string
+                        description: Amount of shares hold by the Business Person (in %)
+                    type: object
+                ipAddress:
+                  type: string
+                  description: The IP address from where the individual signed up on your platform.
+                linkedCryptoWallets:
+                  type: string
+                  description: Details of any known crypto wallets linked with the individual being created.
+                tags:
+                  type: string
+                  description: Tags allowing you to provide additional risk-related information for the business.
+                sector:
+                  type: string
+                  description: Sector in which business operates
+                  enum:
+                  - OTHER_PRODUCTS_SERVICES
+                  - BLOCKCHAIN
+                  - LICENSED_ALCOHOL_SERVICES
+                  - LEGAL_SERVICES
+                  - LICENSED_PHARMACEUTICALS
+                  - LICENSED_TELECOM_SERVICES
+                  - MEDICAL_SERVICES
+                  - PRECIOUS_METALS_DEALERS
+                  - TRAVEL_SERVICES
+                  - TRUST
+                  - SCRAPYARD_DEALERS
+                  - REGULATED_FINANCIAL_SERVICES
+                  - MONEY_TRANSMISSION_SERVICES
+                  - DOWNSTREAM_SERVICES_TO_OTHER_PSP
+                  - DONATIONS_CHARITABLE_ORGANISATIONS
+                  - ADULT_CONTENT
+                  - BAIL_BONDSMAN_BAILIFF_SERVICES
+                  - BINARY_OPTIONS
+                  - CASH_LIKE_PRODUCTS
+                  - CBD_MARIJUANA
+                  - COPYRIGHT_MEDIA_AND_SOFTWARE
+                  - COUNTERFEIT_GOODS
+                  - UNREGULATED_CRYPTO_BUSINESS
+                  - DRUG_RELATED_ACCESSORIES
+                  - ESCORT_PROSTITUTES_AGENCY
+                  - TAROT_HOROSCOPE_READERS
+                  - GAMBLING_CASINOS
+                  - PONZI_SCHEME_UNREGULATED_INVESTMENT
+                  - GOVERNMENTID_DOCUMENT_UNIFORMS
+                  - HUMAN_BODY_PARTS
+                  - ILLEGAL_TELECOMMUNICATION_DEVICES
+                  - ILLEGAL_UNSAFE_PRODUCTS
+                  - NUTRACEUTICALS
+                  - OFFENSIVE_GOODS_RELATED_TO_CRIME
+                  - PAY_DAY_LENDERS
+                  - PYROTECHNIC_HAZARDOUS_MATERIALS
+                  - UNREGULATED_FINANCIAL_SERVICES
+                  - FIREARMS_WEAPONS_MILITARY_SOFTWARE_TECHNOLOGY
+                  - SKINS_LOOT_BOX_TRADING
+                  - TIMESHARE
+                  - ELECTRONIC_DATA_SOLUTION
+                  - HUMAN_CLONING_REPRODUCTION
+                  - OUTBOUND_TELEMARKETING
+                  - CHEMICALS
+                  - WHOLESALE_TO_CASH_BASED_REMITTANCE
+                  - ART_MARKET_PARTICIPANT
+                  - CRYPTO
+                  - TICKET_BROKER
+                  - NON_LICENSED_COUNSELLING
+                  - TOBACCO_ECIGARETTES
+                  - UNLICENSED_LAWYERS_LEGAL_SERVICES
+                  - UNLICENSED_LIQUOR_SALES
+                  - UNLICENSED_PHARMACEUTICALS
+                  - GOVERNMENTAL_LICENSED_WITHOUT_THE_LICENCE
+                  - PYRAMID_SCHEME_MLM
+                riskRating:
+                  type: string
+                  description: Rating of the risk level assigned to the business
+                  enum:
+                  - LOW
+                  - MEDIUM
+                  - HIGH
+                signupAt:
+                  type: integer
+                  description: A date of registration of End User profile within Member platform
+                  format: int32
+                metadata:
+                  type: array
+                  items:
+                    type: string
+                annualTurnoverRange:
+                  type: string
+                  description: Value of annual turnover range of the Business End User (in EUR)
+                  enum:
+                  - RANGE_0_TO_50000
+                  - RANGE_50000_TO_250000
+                  - RANGE_250000_TO_1000000
+                  - RANGE_1000000_TO_5000000
+                  - ABOVE_5000000
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: eus_eaxp4n74jm827lzzz
+                    business:
+                      id: biz_v8jkx67nd5bg1zzz
+                      companyName: Conn LLC
+                      tradingName: null
+                      type: LIMITED
+                      registrationNumber: OWvVE1
+                      registrationDate: '2010-11-21'
+                      registeredAddress:
+                        line1: 24913 Frami Motorway
+                        line2: null
+                        city: Lake Wilford
+                        state: Test
+                        postalCode: '75454'
+                        country: US
+                      tradingAddress:
+                        line1: 588 Stiedemann Branch
+                        line2: null
+                        city: West Sienna
+                        state: null
+                        postalCode: '75454'
+                        country: US
+                      phone: '+48444542323'
+                      website: https://randomwebsit.com/home
+                    businessPersons:
+                    - id: bps_82rl497g394k1g5ykv
+                      person:
+                        firstName: Marisol
+                        middleName: null
+                        lastName: Heidenreich
+                        address:
+                          line1: 78242 Lesch Crossing
+                          line2: null
+                          city: Baileyside
+                          state: null
+                          postalCode: W1A0AX
+                          country: GB
+                        email: Elyssa_Schaefer45@yahoo.com
+                        phone: '+48444542323'
+                        birthCountry: null
+                        nationality:
+                        - GB
+                        - US
+                        dob: '1990-10-19'
+                        identificationDocument: null
+                      businessEndUserId: eus_eaxp4n74jm827l58vm
+                      types:
+                      - DIRECTOR
+                      - UBO
+                      ownership: '50.00'
+                      createdAt: 1761832672368
+                      updatedAt: 1761832672368
+                    - id: bps_4pmer37xx94k782gkv
+                      person:
+                        firstName: Demetrius
+                        middleName: null
+                        lastName: Gaylord
+                        address:
+                          line1: 93672 Stacey Garden
+                          line2: null
+                          city: New Bonitamouth
+                          state: null
+                          postalCode: W1A0AX
+                          country: GB
+                        email: Malachi.Romaguera@gmail.com
+                        phone: null
+                        birthCountry: null
+                        nationality:
+                        - GB
+                        - US
+                        dob: '1990-10-19'
+                        identificationDocument: null
+                      businessEndUserId: eus_eaxp4n74jm827l58vm
+                      types:
+                      - UBO
+                      ownership: '50.00'
+                      createdAt: 1761832672397
+                      updatedAt: 1761832672397
+                    - id: bps_legpmn06oxlg0ry2bv
+                      person:
+                        firstName: Vanessa
+                        middleName: null
+                        lastName: Lesch
+                        address:
+                          line1: 49888 William Rue
+                          line2: null
+                          city: Ahmedstad
+                          state: null
+                          postalCode: W1A0AX
+                          country: GB
+                        email: Roxanne56@yahoo.com
+                        phone: null
+                        birthCountry: GB
+                        nationality:
+                        - GB
+                        - US
+                        dob: '1990-10-19'
+                        identificationDocument: null
+                      businessEndUserId: eus_eaxp4n74jm827l58vm
+                      types:
+                      - CONTACT
+                      ownership: null
+                      createdAt: 1761832672403
+                      updatedAt: 1761832672403
+                    ipAddress: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+                    linkedCryptoWallets:
+                    - coin: XLM
+                      walletAddress: 1Ge55S4LurGch9HtHQAyzmkXdK4
+                      relationship:
+                      - OWN
+                      - SENDER
+                    tags:
+                    - PEP
+                    status: CREATED
+                    riskRating: LOW
+                    annualTurnoverRange: null
+                    signupAt: null
+                    sector: CRYPTO
+                    createdAt: 1761832672343
+                    updatedAt: 1761832672343
+                    metadata:
+                      productType: LENDING
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"Invalid BusinessEndUserRequest.\",\n    \"warnings\": [\n        {\n            \"position\": \"business.companyName\",\n            \"issue\": \"Field is required\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Invalid BusinessEndUserRequest.
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        position:
+                          type: string
+                          example: business.companyName
+                        issue:
+                          type: string
+                          example: Field is required
+        '409':
+          description: '409'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"Creating Business End User has failed. End User with the same identity already exists.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Creating Business End User has failed. End User with the same identity already exists.
+      tags:
+      - End Users
+    get:
+      summary: List Business End Users
+      description: ''
+      operationId: list-business-end-users
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: string
+      - name: type
+        in: query
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: string
+      - name: country
+        in: query
+        description: Defaults to Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Can be: CREATED , IN_REVIEW, ACTIVE, SUSPENDED, REJECTED, CLOSED'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n\t{\n        \"id\": \"eus_ka2yeb7y9ld15np3jv\",\n        \"business\": {\n            \"id\": \"biz_x83lr41oy8v7dy5va2\",\n            \"companyName\": \"StakeSquid OU\",\n            \"tradingName\": \"StakeSquid OU\",\n            \"type\": \"LIMITED\",\n            \"registrationNumber\": \"2346296\",\n            \"registrationDate\": \"2022-02-03\",\n            \"registeredAddress\": {\n                \"line1\": \"Pudisoo küla\",\n                \"line2\": null,\n                \"city\": \"Kuusalu vald\",\n                \"state\": \"Harju maakond\",\n                \"postalCode\": \"74626\",\n                \"country\": \"EE\"\n            },\n            \"tradingAddress\": {\n                \"line1\": \"8 Kote Potskhverashvili Street\",\n                \"line2\": null,\n                \"city\": \"Tbilisi\",\n                \"state\": \"Tbilisi\",\n                \"postalCode\": \"0112\",\n                \"country\": \"GE\"\n            },\n            \"phone\": null,\n            \"website\": null\n        },\n        \"businessPersons\": [\n            {\n                \"id\": \"bps_xpn6le15m6k0v9jo4g\",\n                \"person\": {\n                    \"firstName\": \"SEBASTIAN\",\n                    \"middleName\": null,\n                    \"lastName\": \"HEYDEN\",\n                    \"address\": {\n                        \"line1\": \"8 Kote Potskhverashvili Street\",\n                        \"line2\": null,\n                        \"city\": \"Tbilisi\",\n                        \"state\": null,\n                        \"postalCode\": \"0100\",\n                        \"country\": \"GE\"\n                    },\n                    \"email\": \"sebastian@stakesquid.eu\",\n                    \"phone\": \"+4915678737095\",\n                    \"birthCountry\": \"DE\",\n                    \"nationality\": [\n                        \"DE\"\n                    ],\n                    \"dob\": \"1982-09-14\"\n                },\n                \"businessEndUserId\": \"eus_ka2yeb7y9ld15np3jv\",\n                \"types\": [\n                    \"CONTACT\",\n                    \"DIRECTOR\",\n                    \"UBO\"\n                ],\n                \"ownership\": \"100.00\",\n                \"createdAt\": 1711534292647,\n                \"updatedAt\": 1711534292647\n            }\n        ],\n        \"ipAddress\": \"2001:0db8:85a3:0000:0000:8a2e:0370:7334\",\n        \"linkedCryptoWallets\": null,\n        \"tags\": [],\n        \"status\": \"ACTIVE\",\n        \"riskRating\": null,\n        \"signupAt\": null,\n        \"sector\": \"CRYPTO\",\n        \"createdAt\": 1711534292633,\n        \"updatedAt\": 1711534295900,\n        \"metadata\": null\n    },\n    {...},\n    {...}\n}"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - End Users
+  /end-users/businesses/{id}:
+    get:
+      summary: Get Business End User
+      description: ''
+      operationId: get-business-end-user
+      parameters:
+      - name: id
+        in: path
+        description: business end user id
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n        \"id\": \"eus_ka2yeb7y9ld15np3jv\",\n        \"business\": {\n            \"id\": \"biz_x83lr41oy8v7dy5va2\",\n            \"companyName\": \"StakeSquid OU\",\n            \"tradingName\": \"StakeSquid OU\",\n            \"type\": \"LIMITED\",\n            \"registrationNumber\": \"2346296\",\n            \"registrationDate\": \"2022-02-03\",\n            \"registeredAddress\": {\n                \"line1\": \"Pudisoo küla\",\n                \"line2\": null,\n                \"city\": \"Kuusalu vald\",\n                \"state\": \"Harju maakond\",\n                \"postalCode\": \"74626\",\n                \"country\": \"EE\"\n            },\n            \"tradingAddress\": {\n                \"line1\": \"8 Kote Potskhverashvili Street\",\n                \"line2\": null,\n                \"city\": \"Tbilisi\",\n                \"state\": \"Tbilisi\",\n                \"postalCode\": \"0112\",\n                \"country\": \"GE\"\n            },\n            \"phone\": null,\n            \"website\": null\n        },\n        \"businessPersons\": [\n            {\n                \"id\": \"bps_xpn6le15m6k0v9jo4g\",\n                \"person\": {\n                    \"firstName\": \"SEBASTIAN\",\n                    \"middleName\": null,\n                    \"lastName\": \"HEYDEN\",\n                    \"address\": {\n                        \"line1\": \"8 Kote Potskhverashvili Street\",\n                        \"line2\": null,\n                        \"city\": \"Tbilisi\",\n                        \"state\": null,\n                        \"postalCode\": \"0100\",\n                        \"country\": \"GE\"\n                    },\n                    \"email\": \"sebastian@stakesquid.eu\",\n                    \"phone\": \"+4915678737095\",\n                    \"birthCountry\": \"DE\",\n                    \"nationality\": [\n                        \"DE\"\n                    ],\n                    \"dob\": \"1982-09-14\"\n                },\n                \"businessEndUserId\": \"eus_ka2yeb7y9ld15np3jv\",\n                \"types\": [\n                    \"CONTACT\",\n                    \"DIRECTOR\",\n                    \"UBO\"\n                ],\n                \"ownership\": \"100.00\",\n                \"createdAt\": 1711534292647,\n                \"updatedAt\": 1711534292647\n            }\n        ],\n        \"ipAddress\": \"2001:0db8:85a3:0000:0000:8a2e:0370:7334\",\n        \"linkedCryptoWallets\": null,\n        \"tags\": [],\n        \"status\": \"ACTIVE\",\n        \"riskRating\": null,\n        \"signupAt\": null,\n        \"sector\": \"CRYPTO\",\n        \"createdAt\": 1711534292633,\n        \"updatedAt\": 1711534295900,\n        \"metadata\": null\n    }"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: eus_ka2yeb7y9ld15np3jv
+                  business:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: biz_x83lr41oy8v7dy5va2
+                      companyName:
+                        type: string
+                        example: StakeSquid OU
+                      tradingName:
+                        type: string
+                        example: StakeSquid OU
+                      type:
+                        type: string
+                        example: LIMITED
+                      registrationNumber:
+                        type: string
+                        example: '2346296'
+                      registrationDate:
+                        type: string
+                        example: '2022-02-03'
+                      registeredAddress:
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            example: Pudisoo küla
+                          line2: {}
+                          city:
+                            type: string
+                            example: Kuusalu vald
+                          state:
+                            type: string
+                            example: Harju maakond
+                          postalCode:
+                            type: string
+                            example: '74626'
+                          country:
+                            type: string
+                            example: EE
+                      tradingAddress:
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            example: 8 Kote Potskhverashvili Street
+                          line2: {}
+                          city:
+                            type: string
+                            example: Tbilisi
+                          state:
+                            type: string
+                            example: Tbilisi
+                          postalCode:
+                            type: string
+                            example: '0112'
+                          country:
+                            type: string
+                            example: GE
+                      phone: {}
+                      website: {}
+                  businessPersons:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: bps_xpn6le15m6k0v9jo4g
+                        person:
+                          type: object
+                          properties:
+                            firstName:
+                              type: string
+                              example: SEBASTIAN
+                            middleName: {}
+                            lastName:
+                              type: string
+                              example: HEYDEN
+                            address:
+                              type: object
+                              properties:
+                                line1:
+                                  type: string
+                                  example: 8 Kote Potskhverashvili Street
+                                line2: {}
+                                city:
+                                  type: string
+                                  example: Tbilisi
+                                state: {}
+                                postalCode:
+                                  type: string
+                                  example: '0100'
+                                country:
+                                  type: string
+                                  example: GE
+                            email:
+                              type: string
+                              example: sebastian@stakesquid.eu
+                            phone:
+                              type: string
+                              example: '+4915678737095'
+                            birthCountry:
+                              type: string
+                              example: DE
+                            nationality:
+                              type: array
+                              items:
+                                type: string
+                                example: DE
+                            dob:
+                              type: string
+                              example: '1982-09-14'
+                        businessEndUserId:
+                          type: string
+                          example: eus_ka2yeb7y9ld15np3jv
+                        types:
+                          type: array
+                          items:
+                            type: string
+                            example: CONTACT
+                        ownership:
+                          type: string
+                          example: '100.00'
+                        createdAt:
+                          type: integer
+                          example: 1711534292647
+                          default: 0
+                        updatedAt:
+                          type: integer
+                          example: 1711534292647
+                          default: 0
+                  ipAddress:
+                    type: string
+                    example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+                  linkedCryptoWallets: {}
+                  tags:
+                    type: array
+                  status:
+                    type: string
+                    example: ACTIVE
+                  riskRating: {}
+                  signupAt: {}
+                  sector:
+                    type: string
+                    example: CRYPTO
+                  createdAt:
+                    type: integer
+                    example: 1711534292633
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1711534295900
+                    default: 0
+                  metadata: {}
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"RESOURCE_MISSING\",\n    \"message\": \"Business end user with id eus_xxxxyyyyzzzz not found.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: RESOURCE_MISSING
+                  message:
+                    type: string
+                    example: Business end user with id eus_xxxxyyyyzzzz not found.
+      deprecated: false
+      tags:
+      - End Users
+    patch:
+      summary: Update Business End User
+      description: ''
+      operationId: update-business-end-user
+      parameters:
+      - name: id
+        in: path
+        description: ID of Business End User that needs to be updated
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                business:
+                  type: object
+                  properties:
+                    companyName:
+                      type: string
+                    tradingName:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                      - LIMITED
+                    registrationNumber:
+                      type: string
+                    registrationDate:
+                      type: string
+                      format: date
+                    registeredAddress:
+                      type: object
+                      required:
+                      - line 1
+                      - city
+                      - postal code
+                      - country
+                      properties:
+                        line 1:
+                          type: string
+                          description: First line of the company registration address
+                        line 2:
+                          type: string
+                          description: Second line of the company registration address
+                        city:
+                          type: string
+                          description: City of the registration address
+                        state:
+                          type: string
+                          description: Required for USD
+                        postal code:
+                          type: string
+                          description: Postal code of the registration address
+                        country:
+                          type: string
+                          description: Country code of the registration address
+                    tradingAddress:
+                      type: object
+                      required:
+                      - line1
+                      - city
+                      - postalCode
+                      - country
+                      properties:
+                        line1:
+                          type: string
+                          description: First line of the company trading address
+                        line2:
+                          type: string
+                          description: Second line of the company trading address
+                        city:
+                          type: string
+                          description: City of the trading address
+                        state:
+                          type: string
+                          description: State or region of the trading address
+                        postalCode:
+                          type: string
+                          description: Postal code of the trading address
+                        country:
+                          type: string
+                          description: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+                    website:
+                      type: string
+                businessPersons:
+                  type: object
+                  properties:
+                    person:
+                      type: object
+                      required:
+                      - dob
+                      - email
+                      - firstName
+                      - lastName
+                      properties:
+                        address:
+                          type: object
+                          description: Home Address of the Individual. Is required
+                          required:
+                          - line1
+                          - city
+                          - postalCode
+                          - country
+                          properties:
+                            line1:
+                              type: string
+                            line2:
+                              type: string
+                            city:
+                              type: string
+                            state:
+                              type: string
+                              description: Required for USD Payees
+                            postalCode:
+                              type: string
+                            country:
+                              type: string
+                              description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                        birthCountry:
+                          type: string
+                          description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                        dob:
+                          type: string
+                          description: Date of Birth of the Individual in `YYYY-MM-DD` format. e.g. `1975-04-05`
+                          format: date
+                        email:
+                          type: string
+                          description: Email of the Individual.
+                        firstName:
+                          type: string
+                          description: First Name of the Individual.
+                        middleName:
+                          type: string
+                          description: Middle Name(s) of the Individual.
+                        lastName:
+                          type: string
+                          description: Last Name of the Individual.
+                        nationality:
+                          type: array
+                          description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom. One of more nationalities can be provided. Required for USD.
+                          items:
+                            type: string
+                        phone:
+                          type: string
+                          description: Phone number of the Individual including country prefix. e.g. `+447788661100` Required for USD
+                        identificationDocument:
+                          type: object
+                          description: Required for USD
+                          properties:
+                            number:
+                              type: string
+                            type:
+                              type: string
+                              description: Type of identity document
+                              enum:
+                              - WORK_PERMIT
+                              - PASSPORT
+                              - NATIONAL_ID
+                              - DRIVERS_LICENCE
+                    types:
+                      type: array
+                      description: Type of the Business Person. Can be CONTACT, DIRECTOR or UBO. Multiple choice field
+                      items:
+                        type: string
+                    ownership:
+                      type: number
+                      description: Amount of shares hold by the Business Person (in %)
+                      format: float
+                ipAddress:
+                  type: string
+                  description: The IP address from where the individual signed up on your platform.
+                linkedCryptoWallets:
+                  type: string
+                  description: Details of any known crypto wallets linked with the individual being created.
+                tags:
+                  type: string
+                  description: Tags allowing you to provide additional risk-related information for the business.
+                riskRating:
+                  type: string
+                  description: Rating of the risk level assigned to the business
+                  enum:
+                  - '"LOW"'
+                  - '"MEDIUM"'
+                  - '"HIGH"'
+                metadata:
+                  type: array
+                  items:
+                    type: string
+                signupAt:
+                  type: integer
+                  description: A date of registration of End User profile within Member platform
+                  format: int32
+                status:
+                  type: string
+                  enum:
+                  - ACTIVE
+                  - SUSPENDED
+                  - CLOSED
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"Invalid IndividualEndUserUpdateRequest.\",\n    \"warnings\": [\n        {\n            \"position\": \"person.dob\",\n            \"issue\": \"Text '1997-01-0' could not be parsed at index 8\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Invalid IndividualEndUserUpdateRequest.
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        position:
+                          type: string
+                          example: person.dob
+                        issue:
+                          type: string
+                          example: Text '1997-01-0' could not be parsed at index 8
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"RESOURCE_MISSING\",\n    \"message\": \"IndividualEndUser with 'eus_xxxxyyyyzzzz' id does not exist.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: RESOURCE_MISSING
+                  message:
+                    type: string
+                    example: IndividualEndUser with 'eus_xxxxyyyyzzzz' id does not exist.
+      deprecated: false
+      tags:
+      - End Users
+  /end-users/individuals:
+    post:
+      summary: Create Individual End User
+      description: ''
+      operationId: create-individual-end-user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - person
+              - ipAddress
+              properties:
+                person:
+                  type: object
+                  required:
+                  - dob
+                  - email
+                  - firstName
+                  - lastName
+                  properties:
+                    address:
+                      type: object
+                      description: Home Address of the Individual. Is required
+                      required:
+                      - line1
+                      - city
+                      - postalCode
+                      - country
+                      properties:
+                        line1:
+                          type: string
+                        line2:
+                          type: string
+                        city:
+                          type: string
+                        state:
+                          type: string
+                          description: Required for entity with address in CA and US
+                        postalCode:
+                          type: string
+                        country:
+                          type: string
+                          description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                    birthCountry:
+                      type: string
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                    dob:
+                      type: string
+                      description: Date of Birth of the Individual in `YYYY-MM-DD` format. e.g. `1975-04-05`
+                      format: date
+                    email:
+                      type: string
+                      description: Email of the Individual.
+                    firstName:
+                      type: string
+                      description: First Name of the Individual.
+                    middleName:
+                      type: string
+                      description: Middle Name(s) of the Individual.
+                    lastName:
+                      type: string
+                      description: Last Name of the Individual.
+                    nationality:
+                      type: array
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom. One of more nationalities can be provided. Required for USD.
+                      items:
+                        type: string
+                    phone:
+                      type: string
+                      description: Phone number of the Individual including country prefix. e.g. `+447788661100` Required for USD
+                    identificationDocument:
+                      type: object
+                      description: Required for USD
+                      properties:
+                        number:
+                          type: string
+                        type:
+                          type: string
+                          description: Type of identity document
+                          enum:
+                          - WORK_PERMIT
+                          - PASSPORT
+                          - NATIONAL_ID
+                          - DRIVERS_LICENCE
+                metadata:
+                  type: object
+                  description: Additional structured data
+                  properties:
+                    metadataName1:
+                      type: string
+                    metadataName2:
+                      type: string
+                tags:
+                  type: array
+                  description: Tags allowing you to provide additional risk related information for the End User e.g. PEP
+                  items:
+                    type: string
+                signupAt:
+                  type: string
+                  format: date-time
+                riskRating:
+                  type: string
+                  enum:
+                  - LOW
+                  - MEDIUM
+                  - HIGH
+                ipAddress:
+                  type: string
+                  description: IP address from where the user signed up on your platform. Highly recommended that you provide this for AML and fraud monitoring purposes
+                annualSalaryRange:
+                  type: string
+                  description: Value of annual salary of the Individual End User (in EUR)
+                  enum:
+                  - RANGE_0_TO_25000
+                  - RANGE_25000_TO_50000
+                  - RANGE_50000_TO_100000
+                  - RANGE_100000_TO_150000
+                  - ABOVE_150000
+                linkedCryptoWallets:
+                  type: object
+                  description: Details of known crypto wallets linked with the End User. Highly recommend that this information is provided for AML monitoring.
+                  properties:
+                    coin:
+                      type: string
+                      description: Symbol of the coin or token. e.g. `BTC` or `ETH`
+                    walletAddress:
+                      type: string
+                      description: Blockchain wallet id of the coin or token
+                    relationship:
+                      type: array
+                      description: One or more relationships between the End User and the walletId.<br>`OWN` - The End User's own wallet.<br>`SENDER` - The End User has sent value to the wallet<br>`RECEIVER` - The End User has received value from this wallet.
+                      items:
+                        type: string
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"eus_4dbv6l1z4ng0y3ormg\",\n    \"person\": {\n        \"firstName\": \"Satoshi\",\n        \"middleName\": null,\n        \"lastName\": \"Nakamoto\",\n        \"address\": {\n            \"line1\": \"172 Buckingham Avenue\",\n            \"line2\": null,\n            \"city\": \"Slough\",\n            \"state\": null,\n            \"postalCode\": \"SL1 4RD\",\n            \"country\": \"GB\"\n        },\n        \"email\": \"satoshi@bitcoin.com\",\n        \"phone\": \"+447788661100\",\n        \"birthCountry\": \"GB\",\n        \"nationality\": [\n            \"GB\",\n            \"US\"\n        ],\n        \"dob\": \"1975-04-05\",\n        \"identificationDocument\": {\n            \"number\": \"012FGO22\",\n            \"type\": \"PASSPORT\"\n        }\n    },\n    \"ipAddress\": \"86.23.22.163\",\n    \"linkedCryptoWallets\": [\n        {\n            \"coin\": \"BTC\",\n            \"walletAddress\": \"0197fd09370jf0u08010jh00\",\n            \"relationship\": [\n                \"OWN\"\n            ]\n        },\n        {\n            \"coin\": \"ETH\",\n            \"walletAddress\": \"019dfd37ds0jf0u08d1010jh\",\n            \"relationship\": [\n                \"RECEIVER\"\n            ]\n        },\n        {\n            \"coin\": \"LTC\",\n            \"walletAddress\": \"aa01a971209370dss10jhf32\",\n            \"relationship\": [\n                \"OWN\",\n                \"SENDER\"\n            ]\n        }\n    ],\n    \"tags\": [\n        \"PEP\"\n    ],\n    \"status\": \"CREATED\",\n    \"riskRating\": null,\n    \"annualSalaryRange\": \"RANGE_50000_TO_100000\",\n    \"signupAt\": 1637049210552,\n    \"createdAt\": 1730198884640,\n    \"updatedAt\": 1730198884640,\n    \"metadata\": null\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: eus_4dbv6l1z4ng0y3ormg
+                  person:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        example: Satoshi
+                      middleName: {}
+                      lastName:
+                        type: string
+                        example: Nakamoto
+                      address:
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            example: 172 Buckingham Avenue
+                          line2: {}
+                          city:
+                            type: string
+                            example: Slough
+                          state: {}
+                          postalCode:
+                            type: string
+                            example: SL1 4RD
+                          country:
+                            type: string
+                            example: GB
+                      email:
+                        type: string
+                        example: satoshi@bitcoin.com
+                      phone:
+                        type: string
+                        example: '+447788661100'
+                      birthCountry:
+                        type: string
+                        example: GB
+                      nationality:
+                        type: array
+                        items:
+                          type: string
+                          example: GB
+                      dob:
+                        type: string
+                        example: '1975-04-05'
+                      identificationDocument:
+                        type: object
+                        properties:
+                          number:
+                            type: string
+                            example: 012FGO22
+                          type:
+                            type: string
+                            example: PASSPORT
+                  ipAddress:
+                    type: string
+                    example: 86.23.22.163
+                  linkedCryptoWallets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                          example: BTC
+                        walletAddress:
+                          type: string
+                          example: 0197fd09370jf0u08010jh00
+                        relationship:
+                          type: array
+                          items:
+                            type: string
+                            example: OWN
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                      example: PEP
+                  status:
+                    type: string
+                    example: CREATED
+                  riskRating: {}
+                  annualSalaryRange:
+                    type: string
+                    example: RANGE_50000_TO_100000
+                  signupAt:
+                    type: integer
+                    example: 1637049210552
+                    default: 0
+                  createdAt:
+                    type: integer
+                    example: 1730198884640
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1730198884640
+                    default: 0
+                  metadata: {}
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"Invalid End User personal details.\",\n    \"warnings\": [\n        {\n            \"position\": \"person.dob\",\n            \"issue\": \"Is required.\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Invalid End User personal details.
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        position:
+                          type: string
+                          example: person.dob
+                        issue:
+                          type: string
+                          example: Is required.
+        '409':
+          description: '409'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n\t\"errorCode\": \"INVALID_REQUEST_DATA\",\n  \"message\": \"Creating Individual End User has failed. End User with the same identity already exists.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Creating Individual End User has failed. End User with the same identity already exists.
+      deprecated: false
+      tags:
+      - End Users
+    get:
+      summary: List Individual End Users
+      description: ''
+      operationId: list-individual-end-users
+      parameters:
+      - name: id
+        in: query
+        description: One or more End User id's. Multiple `id` params can be provided.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: search
+        in: query
+        description: Search by the Individual's `firstName`, `lastName` or `email`.
+        schema:
+          type: string
+      - name: country
+        in: query
+        schema:
+          type: string
+          default: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+      - name: status
+        in: query
+        description: 'Can be: CREATED , IN_REVIEW, ACTIVE, SUSPENDED, REJECTED, CLOSED'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n   {\n   \"id\":\"eus_j82rl497g47g5ykvzn\",\n   \"person\":{\n      \"firstName\":\"Satoshi\",\n      \"lastName\":\"Nakamoto\",\n      \"address\":{\n         \"line1\":\"172 Buckingham Avenue\",\n         \"line2\":null,\n         \"city\":\"Slough\",\n         \"state\":null,\n         \"postalCode\":\"SL1 4RD\",\n         \"country\":\"GB\"\n      },\n      \"email\":\"satoshi@bitcoin.com\",\n      \"phone\":\"+447788661100\",\n      \"birthCountry\":\"GB\",\n      \"nationality\":[\n         \"GB\",\n         \"US\"\n      ],\n      \"dob\":\"1975-04-05\"\n   },\n   \"ipAddress\":\"86.23.22.163\",\n   \"tags\":[\n      \"PEP\"\n   ],\n   \"status\":\"ACTIVE\",\n   \"createdAt\":1637049210552,\n   \"updatedAt\":1637049210552,\n   \"metadata\":null,\n   \"linkedCryptoWallets\":[\n      {\n         \"coin\":\"BTC\",\n         \"walletAddress\":\"0197fd09370jf0u08010jh00\",\n         \"relationship\":[\n            \"OWN\"\n         ]\n      },\n      {\n         \"coin\":\"ETH\",\n         \"walletAddress\":\"019dfd37ds0jf0u08d1010jh\",\n         \"relationship\":[\n            \"RECEIVER\"\n         ]\n      },\n      {\n         \"coin\":\"XLM\",\n         \"walletAddress\":\"aa01a971209370dss10jhf32\",\n         \"relationship\":[\n            \"OWN\",\n            \"SENDER\"\n         ]\n      }\n   ]\n},\n   {...},\n   {...}\n]"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/end-users/individuals/ \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - End Users
+  /end-users/individuals/{id}:
+    get:
+      summary: Get Individual End User
+      description: ''
+      operationId: get-individual-end-user
+      parameters:
+      - name: id
+        in: path
+        description: Id of the individual end user.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"eus_j82rl497g47g5ykvzn\",\n   \"person\":{\n      \"firstName\":\"Satoshi\",\n      \"middleName\": \"Junior\",\n      \"lastName\":\"Nakamoto\",\n      \"address\":{\n         \"line1\":\"172 Buckingham Avenue\",\n         \"line2\":null,\n         \"city\":\"Slough\",\n         \"state\":null,\n         \"postalCode\":\"SL1 4RD\",\n         \"country\":\"GB\"\n      },\n      \"email\":\"satoshi@bitcoin.com\",\n      \"phone\":\"+447788661100\",\n      \"birthCountry\":\"GB\",\n      \"nationality\":[\n         \"GB\",\n         \"US\"\n      ],\n      \"dob\":\"1975-04-05\",\n      \"identificationDocument\": {\n          \"number\": \"IT673943\",\n          \"type\": \"PASSPORT\"\n       }\n   },\n   \"ipAddress\":\"86.23.22.163\",\n   \"tags\":[\n      \"PEP\"\n   ],\n   \"riskRating\": null,\n   \"signupAt\": null,\n   \"status\":\"ACTIVE\",\n   \"createdAt\":1637049210552,\n   \"updatedAt\":1637049210552,\n   \"metadata\":null,\n   \"linkedCryptoWallets\":[\n      {\n         \"coin\":\"BTC\",\n         \"walletAddress\":\"0197fd09370jf0u08010jh00\",\n         \"relationship\":[\n            \"OWN\"\n         ]\n      },\n      {\n         \"coin\":\"ETH\",\n         \"walletAddress\":\"019dfd37ds0jf0u08d1010jh\",\n         \"relationship\":[\n            \"RECEIVER\"\n         ]\n      },\n      {\n         \"coin\":\"XLM\",\n         \"walletAddress\":\"aa01a971209370dss10jhf32\",\n         \"relationship\":[\n            \"OWN\",\n            \"SENDER\"\n         ]\n      }\n   ]\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: eus_j82rl497g47g5ykvzn
+                  person:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        example: Satoshi
+                      middleName:
+                        type: string
+                        example: Junior
+                      lastName:
+                        type: string
+                        example: Nakamoto
+                      address:
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            example: 172 Buckingham Avenue
+                          line2: {}
+                          city:
+                            type: string
+                            example: Slough
+                          state: {}
+                          postalCode:
+                            type: string
+                            example: SL1 4RD
+                          country:
+                            type: string
+                            example: GB
+                      email:
+                        type: string
+                        example: satoshi@bitcoin.com
+                      phone:
+                        type: string
+                        example: '+447788661100'
+                      birthCountry:
+                        type: string
+                        example: GB
+                      nationality:
+                        type: array
+                        items:
+                          type: string
+                          example: GB
+                      dob:
+                        type: string
+                        example: '1975-04-05'
+                      identificationDocument:
+                        type: object
+                        properties:
+                          number:
+                            type: string
+                            example: IT673943
+                          type:
+                            type: string
+                            example: PASSPORT
+                  ipAddress:
+                    type: string
+                    example: 86.23.22.163
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                      example: PEP
+                  riskRating: {}
+                  signupAt: {}
+                  status:
+                    type: string
+                    example: ACTIVE
+                  createdAt:
+                    type: integer
+                    example: 1637049210552
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1637049210552
+                    default: 0
+                  metadata: {}
+                  linkedCryptoWallets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                          example: BTC
+                        walletAddress:
+                          type: string
+                          example: 0197fd09370jf0u08010jh00
+                        relationship:
+                          type: array
+                          items:
+                            type: string
+                            example: OWN
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"RESOURCE_MISSING\",\n    \"message\": \"IndividualEndUser with 'eus_xxxxyyyyzzzz' id does not exist.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: RESOURCE_MISSING
+                  message:
+                    type: string
+                    example: IndividualEndUser with 'eus_xxxxyyyyzzzz' id does not exist.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/end-users/individuals/eus_j82rl497g47g5ykvzn \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - End Users
+    patch:
+      summary: Update Individual End User
+      description: ''
+      operationId: update-individual-end-user
+      parameters:
+      - name: id
+        in: path
+        description: ID of Individual End User that needs to be updated
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ipAddress:
+                  type: string
+                  description: IP address from where the user signed up on your platform.
+                person:
+                  type: object
+                  properties:
+                    address:
+                      type: object
+                      description: Home Address of the Individual.
+                      required:
+                      - line1
+                      - city
+                      - postalCode
+                      - country
+                      properties:
+                        line1:
+                          type: string
+                        line2:
+                          type: string
+                        city:
+                          type: string
+                        state:
+                          type: string
+                          description: Required for USD Payees
+                        postalCode:
+                          type: string
+                        country:
+                          type: string
+                          description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                    birthCountry:
+                      type: string
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                    dob:
+                      type: string
+                      description: Date of Birth of the Individual in `YYYY-MM-DD` format. e.g. `1975-04-05`
+                      format: date
+                    email:
+                      type: string
+                      description: Email of the Individual.
+                    firstName:
+                      type: string
+                      description: First Name of the Individual.
+                    lastName:
+                      type: string
+                      description: Last Name of the Individual.
+                    nationality:
+                      type: array
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom. One of more nationalities can be provided.
+                      items:
+                        type: string
+                    phone:
+                      type: string
+                      description: Phone number of the Individual including country prefix. e.g. `+447788661100`
+                    identificationDocument:
+                      type: object
+                      description: Required for USD
+                      properties:
+                        number:
+                          type: string
+                        type:
+                          type: string
+                          description: Type of identity document
+                          enum:
+                          - WORK_PERMIT
+                          - PASSPORT
+                          - NATIONAL_ID
+                          - DRIVERS_LICENCE
+                metadata:
+                  type: array
+                  items:
+                    type: string
+                riskRating:
+                  type: string
+                  enum:
+                  - '"LOW"'
+                  - '"MEDIUM"'
+                  - '"HIGH"'
+                signupAt:
+                  type: string
+                  format: date-time
+                status:
+                  type: string
+                  enum:
+                  - ACTIVE
+                  - SUSPENDED
+                  - CLOSED
+                linkedCryptoWallets:
+                  type: object
+                  description: Details of known crypto wallets linked with the End User. Highly recommend that this information is provided for AML monitoring.
+                  properties:
+                    coin:
+                      type: string
+                      description: Symbol of the coin or token. e.g. `BTC` or `ETH`
+                    walletAddress:
+                      type: string
+                      description: Blockchain wallet id of the coin or token
+                    relationship:
+                      type: array
+                      description: One or more relationships between the End User and the walletId.<br>`OWN` - The End User's own wallet.<br>`SENDER` - The End User has sent value to the wallet<br>`RECEIVER` - The End User has received value from this wallet.
+                      items:
+                        type: string
+                tags:
+                  type: string
+                  description: Tags allowing you to provide additional risk related information for the End User e.g. PEP
+                annualSalaryRange:
+                  type: string
+                  description: Value of annual salary of the Individual End User (in EUR)
+                  enum:
+                  - RANGE_0_TO_25000
+                  - RANGE_25000_TO_50000
+                  - RANGE_50000_TO_100000
+                  - RANGE_100000_TO_150000
+                  - ABOVE_150000
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"eus_j82rl497g47g5ykvzn\",\n   \"person\":{\n      \"firstName\":\"Satoshi\",\n      \"lastName\":\"Nakamoto\",\n      \"address\":{\n         \"line1\":\"172 Buckingham Avenue\",\n         \"line2\":null,\n         \"city\":\"Slough\",\n         \"state\":null,\n         \"postalCode\":\"SL1 4RD\",\n         \"country\":\"GB\"\n      },\n      \"email\":\"satoshi@bitcoin.com\",\n      \"phone\":\"+448980098989\",\n      \"birthCountry\":\"GB\",\n      \"nationality\":[\n         \"GB\",\n         \"US\"\n      ],\n      \"dob\":\"1975-04-05\"\n   },\n   \"ipAddress\":\"86.23.22.163\",\n   \"tags\":[\n      \"PEP\"\n   ],\n   \"status\":\"ACTIVE\",\n   \"createdAt\":1637049210552,\n   \"updatedAt\":1637049210552,\n   \"metadata\":{\n      \"userId\":\"usr12345\"\n   },\n   \"linkedCryptoWallets\":[\n      {\n         \"coin\":\"BTC\",\n         \"walletAddress\":\"0197fd09370jf0u08010jh00\",\n         \"relationship\":[\n            \"OWN\"\n         ]\n      },\n      {\n         \"coin\":\"ETH\",\n         \"walletAddress\":\"019dfd37ds0jf0u08d1010jh\",\n         \"relationship\":[\n            \"RECEIVER\"\n         ]\n      },\n      {\n         \"coin\":\"XLM\",\n         \"walletAddress\":\"aa01a971209370dss10jhf32\",\n         \"relationship\":[\n            \"OWN\",\n            \"SENDER\"\n         ]\n      }\n   ]\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: eus_j82rl497g47g5ykvzn
+                  person:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        example: Satoshi
+                      lastName:
+                        type: string
+                        example: Nakamoto
+                      address:
+                        type: object
+                        properties:
+                          line1:
+                            type: string
+                            example: 172 Buckingham Avenue
+                          line2: {}
+                          city:
+                            type: string
+                            example: Slough
+                          state: {}
+                          postalCode:
+                            type: string
+                            example: SL1 4RD
+                          country:
+                            type: string
+                            example: GB
+                      email:
+                        type: string
+                        example: satoshi@bitcoin.com
+                      phone:
+                        type: string
+                        example: '+448980098989'
+                      birthCountry:
+                        type: string
+                        example: GB
+                      nationality:
+                        type: array
+                        items:
+                          type: string
+                          example: GB
+                      dob:
+                        type: string
+                        example: '1975-04-05'
+                  ipAddress:
+                    type: string
+                    example: 86.23.22.163
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                      example: PEP
+                  status:
+                    type: string
+                    example: ACTIVE
+                  createdAt:
+                    type: integer
+                    example: 1637049210552
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1637049210552
+                    default: 0
+                  metadata:
+                    type: object
+                    properties:
+                      userId:
+                        type: string
+                        example: usr12345
+                  linkedCryptoWallets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                          example: BTC
+                        walletAddress:
+                          type: string
+                          example: 0197fd09370jf0u08010jh00
+                        relationship:
+                          type: array
+                          items:
+                            type: string
+                            example: OWN
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"Invalid IndividualEndUserRequest.\",\n    \"warnings\": [\n        {\n            \"position\": \"person.address.city\",\n            \"issue\": \"Field is required\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Invalid IndividualEndUserRequest.
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        position:
+                          type: string
+                          example: person.address.city
+                        issue:
+                          type: string
+                          example: Field is required
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"RESOURCE_MISSING\",\n    \"message\": \"IndividualEndUser with 'eus_xxxxyyyyzzzz' id does not exist.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: RESOURCE_MISSING
+                  message:
+                    type: string
+                    example: IndividualEndUser with 'eus_xxxxyyyyzzzz' id does not exist.
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request PATCH \\\n     --url https://sandbox.fiatrepublic.com/api/v1/end-users/individuals/eus_j82rl497g47g5ykvzn \\\n     --header 'Accept: application/json' \\\n     --header 'Authorization: Bearer ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\\n     --header 'Content-Type: application/json' \\\n     --data '\n{\n    \"person\": {\n        \"phone\": \"+448980098989\"\n    },\n    \"metadata\": {\n        \"userId\": \"usr12345\"\n    }\n}\n'"
+        samples-languages:
+        - curl
+      tags:
+      - End Users
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

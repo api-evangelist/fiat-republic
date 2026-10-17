@@ -1,0 +1,233 @@
+openapi: 3.2.0
+info:
+  title: transaction-monitoring Investigations API
+  version: '1.0'
+servers:
+- url: https://sandbox-oxygen.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Investigations
+paths:
+  /investigations:
+    post:
+      summary: Create Investigations
+      description: ''
+      operationId: oxygen-create-investigations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                entityId:
+                  type: string
+                  description: Unique identifier of the entity
+                note:
+                  type: object
+                  description: Description of the findings and checks based on the review performed on the client profile
+                  properties:
+                    content:
+                      type: string
+                      description: description of the findings and checks based on the review performed on the client profile
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Investigations
+    get:
+      summary: List Investigations
+      description: ''
+      operationId: oxygen-list-investigations
+      parameters:
+      - name: entityId
+        in: query
+        description: Unique identifier of the entity
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Status of the Investigation
+        schema:
+          type: string
+          enum:
+          - RESOLVED
+          - ESCALATED
+          - REPORTED
+          - AWAITING INFORMATION
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Investigations
+  /investigations/{id}:
+    get:
+      summary: Get Investigation
+      description: ''
+      operationId: oxygen-get-investigation
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the Investigation
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Investigations
+    patch:
+      summary: Update Investigation
+      description: ''
+      operationId: oxygen-update-investigation
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the Investigation
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: Status of the Investigation
+                  enum:
+                  - RESOLVED
+                  - ESCALATED
+                  - REPORTED
+                  - AWAITING INFORMATION
+                statusReason:
+                  type: string
+                  description: 'Reason of the status: e.g. FALSE POSITIVE (reason) for status RESOLVED'
+                assignedToId:
+                  type: string
+                  description: Id of the platform user who is assigned to the Investigation
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Investigations
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-transaction.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-entity.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-investigations.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-payment-channel.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-rule.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-webhook.md
+  - https://docs.fiatrepublic.com/reference/oxygen-delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-alert.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-entity.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-investigation.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-one-payment-channel.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-platform-user.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-rule.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-webhook.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-alerts.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-entities.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-investigations.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-payment-channel.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-platform-users.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-rules.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-transactions.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/oxygen-update-investigation.md
+  - https://docs.fiatrepublic.com/reference/oxygen-update-webhook.md
+  - https://docs.fiatrepublic.com/reference/update-rule.md
+  merge:
+    pages: 25
+    deduped: 24
+    conflicts_kept_first: 0

@@ -1,0 +1,322 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Emt Payments API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Emt Payments
+paths:
+  /emt-payments:
+    post:
+      summary: Create EMT Payment
+      description: ''
+      operationId: create-emt-payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fromId:
+                  type: string
+                  description: 'Identifier of the source entity of the EMT Payment: Fiat Account ID or EMT Wallet ID'
+                toId:
+                  type: string
+                  description: 'Identifier of the destination entity of EMT Payment: Fiat Account ID or EMT Wallet ID'
+                reference:
+                  type: string
+                  description: Reference received or sent with the EMT Payment.
+                amount:
+                  type: string
+                  description: Amount of the payment in 2 decimal places eg. 210000.00
+                paymentScheme:
+                  type: string
+                  default: EMT_EAGLE_NET
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Emt Payments
+    get:
+      summary: List EMT Payments
+      description: ''
+      operationId: list-emt-payments
+      parameters:
+      - name: id
+        in: query
+        description: Unique identifier of the EMT Payment
+        schema:
+          type: string
+      - name: fromId
+        in: query
+        description: 'Identifier of the source entity of the EMT Payment: Fiat Account ID or EMT Wallet ID'
+        schema:
+          type: string
+      - name: toId
+        in: query
+        description: 'Identifier of the destination entity of EMT Payment: Fiat Account ID or EMT Wallet ID'
+        schema:
+          type: string
+      - name: direction
+        in: query
+        description: 'Direction of the EMT Payment. Can be: FUND, REDEEM, PAYIN, PAYOUT, TRANSFER'
+        schema:
+          type: string
+      - name: token
+        in: query
+        description: ENEUR, ENGBP, ENUSD
+        schema:
+          type: string
+      - name: paymentScheme
+        in: query
+        description: EMT_EAGLE_NET
+        schema:
+          type: string
+          default: The payment scheme used for the EMT Payment.
+      - name: status
+        in: query
+        description: Status of the EMT Payment
+        schema:
+          type: string
+      - name: status(not)
+        in: query
+        description: Excludes provided EMT Payment status
+        schema:
+          type: string
+      - name: amount(gte)
+        in: query
+        description: Greater than or equal to the payment amount.
+        schema:
+          type: string
+      - name: amount(lte)
+        in: query
+        description: Less than or equal to the payment amount.
+        schema:
+          type: string
+      - name: createdAt(gte)
+        in: query
+        description: Greater than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      - name: createdAt(lte)
+        in: query
+        description: Less than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "    {\n        \"id\": \"ept_594olbe12mr08k2ddd\",\n        \"fromId\": \"fac_xpn6le15g3k0vssd\",\n        \"toId\": \"wlt_jl2vpn1mmm3das\",\n        \"reference\": \"funding\",\n        \"amount\": \"20.00\",\n        \"token\": \"ENGBP\",\n        \"paymentScheme\": \"EMT_EAGLE_NET\",\n        \"status\": \"COMPLETED\",\n        \"direction\": \"FUND\",\n        \"createdAt\": 1734614735587,\n        \"updatedAt\": 1734614930842,\n        \"metadata\": null\n    },"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Invalid direction:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_QUERY_PARAMS\",\n    \"message\": \"Invalid query params.\",\n    \"warnings\": [\n        {\n            \"position\": \"direction\",\n            \"issue\": \"Provided value 'FUNDD' is not supported. Please use one of the following supported values [FUND,REDEEM,TRANSFER,PAYOUT,PAYIN].\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_QUERY_PARAMS
+                  message:
+                    type: string
+                    example: Invalid query params.
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        position:
+                          type: string
+                          example: direction
+                        issue:
+                          type: string
+                          example: Provided value 'FUNDD' is not supported. Please use one of the following supported values [FUND,REDEEM,TRANSFER,PAYOUT,PAYIN].
+      deprecated: false
+      tags:
+      - Emt Payments
+  /emt-payments/{id}:
+    get:
+      summary: Get EMT Payment
+      description: ''
+      operationId: get-emt-payment
+      parameters:
+      - name: id
+        in: path
+        description: Id of the EMT Payment
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"ept_oka2yeb7ykl05np3jv\",\n    \"fromId\": \"epr_4dbv6l1zlz57y3ormg\",\n    \"toId\": \"wlt_jl2vpn1mmm315rxko6\",\n    \"reference\": \"Payout\",\n    \"amount\": \"30.00\",\n    \"token\": \"ENGBP\",\n    \"paymentScheme\": \"EMT_EAGLE_NET\",\n    \"status\": \"COMPLETED\",\n    \"direction\": \"PAYIN\",\n    \"createdAt\": 1742805302505,\n    \"updatedAt\": 1742805302493,\n    \"metadata\": null\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: ept_oka2yeb7ykl05np3jv
+                  fromId:
+                    type: string
+                    example: epr_4dbv6l1zlz57y3ormg
+                  toId:
+                    type: string
+                    example: wlt_jl2vpn1mmm315rxko6
+                  reference:
+                    type: string
+                    example: Payout
+                  amount:
+                    type: string
+                    example: '30.00'
+                  token:
+                    type: string
+                    example: ENGBP
+                  paymentScheme:
+                    type: string
+                    example: EMT_EAGLE_NET
+                  status:
+                    type: string
+                    example: COMPLETED
+                  direction:
+                    type: string
+                    example: PAYIN
+                  createdAt:
+                    type: integer
+                    example: 1742805302505
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1742805302493
+                    default: 0
+                  metadata: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Invalid identifier:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"'ept_emv4j2318k91oaz56yy' is not a valid identifier.\"\n}}"
+      deprecated: false
+      tags:
+      - Emt Payments
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

@@ -1,0 +1,493 @@
+openapi: 3.2.0
+info:
+  title: transaction-monitoring Events API
+  version: '1.0'
+servers:
+- url: https://sandbox-oxygen.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Events
+paths:
+  /events/entities:
+    post:
+      summary: Create Entity
+      description: 'The endpoint is designed to handle two types of entities: individual and business. This means that when using the API, the user will need to select proper type of entity and provide the appropriate payload information accordingly.'
+      operationId: oxygen-create-entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - externalId
+              - type
+              - externalUpdatedAt
+              - externalCreatedAt
+              properties:
+                externalId:
+                  type: string
+                  description: Entity id provided by the Member
+                type:
+                  type: string
+                  description: Entity type which can be either individual (PERSON) or company (BUSINESS)
+                  enum:
+                  - PERSON
+                  - BUSINESS
+                externalUpdatedAt:
+                  type: integer
+                  description: Date of the entity's data update
+                  format: int32
+                externalCreatedAt:
+                  type: integer
+                  description: Date of entity creation within Member's system
+                  format: int32
+                riskRating:
+                  type: string
+                  description: User risk level provided by the Member
+                  enum:
+                  - LOW
+                  - MEDIUM
+                  - HIGH
+                externalStatus:
+                  type: string
+                  description: Status of the user within Members system, e.g. ACTIVE, BLOCKED, CREATED, OFFBOARDED
+                externalType:
+                  type: string
+                  description: Type of the entity within Member's system, e.g. PAYEE, PAYER
+                metadata:
+                  type: array
+                  description: Additional data
+                  items:
+                    type: string
+                email:
+                  type: string
+                  description: Email of the Individual Entity / Business
+                phone:
+                  type: string
+                  description: Phone number of the Individual Entity / Business including country prefix. e.g. +447788661100
+                paymentChannelExternalIds:
+                  type: string
+                  description: Id of the payment channel card or bank account within the Member's system related with the particular entity
+                firstName:
+                  type: string
+                  description: 'FOR INDIVIDUAL: First Name of the Individual Entity.'
+                  default: Individual Entity
+                middleName:
+                  type: string
+                  description: 'FOR INDIVIDUAL: Middle Name of the Individual Entity.'
+                lastName:
+                  type: string
+                  description: 'FOR INDIVIDUAL: Last Name of the Individual Entity.'
+                address:
+                  type: object
+                  description: 'FOR INDIVIDUAL: Home Address of the Individual Entity'
+                  required:
+                  - line1
+                  - city
+                  - postalCode
+                  - country
+                  properties:
+                    line1:
+                      type: string
+                    line2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    postalCode:
+                      type: string
+                    country:
+                      type: string
+                      description: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+                birthCountry:
+                  type: string
+                  description: 'FOR INDIVIDUAL: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom.'
+                nationality:
+                  type: string
+                  description: 'FOR INDIVIDUAL: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom. One of more nationalities can be provided.'
+                dob:
+                  type: string
+                  description: 'FOR INDIVIDUAL: Date of birth of the user'
+                  format: date
+                pep:
+                  type: boolean
+                  description: 'FOR INDIVIDUAL: Confirmation if the individual is Politically Exposed Person (PEP)'
+                companyName:
+                  type: string
+                  description: 'FOR BUSINESS: Name of the Business Entity'
+                tradingName:
+                  type: string
+                  description: 'FOR BUSINESS: Trading Name of the Business Entity'
+                registrationNumber:
+                  type: string
+                  description: 'FOR BUSINESS: Registration number provided within the official registry for the specific jurisdiction'
+                registrationDate:
+                  type: string
+                  description: 'FOR BUSINESS: Date of the registration of the company'
+                  format: date
+                registeredAddress:
+                  type: object
+                  description: 'FOR BUSINESS: Under under which the company has been registered'
+                  required:
+                  - line1
+                  - city
+                  - postalCode
+                  - country
+                  properties:
+                    line1:
+                      type: string
+                    line2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    postalCode:
+                      type: string
+                    country:
+                      type: string
+                      description: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+                tradingAddress:
+                  type: object
+                  description: 'FOR BUSINESS: Address under which company operates (can be different than registration address)'
+                  required:
+                  - line1
+                  - city
+                  - postalCode
+                  - country
+                  properties:
+                    line1:
+                      type: string
+                    line2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    postalCode:
+                      type: string
+                    country:
+                      type: string
+                      description: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+                website:
+                  type: string
+                  description: 'FOR BUSINESS: Website of the Business Entity'
+                businessType:
+                  type: string
+                  description: 'FOR BUSINESS: Legal form of the Business Entity, e.g: LLC, PLC, SOLETRADER, CHARITY'
+                businessPersons:
+                  type: object
+                  description: 'FOR BUSINESS: Contact person within the Business Entity'
+                  required:
+                  - firstName
+                  - lastName
+                  properties:
+                    firstName:
+                      type: string
+                      description: First Name of the Business Person
+                    middleName:
+                      type: string
+                      description: Middle Name of the Business Person
+                    lastName:
+                      type: string
+                      description: Last Name of the Business Person
+                    address:
+                      type: object
+                      required:
+                      - line1
+                      - city
+                      - postalCode
+                      - country
+                      properties:
+                        line1:
+                          type: string
+                        line2:
+                          type: string
+                        city:
+                          type: string
+                        state:
+                          type: string
+                        postalCode:
+                          type: string
+                        country:
+                          type: string
+                          description: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom
+                    email:
+                      type: string
+                      description: Email of the Business Person
+                    phone:
+                      type: string
+                      description: Phone number of the Individual including country prefix. e.g. `+447788661100`
+                    birthCountry:
+                      type: string
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                    nationality:
+                      type: string
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                    dob:
+                      type: string
+                      description: Date of Birth of the Individual in `YYYY-MM-DD` format. e.g. `1975-04-05`
+                      format: date
+                    type:
+                      type: string
+                    pep:
+                      type: boolean
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Events
+  /events/payment-channels:
+    post:
+      summary: Create Payment Channel
+      description: 'The provided payload applies to two different payment channels: card and bank account. This means that the API user will have to choose one of these channels to process their payment transaction. It is important to understand that the payload for each channel is different and needs to be used correctly to ensure that the payment is processed successfully.'
+      operationId: oxygen-create-payment-channel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              - externalId
+              properties:
+                type:
+                  type: string
+                  description: 'Type of the payment channel: BANK_ACCOUNT'
+                  enum:
+                  - BANK_ACCOUNT
+                externalId:
+                  type: string
+                  description: Id of the bank account (payment channel) within the Member's system
+                externalCreatedAt:
+                  type: integer
+                  description: Date of payment channel creation within Member's system
+                  format: int32
+                externalUpdatedAt:
+                  type: integer
+                  description: Date of the payment channel's update
+                  format: int32
+                metadata:
+                  type: array
+                  description: Additional data
+                  items:
+                    type: string
+                country:
+                  type: string
+                  description: 'Country code: Two-letter ISO 3166-1 alpha-2 country code e.g. GB for United Kingdom,'
+                externalStatus:
+                  type: string
+                  description: 'For BANK ACCOUNT: Status of the payment channel within Member''s system e.g. ACTIVE, BLOCKED'
+                bankName:
+                  type: string
+                  description: 'For BANK_ACCOUNT: Name of the bank under which the account has been created'
+                accountHolderName:
+                  type: string
+                  description: 'For BANK_ACCOUNT: Full name of the account holder'
+                iban:
+                  type: string
+                  description: 'For BANK_ACCOUNT: IBAN associated with the account'
+                bic:
+                  type: string
+                  description: 'For BANK_ACCOUNT: SWIFT BIC associated with the account'
+                accountNumber:
+                  type: string
+                  description: 'For BANK_ACCOUNT: Account Number associated with the account. Depending on the currency and country, account will typically have at least an IBAN or an accountNumber.'
+                routingCodes:
+                  type: string
+                  description: 'For BANK_ACCOUNT: One or more routing codes associated with the account. Typically used in conjunction with the account number.'
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Events
+  /events/transactions:
+    post:
+      summary: Create Transaction
+      description: ''
+      operationId: create-transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                externalId:
+                  type: string
+                externalStatus:
+                  type: string
+                amount:
+                  type: string
+                currency:
+                  type: string
+                reference:
+                  type: string
+                sender:
+                  type: object
+                  properties:
+                    externalEntityId:
+                      type: string
+                      description: Entity ID provided by the Member
+                    externalPaymentChannelId:
+                      type: string
+                      description: Id of the payment channel provided by the Member
+                recipient:
+                  type: object
+                  properties:
+                    externalEntityId:
+                      type: string
+                    externalPaymentChannelId:
+                      type: string
+                    countryCode:
+                      type: string
+                paymentScheme:
+                  type: string
+                externalCreatedAt:
+                  type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "    {\n        \"eventId\": \"5609c570-3b45-4bec-a326-9d50ee465156\",\n        \"externalId\": \"pmt_eaxp4n74enj0lvvvvv\",\n        \"externalStatus\": null,\n        \"reference\": \"Custom reference here\",\n        \"amount\": \"2501.00\",\n        \"currency\": \"EUR\",\n        \"baseAmount\": \"2501.00\",\n        \"paymentScheme\": \"SCT\",\n        \"sender\": {\n            \"externalEntityId\": \"pyr_xz3l6d7b4k631aaaaa\",\n            \"externalPaymentChannelId\": \"pyr_xz3l6d7b4k6zzzzz\",\n            \"countryCode\": \"BE\"\n        },\n        \"recipient\": {\n            \"externalEntityId\": \"eus_v8jkx67no9g0daaaaa\",\n            \"externalPaymentChannelId\": \"vac_ong3zm73oela7zzzzz\",\n            \"countryCode\": \"DK\"\n        },\n        \"externalCreatedAt\": 1748432324513,\n        \"receivedAt\": 1748432324728\n    },"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Events
+    get:
+      summary: List Transactions
+      description: ''
+      operationId: oxygen-list-transactions
+      parameters:
+      - name: eventId
+        in: query
+        description: Id of the transaction within Oxygen
+        schema:
+          type: string
+      - name: externalId
+        in: query
+        description: Id of the transaction provided by the Member
+        schema:
+          type: string
+      - name: entityExternalId
+        in: query
+        description: Entity id provided by the Member
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Events
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-transaction.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-entity.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-investigations.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-payment-channel.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-rule.md
+  - https://docs.fiatrepublic.com/reference/oxygen-create-webhook.md
+  - https://docs.fiatrepublic.com/reference/oxygen-delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-alert.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-entity.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-investigation.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-one-payment-channel.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-platform-user.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-rule.md
+  - https://docs.fiatrepublic.com/reference/oxygen-get-webhook.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-alerts.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-entities.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-investigations.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-payment-channel.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-platform-users.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-rules.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-transactions.md
+  - https://docs.fiatrepublic.com/reference/oxygen-list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/oxygen-update-investigation.md
+  - https://docs.fiatrepublic.com/reference/oxygen-update-webhook.md
+  - https://docs.fiatrepublic.com/reference/update-rule.md
+  merge:
+    pages: 25
+    deduped: 24
+    conflicts_kept_first: 0

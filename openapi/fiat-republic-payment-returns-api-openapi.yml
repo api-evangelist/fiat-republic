@@ -1,0 +1,362 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Payment Returns API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Payment Returns
+paths:
+  /payment-returns:
+    post:
+      summary: Create Return
+      description: ''
+      operationId: create-return
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - paymentId
+              - reason
+              properties:
+                paymentId:
+                  type: string
+                  description: Id of the Payment (Payins only) that you want to return.
+                reason:
+                  type: string
+                  description: Internal reason for you to capture why the payment is being returned.
+                returnDetails:
+                  type: object
+                  description: Providing only the `paymentId` in this request will automatically return the Payment to the sender. To return the payment to another payee, you can provide details in this object.
+                  properties:
+                    payeeId:
+                      type: string
+                      description: Id of an existing Payee (other than the sender) to who you want to return the payment.
+                    paymentScheme:
+                      type: string
+                      description: Payment Scheme to use for the return if you want to return the payment via a scheme that is different to the scheme via which it was received.
+                      enum:
+                      - FPS
+                      - CHAPS
+                      - SCT
+                    reference:
+                      type: string
+                      description: Alternative reference to use for the Return. If not provided, the original reference on the Payin will be used prefixed with `RET`
+            examples:
+              Return to Sender:
+                value:
+                  paymentId: pmt_xpn6le15na21v9jo4g
+                  reason: 3rd party payment
+              Return to different Payee:
+                value:
+                  paymentId: pmt_blpd5j1a5bm7meya4r
+                  reason: returnReason
+                  returnDetails:
+                    payeeId: pye_mv4j2318rjo7oaz56y
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"rtn_j82rl497g47g5ykvzn\",\n   \"memberId\":\"mbr_emv4j231821oaz56yx\",\n   \"status\":\"CREATED\",\n   \"paymentId\":\"pmt_xpn6le15nyk1v9jo4g\",\n   \"payeeId\":\"pye_pgrbvdy1vy31z54n6m\",\n   \"reference\":\"RET - Deposit\",\n   \"amount\":\"100.12\",\n   \"currency\":\"GBP\",\n   \"paymentScheme\":\"FPS\",\n   \"reason\":\"3rd party payment\",\n   \"createdAt\":1677249715102,\n   \"updatedAt\":1677249715102\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: rtn_j82rl497g47g5ykvzn
+                  memberId:
+                    type: string
+                    example: mbr_emv4j231821oaz56yx
+                  status:
+                    type: string
+                    example: CREATED
+                  paymentId:
+                    type: string
+                    example: pmt_xpn6le15nyk1v9jo4g
+                  payeeId:
+                    type: string
+                    example: pye_pgrbvdy1vy31z54n6m
+                  reference:
+                    type: string
+                    example: RET - Deposit
+                  amount:
+                    type: string
+                    example: '100.12'
+                  currency:
+                    type: string
+                    example: GBP
+                  paymentScheme:
+                    type: string
+                    example: FPS
+                  reason:
+                    type: string
+                    example: 3rd party payment
+                  createdAt:
+                    type: integer
+                    example: 1677249715102
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1677249715102
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Payment Returns
+  /payment-returns/:
+    get:
+      summary: List Returns
+      description: ''
+      operationId: list-returns
+      parameters:
+      - name: amount(gte)
+        in: query
+        description: Greater than or equal to the return amount.
+        schema:
+          type: string
+      - name: amount(lte)
+        in: query
+        description: Less than or equal to the return amount.
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: Id of the return. Multiple `id` params can be provided.
+        schema:
+          type: string
+      - name: payeeId
+        in: query
+        description: Id of the Payee associated with a return. Multiple `payeeId` params can be provided.
+        schema:
+          type: string
+      - name: paymentId
+        in: query
+        description: Id of the Payment associated with a return. Multiple `paymentId` params can be provided.
+        schema:
+          type: string
+      - name: paymentScheme
+        in: query
+        description: Payment Scheme that was used to process the return.
+        schema:
+          type: string
+          enum:
+          - ''
+      - name: search
+        in: query
+        description: Search by the Return Payment `id` , `reason` or `reference`
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Status of the return. Multiple `status` params can be provided.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n   {\n   \"id\":\"rtn_j82rl497g47g5ykvzn\",\n   \"memberId\":\"mbr_emv4j231821oaz56yx\",\n   \"status\":\"COMPLETED\",\n   \"paymentId\":\"pmt_xpn6le15nyk1v9jo4g\",\n   \"payeeId\":\"pye_pgrbvdy1vy31z54n6m\",\n   \"reference\":\"RET - Deposit\",\n   \"amount\":\"100.12\",\n   \"currency\":\"GBP\",\n   \"paymentScheme\":\"FPS\",\n   \"reason\":\"3rd party payment\",\n   \"createdAt\":1677249715102,\n   \"updatedAt\":1637593856104\n\t \t},\n    {...},\n    {...}\n]\n\n"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payment-returns/ \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Payment Returns
+  /payment-returns/{id}:
+    get:
+      summary: Get Return
+      description: ''
+      operationId: get-return
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Return.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"rtn_j82rl497g47g5ykvzn\",\n   \"memberId\":\"mbr_emv4j231821oaz56yx\",\n   \"status\":\"COMPLETED\",\n   \"paymentId\":\"pmt_xpn6le15nyk1v9jo4g\",\n   \"payeeId\":\"pye_pgrbvdy1vy31z54n6m\",\n   \"reference\":\"RET - Deposit\",\n   \"amount\":\"100.12\",\n   \"currency\":\"GBP\",\n   \"paymentScheme\":\"FPS\",\n   \"reason\":\"3rd party payment\",\n   \"createdAt\":1677249715102,\n   \"updatedAt\":1637593856104     \n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: rtn_j82rl497g47g5ykvzn
+                  memberId:
+                    type: string
+                    example: mbr_emv4j231821oaz56yx
+                  status:
+                    type: string
+                    example: COMPLETED
+                  paymentId:
+                    type: string
+                    example: pmt_xpn6le15nyk1v9jo4g
+                  payeeId:
+                    type: string
+                    example: pye_pgrbvdy1vy31z54n6m
+                  reference:
+                    type: string
+                    example: RET - Deposit
+                  amount:
+                    type: string
+                    example: '100.12'
+                  currency:
+                    type: string
+                    example: GBP
+                  paymentScheme:
+                    type: string
+                    example: FPS
+                  reason:
+                    type: string
+                    example: 3rd party payment
+                  createdAt:
+                    type: integer
+                    example: 1677249715102
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1637593856104
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payment-returns/pmt_xpn6le15nyk1v9jo4g \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Payment Returns
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

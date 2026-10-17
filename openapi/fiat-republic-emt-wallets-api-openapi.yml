@@ -1,0 +1,196 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Emt Wallets API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Emt Wallets
+paths:
+  /emt-wallets:
+    get:
+      summary: List EMT Wallets
+      description: ''
+      operationId: list-emt-wallets
+      parameters:
+      - name: createdAt(gte)
+        in: query
+        description: Greater than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      - name: createdAt(lte)
+        in: query
+        description: Less than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        description: Status of the EMT Wallet
+        schema:
+          type: string
+          enum:
+          - CREATED
+          - ACTIVE
+          - BLOCKED
+          - CLOSED
+      - name: tags
+        in: query
+        description: CORPORATE, CLIENT_MONEY
+        schema:
+          type: array
+          items:
+            type: string
+      - name: token
+        in: query
+        description: ENGBP, ENEUR, ENUSD
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search by the token, address or blockchain
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{}[\n    {\n        \"id\": \"wlt_jl2vpn1mmm315rxko6\",\n        \"businessId\": \"biz_mv4j2318blb1oaz56y\",\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"status\": \"ACTIVE\",\n        \"label\": \"Corporate 5\",\n        \"tags\": [\n            \"CORPORATE\"\n        ],\n        \"token\": \"ENGBP\",\n        \"walletDetails\": {\n            \"token\": \"EGBP\",\n            \"address\": \"111111222222AAAAAAZZZZZZXXXXXXCCCCCCCCCCYYYYYYYYYYGGGGGGGGG\",\n            \"blockchain\": \"ALGO\"\n        },\n        \"balance\": {\n            \"actual\": \"171.00\",\n            \"available\": \"171.00\",\n            \"reserved\": \"0.00\"\n        },\n        \"createdAt\": 1734097298926,\n        \"updatedAt\": 1742805302493,\n        \"metadata\": null\n    },\n    {\n        \"id\": \"wlt_opkx8g1jvoo1lz4m3e\",\n        \"businessId\": \"biz_mv4j2318blb1oaz56y\",\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"status\": \"ACTIVE\",\n        \"label\": \"CORP wallet #2\",\n        \"tags\": [\n            \"CORPORATE\"\n        ],\n        \"token\": \"ENGBP\",\n        \"walletDetails\": {\n            \"token\": \"EGBP\",\n            \"address\": \"111111222222AAAAAAZZZZZZXXXXXXCCCCCCCCCCYYYYYYYYYYNNNNNNNNN\",\n            \"blockchain\": \"ALGO\"\n        },\n        \"balance\": {\n            \"actual\": \"20.00\",\n            \"available\": \"20.00\",\n            \"reserved\": \"0.00\"\n        },\n        \"createdAt\": 1732570183869,\n        \"updatedAt\": 1742577988195,\n        \"metadata\": null\n    },\n    {\n        \"id\": \"wlt_mv4j23184b50oaz56y\",\n        \"businessId\": \"biz_mv4j2318blb1oaz56y\",\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"status\": \"CLOSED\",\n        \"label\": \"CORP wallet #3\",\n        \"tags\": [\n            \"CORPORATE\"\n        ],\n        \"token\": \"ENEUR\",\n        \"walletDetails\": {\n            \"token\": \"EEUR\",\n            \"address\": \"111111222222AAAAAAZZZZZZXXXXXXCCCCCCCCCCYYYYYYYYYYBBBBBBBB\",\n            \"blockchain\": \"ALGO\"\n        },\n        \"balance\": {\n            \"actual\": \"0.00\",\n            \"available\": \"0.00\",\n            \"reserved\": \"0.00\"\n        },\n        \"createdAt\": 1732194497573,\n        \"updatedAt\": 1742577988195,\n        \"metadata\": null\n    },\n    {\n        \"id\": \"wlt_ka2yeb7y5ab05np3jv\",\n        \"businessId\": \"biz_mv4j2318blb1oaz56y\",\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"status\": \"ACTIVE\",\n        \"label\": \"CORP wallet #2\",\n        \"tags\": [\n            \"CORPORATE\"\n        ],\n        \"token\": \"ENEUR\",\n        \"walletDetails\": {\n            \"token\": \"EEUR\",\n            \"address\": \"111111222222AAAAAAZZZZZZXXXXXXCCCCCCCCCCYYYYYYYYYYBBBBBBBB\",\n            \"blockchain\": \"ALGO\"\n        },\n        \"balance\": {\n            \"actual\": \"678.99\",\n            \"available\": \"678.99\",\n            \"reserved\": \"0.00\"\n        },\n        \"createdAt\": 1732193682704,\n        \"updatedAt\": 1742577988195,\n        \"metadata\": null\n    },\n    {\n        \"id\": \"wlt_jalpeo0evzg7bkx39z\",\n        \"businessId\": \"biz_mv4j2318blb1oaz56y\",\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"status\": \"ACTIVE\",\n        \"label\": \"CORP wallet #1\",\n        \"tags\": [\n            \"CORPORATE\"\n        ],\n        \"token\": \"ENEUR\",\n        \"walletDetails\": {\n            \"token\": \"EEUR\",\n            \"address\": \"111111222222AAAAAAZZZZZZXXXXXXCCCCCCCCCCYYYYYYYYYYQQQQQQ\",\n            \"blockchain\": \"ALGO\"\n        },\n        \"balance\": {\n            \"actual\": \"369.13\",\n            \"available\": \"356.58\",\n            \"reserved\": \"12.55\"\n        },\n        \"createdAt\": 1732088209981,\n        \"updatedAt\": 1742577988195,\n        \"metadata\": null\n    },\n    {\n        \"id\": \"wlt_opkx8g1jvdx1lz4m3e\",\n        \"businessId\": \"biz_mv4j2318blb1oaz56y\",\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"status\": \"ACTIVE\",\n        \"label\": \"CM wallet #1\",\n        \"tags\": [\n            \"CLIENT_MONEY\"\n        ],\n        \"token\": \"ENEUR\",\n        \"walletDetails\": {\n            \"token\": \"EEUR\",\n            \"address\": \"111111222222AAAAAAZZZZZZXXXXXXCCCCCCCCCCYYYYYYYYYY\",\n            \"blockchain\": \"ALGO\"\n        },\n        \"balance\": {\n            \"actual\": \"9321.02\",\n            \"available\": \"9221.02\",\n            \"reserved\": \"100.00\"\n        },\n        \"createdAt\": 1731938357963,\n        \"updatedAt\": 1742577988195,\n        \"metadata\": null\n    }\n]"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Emt Wallets
+  /emt-wallets/{id}:
+    get:
+      summary: Get EMT Wallet
+      description: ''
+      operationId: get-emt-wallet
+      parameters:
+      - name: id
+        in: path
+        description: Id of EMT wallet
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "    {\n        \"id\": \"wlt_jl2vpn1mmm315rxko6\",\n        \"businessId\": \"biz_mv4j2318blb1oaz56y\",\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"status\": \"ACTIVE\",\n        \"label\": \"Corporate 5\",\n        \"tags\": [\n            \"CORPORATE\"\n        ],\n        \"token\": \"ENGBP\",\n        \"walletDetails\": {\n            \"token\": \"EGBP\",\n            \"address\": \"111111222222AAAAAAZZZZZZXXXXXXCCCCCCCCCCYYYYYYYYYYGGGGGGGGG\",\n            \"blockchain\": \"ALGO\"\n        },\n        \"balance\": {\n            \"actual\": \"171.00\",\n            \"available\": \"171.00\",\n            \"reserved\": \"0.00\"\n        },\n        \"createdAt\": 1734097298926,\n        \"updatedAt\": 1742805302493,\n        \"metadata\": null\n    },"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      tags:
+      - Emt Wallets
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

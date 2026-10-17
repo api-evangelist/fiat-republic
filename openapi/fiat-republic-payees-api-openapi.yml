@@ -1,0 +1,1087 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Payees API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Payees
+paths:
+  /payees:
+    post:
+      summary: Create Payee
+      description: ''
+      operationId: create-payee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - address
+              - bankDetails
+              - currency
+              - name
+              - type
+              properties:
+                additionalDetails:
+                  type: object
+                  properties:
+                    DOB:
+                      type: string
+                      description: Date of Birth of the Payee in `YYYY-MM-DD` format. e.g. `1975-04-05`.
+                      format: date
+                address:
+                  type: object
+                  description: Address of the Payee as provided on the bank account. Starting from April 7th, once creating Payee the address object will be required
+                  required:
+                  - line1
+                  - city
+                  - postalCode
+                  - country
+                  properties:
+                    line1:
+                      type: string
+                    line2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                      description: Required for Payees with address in CA and US
+                    postalCode:
+                      type: string
+                    country:
+                      type: string
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                bankDetails:
+                  type: object
+                  description: Bank details of the Payee. The required fields depend on the currency.
+                  properties:
+                    accountNumber:
+                      type: string
+                    bic:
+                      type: string
+                    iban:
+                      type: string
+                    routingCodes:
+                      type: array
+                      description: List of routing codes.
+                      items:
+                        properties:
+                          type:
+                            type: string
+                            description: Type of the routing code. Either ABA, SORT_CODE, WIRE or BSB
+                            default: ''
+                          value:
+                            type: string
+                            description: Value of the routing code.
+                        type: object
+                        required:
+                        - value
+                        - type
+                currency:
+                  type: string
+                  description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency in which the Payee's bank account is held.
+                  enum:
+                  - ''
+                endUserId:
+                  type: string
+                  description: Id of the End User for who you want to create the Payee.<br>If not set, the Payee will be created for the Member.
+                name:
+                  type: string
+                  description: Full name of the Payee.
+                type:
+                  type: string
+                  enum:
+                  - PERSON
+                  - BUSINESS
+                metadata:
+                  type: array
+                  items:
+                    type: string
+            examples:
+              USD example:
+                value:
+                  endUserId: eus_zvyb8r19d9v7xxxxxo
+                  type: PERSON
+                  name: Cathrine Jacobs
+                  currency: USD
+                  address:
+                    line1: 4140 Roberto Lane
+                    line2: null
+                    city: Lake Icieburgh
+                    state: Newfoundland
+                    postalCode: 03872
+                    country: CA
+                  bankDetails:
+                    accountHolderName: Cathrine Jacobs
+                    bankName: FIRSTRAND BANK LIMITED
+                    bankAddressLine1: MERCHANT PLACE 4 CORNER FREDMAN, DRIVE AND RIVONIA R SANDTON
+                    bankAddressCity: JOHANNESBURG
+                    bankAddressPostalCode: '2196'
+                    bankAddressCountry: ZA
+                    accountNumber: '62405320227'
+                    bic: FIRNZAJJ
+                    routingCodes:
+                    - value: '022000020'
+                      type: ABA
+                    intermediaryBicSwift: HBUKGB4B
+                    intermediaryBankAddressLine1: 1 CENTENARY SQUARE
+                    intermediaryBankAddressCity: BIRMINGHAM
+                    intermediaryBankAddressPostalCode: B1 1HQ
+                    intermediaryBankAddressCountry: GB
+                    intermediaryBankName: HSBC UK BANK PLC
+                  additionalDetails: null
+                  metadata: null
+              EUR example:
+                value:
+                  type: PERSON
+                  name: Gillian Parsons
+                  currency: EUR
+                  address:
+                    line1: Jalonkatu 57
+                    line2: null
+                    city: Oulu
+                    state: null
+                    postalCode: '90310'
+                    country: FI
+                  bankDetails:
+                    accountHolderName: Gillian Parsons
+                    iban: DE65250500000002523058
+                  metadata: null
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"pye_ejl2vpn1md315rxko6\",\n   \"owner\":{\n      \"type\":\"MEMBER\",\n      \"id\":\"mbr_ejl2vpn1m305rxko6b\"\n   },\n   \"type\":\"PERSON\",\n   \"name\":\"Satoshi Nakamoto\",\n   \"currency\":\"GBP\",\n   \"address\": {\n      \"line1\": \"North Brittanyview 00807\",\n      \"line2\": null,\n      \"city\": \"New Michael\",\n      \"state\": null,\n      \"postalCode\": \"L5J 0PJ\",\n      \"country\": \"GB\"\n    },\n   \"paymentSchemes\":[\n      \"FPS\",\n      \"CHAPS\"\n   ],\n   \"bankDetails\": {\n        \"routingCodes\":[\n        {\n         \"value\":\"000000\",\n         \"type\":\"SORT_CODE\"\n        }\n       ]\n        \"accountNumber\": \"12341234\"\n    },\n   \"additionalDetails\":{\n      \"dob\":\"1975-04-05\"\n   },\n   \"createdAt\":1637132469304,\n   \"updatedAt\":1637132469304,\n   \"metadata\":null,\n   \"status\":\"CREATED\"\n}"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"errorCode\": \"INVALID_REQUEST_DATA\",\n  \"message\": \"Invalid Payee input data.\",\n  \"warnings\": [\n    {\n      \"position\": \"bankDetails\",\n      \"issue\": \"USD account details with an 'accountNumber` should contain 'bic' + 'bankAddressCountry' for (SWIFT countries not supporting IBANs), or 'bic' + 'routingCodes' (ABA or WIRE).\"\n    },\n    {\n      \"position\": \"bankDetails.routingCodes[0].value\",\n      \"issue\": \"The value of 'ABA' should have exactly 9 characters.\"\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Invalid Payee input data.
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        position:
+                          type: string
+                          example: bankDetails
+                        issue:
+                          type: string
+                          example: USD account details with an 'accountNumber` should contain 'bic' + 'bankAddressCountry' for (SWIFT countries not supporting IBANs), or 'bic' + 'routingCodes' (ABA or WIRE).
+      deprecated: false
+      tags:
+      - Payees
+    get:
+      summary: List Payees
+      description: ''
+      operationId: list-payee
+      parameters:
+      - name: currency
+        in: query
+        description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code. Accepts multiple codes.
+        schema:
+          type: string
+          enum:
+          - ''
+      - name: endUserId
+        in: query
+        description: Id of the End User whose Payees you want to list.<br>If not set, all Payees for the Member and End Users will be listed.
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: One or more Payee id's. Multiple `id` params can be provided.
+        schema:
+          type: string
+      - name: owner.type
+        in: query
+        description: Owner of the Payee object
+        schema:
+          type: string
+          enum:
+          - MEMBER
+          - END_USER
+      - name: search
+        in: query
+        description: Search by the Payee's `id` or `bankDetails`
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: Type of Payee
+        schema:
+          type: string
+          enum:
+          - PERSON
+          - BUSINESS
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n   {\n   \"id\":\"pye_ejl2vpn1md315rxko6\",\n   \"owner\":{\n      \"type\":\"MEMBER\",\n      \"id\":\"mbr_ejl2vpn1m305rxko6b\"\n   },\n   \"type\":\"PERSON\",\n   \"name\":\"Satoshi Nakamoto\",\n   \"currency\":\"GBP\",\n   \"address\":null,\n   \"paymentSchemes\":[\n      \"FPS\",\n      \"CHAPS\"\n   ],\n   \"bankDetails\":{\n      \"routingCodeType\":\"SORT_CODE\",\n      \"routingCodeValue\":\"000500\",\n      \"accountNumber\":\"43242342\"\n   },\n   \"additionalDetails\":{\n      \"dob\":\"1975-04-05\"\n   },\n   \"createdAt\":1637132469304,\n   \"updatedAt\":1637132469304,\n   \"metadata\":null,\n   \"status\":\"CREATED\"\n   },\n   {...},\n   {...}\n]"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payees \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Payees
+  /payees/validate:
+    post:
+      summary: Validate Payee
+      description: ''
+      operationId: validate-payee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - address
+              - bankDetails
+              - currency
+              - name
+              - type
+              properties:
+                additionalDetails:
+                  type: object
+                  properties:
+                    DOB:
+                      type: string
+                      description: Date of Birth of the Payee in `YYYY-MM-DD` format. e.g. `1975-04-05`.
+                      format: date
+                address:
+                  type: object
+                  description: Address of the Payee as provided on the bank account. Starting from April 7th, once creating Payee the address object will be required
+                  required:
+                  - line1
+                  - city
+                  - postalCode
+                  - country
+                  properties:
+                    line1:
+                      type: string
+                    line2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                      description: Required for USD Payees
+                    postalCode:
+                      type: string
+                    country:
+                      type: string
+                      description: Two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code e.g. `GB` for United Kingdom
+                bankDetails:
+                  type: object
+                  description: Bank details of the Payee. The required fields depend on the currency and can be found [here](https://docs.fiatrepublic.com/reference/required-bank-details).
+                  properties:
+                    accountNumber:
+                      type: string
+                    bic:
+                      type: string
+                    iban:
+                      type: string
+                    routingCodes:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: Type of the routing code. Either SORT_CODE or BSB
+                          enum:
+                          - SORT_CODE
+                          - BSB
+                        value:
+                          type: string
+                          description: Value of the routing code.
+                currency:
+                  type: string
+                  description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency in which the Payee's bank account is held.
+                  enum:
+                  - ''
+                endUserId:
+                  type: string
+                  description: Id of the End User for who you want to create the Payee.<br>If not set, the Payee will be created for the Member.
+                name:
+                  type: string
+                  description: Full name of the Payee.
+                type:
+                  type: string
+                  enum:
+                  - PERSON
+                  - BUSINESS
+                metadata:
+                  type: array
+                  items:
+                    type: string
+            examples:
+              EAGLE_NET Scheme:
+                value:
+                  endUserId: null
+                  type: BUSINESS
+                  name: FEI - FEI LTD
+                  currency: GBP
+                  address:
+                    line1: Lykkesholmvej 81
+                    city: Kobenhavn K
+                    postalCode: '1264'
+                    country: DE
+                  bankDetails:
+                    routingCodes:
+                    - type: SORT_CODE
+                      value: '040616'
+                    accountNumber: '00006417'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                SCT Scheme:
+                  value: "{\n    \"type\": \"SUCCESS\",\n    \"preview\": {\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"type\": \"PERSON\",\n        \"name\": \"Sofia Hämäläinen\",\n        \"currency\": \"EUR\",\n        \"address\": {\n            \"line1\": \"Hätilänkatu 26\",\n            \"line2\": null,\n            \"city\": \"Hollola\",\n            \"state\": null,\n            \"postalCode\": \"15880\",\n            \"country\": \"FI\"\n        },\n        \"bankDetails\": {\n            \"bankName\": \"NORDEA\",\n            \"bankAddressLine1\": \"ALEKSANTERINKATU 36\",\n            \"bankAddressCity\": \"HELSINKI\",\n            \"bankAddressPostalCode\": \"00100\",\n            \"bankAddressState\": \"unknown\",\n            \"iban\": \"FI1410093000123458\",\n            \"bic\": \"NDEAFIHHXXX\",\n            \"bankCountry\": \"FI\"\n        },\n        \"additionalDetails\": null\n    },\n    \"supportedSchemes\": [\n        \"SCT\"\n    ],\n    \"potentialSchemes\": {}\n}"
+                EAGLE_NET Scheme:
+                  value: "{\n    \"type\": \"SUCCESS\",\n    \"preview\": {\n        \"owner\": {\n            \"type\": \"MEMBER\",\n            \"id\": \"mbr_d8ovyep1r8x0kx65n2\"\n        },\n        \"type\": \"BUSINESS\",\n        \"name\": \"Fei - Fei Ltd\",\n        \"currency\": \"GBP\",\n        \"address\": {\n            \"line1\": \"Lykkesholmvej 81\",\n            \"line2\": null,\n            \"city\": \"Kobenhavn K\",\n            \"state\": null,\n            \"postalCode\": \"1264\",\n            \"country\": \"DE\"\n        },\n        \"bankDetails\": {\n            \"bankName\": \"CLEARBANK LIMITED\",\n            \"bankAddressLine1\": \"HILL HOUSE SKINNERS LANE\",\n            \"bankAddressCity\": \"WROXHAM\",\n            \"bankAddressPostalCode\": \"NR12 8SJ\",\n            \"bankAddressState\": \"ENGLAND\",\n            \"bic\": \"CLRBGB22104\",\n            \"routingCodes\": [\n                {\n                    \"value\": \"040616\",\n                    \"type\": \"SORT_CODE\"\n                }\n            ],\n            \"accountNumber\": \"00006417\",\n            \"bankCountry\": \"GB\"\n        },\n        \"additionalDetails\": null\n    },\n    \"supportedSchemes\": [\n        \"EAGLE_NET_TRANSFER\"\n    ],\n    \"potentialSchemes\": {}\n}"
+              schema:
+                oneOf:
+                - title: SCT Scheme
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: SUCCESS
+                    preview:
+                      type: object
+                      properties:
+                        owner:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              example: MEMBER
+                            id:
+                              type: string
+                              example: mbr_d8ovyep1r8x0kx65n2
+                        type:
+                          type: string
+                          example: PERSON
+                        name:
+                          type: string
+                          example: Sofia Hämäläinen
+                        currency:
+                          type: string
+                          example: EUR
+                        address:
+                          type: object
+                          properties:
+                            line1:
+                              type: string
+                              example: Hätilänkatu 26
+                            line2: {}
+                            city:
+                              type: string
+                              example: Hollola
+                            state: {}
+                            postalCode:
+                              type: string
+                              example: '15880'
+                            country:
+                              type: string
+                              example: FI
+                        bankDetails:
+                          type: object
+                          properties:
+                            bankName:
+                              type: string
+                              example: NORDEA
+                            bankAddressLine1:
+                              type: string
+                              example: ALEKSANTERINKATU 36
+                            bankAddressCity:
+                              type: string
+                              example: HELSINKI
+                            bankAddressPostalCode:
+                              type: string
+                              example: '00100'
+                            bankAddressState:
+                              type: string
+                              example: unknown
+                            iban:
+                              type: string
+                              example: FI1410093000123458
+                            bic:
+                              type: string
+                              example: NDEAFIHHXXX
+                            bankCountry:
+                              type: string
+                              example: FI
+                        additionalDetails: {}
+                    supportedSchemes:
+                      type: array
+                      items:
+                        type: string
+                        example: SCT
+                    potentialSchemes:
+                      type: object
+                      properties: {}
+                - title: EAGLE_NET Scheme
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: SUCCESS
+                    preview:
+                      type: object
+                      properties:
+                        owner:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              example: MEMBER
+                            id:
+                              type: string
+                              example: mbr_d8ovyep1r8x0kx65n2
+                        type:
+                          type: string
+                          example: BUSINESS
+                        name:
+                          type: string
+                          example: Fei - Fei Ltd
+                        currency:
+                          type: string
+                          example: GBP
+                        address:
+                          type: object
+                          properties:
+                            line1:
+                              type: string
+                              example: Lykkesholmvej 81
+                            line2: {}
+                            city:
+                              type: string
+                              example: Kobenhavn K
+                            state: {}
+                            postalCode:
+                              type: string
+                              example: '1264'
+                            country:
+                              type: string
+                              example: DE
+                        bankDetails:
+                          type: object
+                          properties:
+                            bankName:
+                              type: string
+                              example: CLEARBANK LIMITED
+                            bankAddressLine1:
+                              type: string
+                              example: HILL HOUSE SKINNERS LANE
+                            bankAddressCity:
+                              type: string
+                              example: WROXHAM
+                            bankAddressPostalCode:
+                              type: string
+                              example: NR12 8SJ
+                            bankAddressState:
+                              type: string
+                              example: ENGLAND
+                            bic:
+                              type: string
+                              example: CLRBGB22104
+                            routingCodes:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  value:
+                                    type: string
+                                    example: '040616'
+                                  type:
+                                    type: string
+                                    example: SORT_CODE
+                            accountNumber:
+                              type: string
+                              example: '00006417'
+                            bankCountry:
+                              type: string
+                              example: GB
+                        additionalDetails: {}
+                    supportedSchemes:
+                      type: array
+                      items:
+                        type: string
+                        example: EAGLE_NET_TRANSFER
+                    potentialSchemes:
+                      type: object
+                      properties: {}
+      deprecated: false
+      tags:
+      - Payees
+  /payees/verifications/{id}:
+    get:
+      description: ''
+      operationId: get_payeesverifications{id}
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property1:
+                    type: string
+              examples:
+                New Example:
+                  summary: New Example
+                  value:
+                    id: pvn_yong3zm73er1b2jkr8
+                    payeeId: pye_96ed8b1k3lm67zvma4
+                    assignedToId: null
+                    status: ACCEPTED
+                    type: VERIFICATION_OF_PAYEE
+                    matchResult:
+                      matchLevel: NO_MATCH
+                      description: The Verification Provider has performed the matching and confirms it is not a match.
+                      accountHolder: Samantha Smith
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: Unique identifier of the Verification.
+      tags:
+      - Payees
+      summary: Get payeesverifications{id}
+      x-summary-source: derived
+  /payees/verifications/{id}/review:
+    post:
+      description: ''
+      operationId: post_payeesverifications{id}review
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Id of the verification
+                  payeeId:
+                    type: string
+                    description: The unique identifier of the payee entity that this verification process was initiated for.
+                  assignedToId:
+                    type: string
+                    description: The unique identifier of the payment object that this verification has been assigned to.
+                  status:
+                    type: string
+                    description: The current status of the verification in its lifecycle.
+                  type:
+                    type: string
+                    default: VERIFICATION_OF_PAYEE
+                    description: 'Specifies the method of verification being performed: VERIFICATION_OF_PAYEE'
+                  matchResult:
+                    type: object
+                    properties:
+                      matchLevel:
+                        type: string
+                        description: The result of the name matching process.
+                      description:
+                        type: string
+                        description: Might only be populated is cases of mismatch
+                      accountHolder:
+                        type: string
+                        description: The name of the account holder
+                    description: An object containing the detailed results of the verification check against the payee's bank records.
+              examples:
+                New Example:
+                  summary: New Example
+                  value:
+                    id: pvn_yong3zm73er1b2jkr8
+                    payeeId: pye_96ed8b1k3lm67zvma4
+                    assignedToId: null
+                    status: ACCEPTED
+                    type: VERIFICATION_OF_PAYEE
+                    matchResult:
+                      matchLevel: NO_MATCH
+                      description: The Verification Provider has performed the matching and confirms it is not a match.
+                      accountHolder: null
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                  message:
+                    type: string
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: Id of the Payee Verification object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accepted:
+                  type: boolean
+                  description: Represents the user's explicit decision on how to handle a verification that resulted in a CLOSE_MATCH or NO_MATCH
+      tags:
+      - Payees
+      summary: Post payeesverifications{id}review
+      x-summary-source: derived
+  /payees/{id}:
+    patch:
+      summary: Update Payee
+      description: ''
+      operationId: update-payee
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Payee
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: object
+                  properties:
+                    line1:
+                      type: string
+                      description: First line of Payee's home address.
+                    line2:
+                      type: string
+                      description: Second line of Payee's home address.
+                    city:
+                      type: string
+                      description: City
+                    postalCode:
+                      type: string
+                      description: Postal/Zip code
+                    country:
+                      type: string
+                      description: Payee's address country.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"Invalid Payee input data.\",\n    \"warnings\": [\n        {\n            \"position\": \"address.city\",\n            \"issue\": \"Is required for payee without address.\"\n        },\n        {\n            \"position\": \"address.postalCode\",\n            \"issue\": \"Is required for payee without address.\"\n        },\n        {\n            \"position\": \"address.country\",\n            \"issue\": \"Is required for payee without address.\"\n        }\n    ]\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Invalid Payee input data.
+                  warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        position:
+                          type: string
+                          example: address.city
+                        issue:
+                          type: string
+                          example: Is required for payee without address.
+        '409':
+          description: '409'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: "{\n    \"errorCode\": \"INVALID_REQUEST_DATA\",\n    \"message\": \"Cannot update address for not ACTIVE payee.\"\n}"
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    example: INVALID_REQUEST_DATA
+                  message:
+                    type: string
+                    example: Cannot update address for not ACTIVE payee.
+      deprecated: false
+      tags:
+      - Payees
+    get:
+      summary: Get Payee
+      description: ''
+      operationId: get-payee
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Payee.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"pye_ejl2vpn1md315rxko6\",\n   \"owner\":{\n      \"type\":\"MEMBER\",\n      \"id\":\"mbr_ejl2vpn1m305rxko6b\"\n   },\n   \"type\":\"PERSON\",\n   \"name\":\"Satoshi Nakamoto\",\n   \"currency\":\"GBP\",\n   \"address\":null,\n   \"paymentSchemes\":[\n      \"FPS\",\n      \"CHAPS\"\n   ],\n   \"bankDetails\":{\n      \"routingCodeType\":\"SORT_CODE\",\n      \"routingCodeValue\":\"000500\",\n      \"accountNumber\":\"43242342\"\n   },\n   \"additionalDetails\":{\n      \"dob\":\"1975-04-05\"\n   },\n   \"createdAt\":1637132469304,\n   \"updatedAt\":1637132469304,\n   \"metadata\":null,\n   \"status\":\"CREATED\"\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: pye_ejl2vpn1md315rxko6
+                  owner:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: MEMBER
+                      id:
+                        type: string
+                        example: mbr_ejl2vpn1m305rxko6b
+                  type:
+                    type: string
+                    example: PERSON
+                  name:
+                    type: string
+                    example: Satoshi Nakamoto
+                  currency:
+                    type: string
+                    example: GBP
+                  address: {}
+                  paymentSchemes:
+                    type: array
+                    items:
+                      type: string
+                      example: FPS
+                  bankDetails:
+                    type: object
+                    properties:
+                      routingCodeType:
+                        type: string
+                        example: SORT_CODE
+                      routingCodeValue:
+                        type: string
+                        example: '000500'
+                      accountNumber:
+                        type: string
+                        example: '43242342'
+                  additionalDetails:
+                    type: object
+                    properties:
+                      dob:
+                        type: string
+                        example: '1975-04-05'
+                  createdAt:
+                    type: integer
+                    example: 1637132469304
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1637132469304
+                    default: 0
+                  metadata: {}
+                  status:
+                    type: string
+                    example: CREATED
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payees/pye_rp9mnzv0p3b7ya85ox \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Payees
+    delete:
+      summary: Delete Payee
+      description: ''
+      operationId: delete-payee
+      parameters:
+      - name: id
+        in: path
+        description: Id of the Payee.
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/payees/pye_rp9mnzv0p3b7ya85ox \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Payees
+  /payees/{id}/verification:
+    post:
+      description: ''
+      operationId: post_payees{id}verification
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    default: ''
+                    description: 'A unique identifier for this specific verification object. '
+                  payeeId:
+                    type: string
+                    default: ''
+                    description: he unique identifier of the payee entity that this verification process was initiated for.
+                  assignedToId:
+                    type: string
+                    default: ''
+                    description: The unique identifier of the payment object that this verification has been assigned to.
+                  status:
+                    type: string
+                    default: ''
+                    description: The current status of the verification in its lifecycle.
+                  type:
+                    type: string
+                    default: ''
+                    description: 'Specifies the method of verification being performed: VERIFICATION_OF_PAYEE'
+                  matchResult:
+                    type: object
+                    properties:
+                      matchLevel:
+                        type: string
+                        default: ''
+                        description: 'The result of the name matching process. '
+                      description:
+                        type: string
+                        default: ''
+                        description: Might only be populated is cases of mismatch
+                      accountHolder:
+                        type: string
+                        default: ''
+                        description: The name of the account holder
+                    description: An object containing the detailed results of the verification check against the payee's bank records.
+              examples:
+                OK:
+                  summary: OK
+                  value:
+                    id: pvn_d4pmer37xx8782gkv5
+                    payeeId: pye_82rl497gpx3k7g5ykv
+                    assignedToId: null
+                    status: ACCEPTED
+                    type: VERIFICATION_OF_PAYEE
+                    matchResult:
+                      matchLevel: MATCH
+                      description: null
+                      accountHolder: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                Bad Request:
+                  summary: Bad Request
+                  value:
+                    errorCode: INVALID_REQUEST_DATA
+                    message: '''pye_82rl497gpx3k7g5yk'' is not a valid identifier.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                verificationType:
+                  type: string
+                  default: VERIFICATION_OF_PAYEE
+                  description: 'Specifies the method of verification being performed: VERIFICATION_OF_PAYEE'
+      tags:
+      - Payees
+      summary: Post payees{id}verification
+      x-summary-source: derived
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

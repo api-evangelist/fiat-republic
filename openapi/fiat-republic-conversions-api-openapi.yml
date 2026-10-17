@@ -1,0 +1,377 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Conversions API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Conversions
+paths:
+  /conversions:
+    post:
+      summary: Create Conversion
+      description: ''
+      operationId: create-conversion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - quoteId
+              - fromId
+              - toId
+              properties:
+                quoteId:
+                  type: string
+                  description: Id of the Quote from the Create Quote endpoint for which you want to create a conversion.
+                fromId:
+                  type: string
+                  description: Id of the Fiat Account from which you want the Sell amount to be debited.
+                toId:
+                  type: string
+                  description: Id of the Fiat Account into which you want the Buy amount to be credited.
+                reference:
+                  type: string
+                  description: Optional internal reference for the conversion.
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"con_2pjbyge1ln0d9z8klm\",\n   \"fromId\":\"fac_j82rl497g6k1g5ykvz\",\n   \"toId\":\"fac_rp9mnzv0pgl0ya85ox\",\n   \"sellCurrency\":\"GBP\",\n   \"buyCurrency\":\"EUR\",\n   \"sellAmount\":\"840\",\n   \"buyAmount\":\"1000\",\n   \"rate\":\"0.84000\",\n   \"reference\":\"Liquidity purchase\",\n   \"status\":\"CREATED\",\n   \"createdAt\":1663685590420,\n   \"updatedAt\":1663685596383\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: con_2pjbyge1ln0d9z8klm
+                  fromId:
+                    type: string
+                    example: fac_j82rl497g6k1g5ykvz
+                  toId:
+                    type: string
+                    example: fac_rp9mnzv0pgl0ya85ox
+                  sellCurrency:
+                    type: string
+                    example: GBP
+                  buyCurrency:
+                    type: string
+                    example: EUR
+                  sellAmount:
+                    type: string
+                    example: '840'
+                  buyAmount:
+                    type: string
+                    example: '1000'
+                  rate:
+                    type: string
+                    example: '0.84000'
+                  reference:
+                    type: string
+                    example: Liquidity purchase
+                  status:
+                    type: string
+                    example: CREATED
+                  createdAt:
+                    type: integer
+                    example: 1663685590420
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1663685596383
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request POST \\\n     --url https://sandbox.fiatrepublic.com/api/v1/conversions \\\n     --header 'Accept: application/json' \\\n     --header 'Authorization: Bearer ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\\n     --header 'Content-Type: application/json' \\\n     --data '\n{\n    \"quoteId\": \"qot_grbvdy1vxnd0z54n6m\",\n    \"fromId\": \"fac_legpmn06ep27ry2bvo\",\n    \"toId\": \"fac_eaxp4n74jmv7l58vmy\"\n}\n'"
+        samples-languages:
+        - curl
+      tags:
+      - Conversions
+    get:
+      summary: List Conversions
+      description: ''
+      operationId: list-conversions
+      parameters:
+      - name: buyAmount(gte)
+        in: query
+        description: Greater than or equal to the buy amount of the conversion.
+        schema:
+          type: string
+      - name: buyAmount(lte)
+        in: query
+        description: Less than or equal to the buy amount of the conversion.
+        schema:
+          type: string
+      - name: buyCurrency
+        in: query
+        description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code. Accepts multiple codes.
+        schema:
+          type: string
+          enum:
+          - ''
+      - name: createdAt(gte)
+        in: query
+        description: Greater than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+      - name: createdAt(lte)
+        in: query
+        description: Less than or equal to the created date. [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601) format. e.g. `2021-11-18`
+        schema:
+          type: string
+      - name: fromId
+        in: query
+        description: Id of the sell side Fiat Account. Accepts multiple id's.
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: Id of the conversion. Accepts multiple id's.
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search by the Conversion id or reference.
+        schema:
+          type: string
+      - name: sellAmount(gte)
+        in: query
+        description: Greater than or equal to the sell amount of the conversion.
+        schema:
+          type: string
+      - name: sellAmount(lte)
+        in: query
+        description: Less than or equal to the sell amount of the conversion.
+        schema:
+          type: string
+      - name: sellCurrency
+        in: query
+        description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code. Accepts multiple codes.
+        schema:
+          type: string
+          enum:
+          - ''
+      - name: status
+        in: query
+        description: Status of the conversion. Accepts multiple statuses.
+        schema:
+          type: string
+          enum:
+          - CREATED
+          - PROCESSING
+          - COMPLETED
+      - name: toId
+        in: query
+        description: Id of the buy side Fiat Account. Accepts multiple id's.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "[\n  {\n   \"id\":\"con_2pjbyge1ln0d9z8klm\",\n   \"fromId\":\"fac_j82rl497g6k1g5ykvz\",\n   \"toId\":\"fac_rp9mnzv0pgl0ya85ox\",\n   \"sellCurrency\":\"GBP\",\n   \"buyCurrency\":\"EUR\",\n   \"sellAmount\":\"840\",\n   \"buyAmount\":\"1000\",\n   \"rate\":\"0.84000\",\n   \"reference\":\"Liquidity purchase\",\n   \"status\":\"COMPLETED\",\n   \"createdAt\":1663685590420,\n   \"updatedAt\":1663685596500\n  },\n  {...},\n  {...}\n]\n"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/conversions \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\"
+        samples-languages:
+        - curl
+      tags:
+      - Conversions
+  /conversions/{id}:
+    get:
+      summary: Get Conversion
+      description: ''
+      operationId: get-conversion
+      parameters:
+      - name: id
+        in: path
+        description: Id of the conversion.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n   \"id\":\"con_2pjbyge1ln0d9z8klm\",\n   \"fromId\":\"fac_j82rl497g6k1g5ykvz\",\n   \"toId\":\"fac_rp9mnzv0pgl0ya85ox\",\n   \"sellCurrency\":\"GBP\",\n   \"buyCurrency\":\"EUR\",\n   \"sellAmount\":\"840\",\n   \"buyAmount\":\"1000\",\n   \"rate\":\"0.84000\",\n   \"reference\":\"Liquidity purchase\",\n   \"status\":\"COMPLETED\",\n   \"createdAt\":1663685590420,\n   \"updatedAt\":1663685596500\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: con_2pjbyge1ln0d9z8klm
+                  fromId:
+                    type: string
+                    example: fac_j82rl497g6k1g5ykvz
+                  toId:
+                    type: string
+                    example: fac_rp9mnzv0pgl0ya85ox
+                  sellCurrency:
+                    type: string
+                    example: GBP
+                  buyCurrency:
+                    type: string
+                    example: EUR
+                  sellAmount:
+                    type: string
+                    example: '840'
+                  buyAmount:
+                    type: string
+                    example: '1000'
+                  rate:
+                    type: string
+                    example: '0.84000'
+                  reference:
+                    type: string
+                    example: Liquidity purchase
+                  status:
+                    type: string
+                    example: COMPLETED
+                  createdAt:
+                    type: integer
+                    example: 1663685590420
+                    default: 0
+                  updatedAt:
+                    type: integer
+                    example: 1663685596500
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request GET \\\n     --url https://sandbox.fiatrepublic.com/api/v1/conversions/con_2pjbyge1ln0d9z8klm \\\n     --header 'Accept: application/json' \n     --header 'Authorization: Basic ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\\n"
+        samples-languages:
+        - curl
+      tags:
+      - Conversions
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0

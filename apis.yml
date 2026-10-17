@@ -182,9 +182,11 @@ common:
 
 apis:
 - name: Fiat Republic API
-  description: RESTful API for crypto and stablecoin platforms to onboard end users (KYC/AML), open named and virtual fiat accounts, receive pay-ins
-    and send payouts across GBP, EUR and USD schemes, run FX conversions, verify payees (VoP), handle returns/recalls, manage HMAC-signed webhooks,
-    and use the Oxygen transaction-monitoring product.
+  description: >-
+    RESTful API for crypto and stablecoin platforms to onboard end users (KYC/AML), open named and virtual
+    fiat accounts, receive pay-ins and send payouts across GBP, EUR and USD schemes, run FX conversions,
+    verify payees (VoP), handle returns/recalls, manage HMAC-signed webhooks, and use the Oxygen transaction-monitoring
+    product.
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   properties:
@@ -216,41 +218,326 @@ apis:
     url: conformance/fiat-republic-conformance.yml
   - type: X-MCPServerCandidate
     url: mcp/fiat-republic-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
-      API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
-      the artifact-type surfaces with a server that does not exist.'
+    note: >-
+      Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+      — a tool list derived from the published API contracts, not an existing server. The scorer already
+      read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+      surfaces with a server that does not exist.
   aid: fiat-republic:fiat-republic-api
-- aid: fiat-republic:fiat-republic-authentication
-  name: Fiat Republic Republic Authentication Openapi.Yml API
-  description: The Republic Authentication Openapi.Yml API from Fiat Republic — 1 operation(s) for republic authentication openapi.yml.
+- aid: fiat-republic:fiat-republic-alerts-api
+  name: Fiat Republic Alerts API
+  description: The Alerts API from Fiat Republic — 2 operation(s) for alerts.
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
-  - Republic Authentication Openapi.Yml
+  - Alerts
   properties:
   - type: OpenAPI
-    url: openapi/fiat-republic-authentication-openapi.yml
-- aid: fiat-republic:fiat-republic-republic
-  name: Fiat Republic Republic Republic Openapi.Yml API
-  description: The Republic Republic Openapi.Yml API from Fiat Republic — 48 operation(s) for republic republic openapi.yml.
+    url: openapi/fiat-republic-alerts-api-openapi.yml
+- aid: fiat-republic:fiat-republic-conversions-api
+  name: Fiat Republic Conversions API
+  description: The Conversions API from Fiat Republic — 2 operation(s) for conversions.
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
-  - Republic Republic Openapi.Yml
+  - Conversions
   properties:
   - type: OpenAPI
-    url: openapi/fiat-republic-republic-openapi.yml
-- aid: fiat-republic:fiat-republic-transaction-monitoring
-  name: Fiat Republic Republic Transaction Monitoring Openapi.Yml API
-  description: The Republic Transaction Monitoring Openapi.Yml API from Fiat Republic — 18 operation(s) for republic transaction monitoring openapi.yml.
+    url: openapi/fiat-republic-conversions-api-openapi.yml
+- aid: fiat-republic:fiat-republic-documents-api
+  name: Fiat Republic Documents API
+  description: The Documents API from Fiat Republic — 2 operation(s) for documents.
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
-  - Republic Transaction Monitoring Openapi.Yml
+  - Documents
   properties:
   - type: OpenAPI
-    url: openapi/fiat-republic-transaction-monitoring-openapi.yml
-
+    url: openapi/fiat-republic-documents-api-openapi.yml
+- aid: fiat-republic:fiat-republic-emt-payee-api
+  name: Fiat Republic Emt Payee API
+  description: The Emt Payee API from Fiat Republic — 2 operation(s) for emt payee.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Emt Payee
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-emt-payee-api-openapi.yml
+- aid: fiat-republic:fiat-republic-emt-payers-api
+  name: Fiat Republic Emt Payers API
+  description: The Emt Payers API from Fiat Republic — 2 operation(s) for emt payers.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Emt Payers
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-emt-payers-api-openapi.yml
+- aid: fiat-republic:fiat-republic-emt-payments-api
+  name: Fiat Republic Emt Payments API
+  description: The Emt Payments API from Fiat Republic — 2 operation(s) for emt payments.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Emt Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-emt-payments-api-openapi.yml
+- aid: fiat-republic:fiat-republic-emt-wallets-api
+  name: Fiat Republic Emt Wallets API
+  description: The Emt Wallets API from Fiat Republic — 2 operation(s) for emt wallets.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Emt Wallets
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-emt-wallets-api-openapi.yml
+- aid: fiat-republic:fiat-republic-end-users-api
+  name: Fiat Republic End Users API
+  description: The End Users API from Fiat Republic — 4 operation(s) for end users.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - End Users
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-end-users-api-openapi.yml
+- aid: fiat-republic:fiat-republic-entities-api
+  name: Fiat Republic Entities API
+  description: The Entities API from Fiat Republic — 2 operation(s) for entities.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Entities
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-entities-api-openapi.yml
+- aid: fiat-republic:fiat-republic-events-api
+  name: Fiat Republic Events API
+  description: The Events API from Fiat Republic — 3 operation(s) for events.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-events-api-openapi.yml
+- aid: fiat-republic:fiat-republic-fiat-accounts-api
+  name: Fiat Republic Fiat Accounts API
+  description: The Fiat Accounts API from Fiat Republic — 3 operation(s) for fiat accounts.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Fiat Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-fiat-accounts-api-openapi.yml
+- aid: fiat-republic:fiat-republic-investigations-api
+  name: Fiat Republic Investigations API
+  description: The Investigations API from Fiat Republic — 2 operation(s) for investigations.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Investigations
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-investigations-api-openapi.yml
+- aid: fiat-republic:fiat-republic-member-businesses-api
+  name: Fiat Republic Member Businesses API
+  description: The Member Businesses API from Fiat Republic — 2 operation(s) for member businesses.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Member Businesses
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-member-businesses-api-openapi.yml
+- aid: fiat-republic:fiat-republic-member-details-api
+  name: Fiat Republic Member Details API
+  description: The Member Details API from Fiat Republic — 1 operation(s) for member details.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Member Details
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-member-details-api-openapi.yml
+- aid: fiat-republic:fiat-republic-member-review-settings-api
+  name: Fiat Republic Member Review Settings API
+  description: >-
+    The Member Review Settings API from Fiat Republic — 1 operation(s) for member review settings.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Member Review Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-member-review-settings-api-openapi.yml
+- aid: fiat-republic:fiat-republic-oauth-api
+  name: Fiat Republic OAuth API
+  description: The Oauth API from Fiat Republic — 1 operation(s) for oauth.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-oauth-api-openapi.yml
+- aid: fiat-republic:fiat-republic-payees-api
+  name: Fiat Republic Payees API
+  description: The Payees API from Fiat Republic — 6 operation(s) for payees.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Payees
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-payees-api-openapi.yml
+- aid: fiat-republic:fiat-republic-payers-api
+  name: Fiat Republic Payers API
+  description: The Payers API from Fiat Republic — 2 operation(s) for payers.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Payers
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-payers-api-openapi.yml
+- aid: fiat-republic:fiat-republic-payment-channels-api
+  name: Fiat Republic Payment Channels API
+  description: The Payment Channels API from Fiat Republic — 2 operation(s) for payment channels.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Payment Channels
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-payment-channels-api-openapi.yml
+- aid: fiat-republic:fiat-republic-payment-returns-api
+  name: Fiat Republic Payment Returns API
+  description: The Payment Returns API from Fiat Republic — 3 operation(s) for payment returns.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Payment Returns
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-payment-returns-api-openapi.yml
+- aid: fiat-republic:fiat-republic-payments-api
+  name: Fiat Republic Payments API
+  description: The Payments API from Fiat Republic — 3 operation(s) for payments.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-payments-api-openapi.yml
+- aid: fiat-republic:fiat-republic-platform-users-api
+  name: Fiat Republic Platform Users API
+  description: The Platform Users API from Fiat Republic — 2 operation(s) for platform users.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Platform Users
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-platform-users-api-openapi.yml
+- aid: fiat-republic:fiat-republic-quotes-api
+  name: Fiat Republic Quotes API
+  description: The Quotes API from Fiat Republic — 1 operation(s) for quotes.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Quotes
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-quotes-api-openapi.yml
+- aid: fiat-republic:fiat-republic-rules-api
+  name: Fiat Republic Rules API
+  description: The Rules API from Fiat Republic — 3 operation(s) for rules.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-rules-api-openapi.yml
+- aid: fiat-republic:fiat-republic-simulator-api
+  name: Fiat Republic Simulator API
+  description: The Simulator API from Fiat Republic — 1 operation(s) for simulator.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Simulator
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-simulator-api-openapi.yml
+- aid: fiat-republic:fiat-republic-transactions-api
+  name: Fiat Republic Transactions API
+  description: The Transactions API from Fiat Republic — 2 operation(s) for transactions.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-transactions-api-openapi.yml
+- aid: fiat-republic:fiat-republic-transactions-summary-api
+  name: Fiat Republic Transactions Summary API
+  description: >-
+    The Transactions Summary API from Fiat Republic — 1 operation(s) for transactions summary.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Transactions Summary
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-transactions-summary-api-openapi.yml
+- aid: fiat-republic:fiat-republic-virtual-account-transactions-api
+  name: Fiat Republic Virtual Account Transactions API
+  description: >-
+    The Virtual Account Transactions API from Fiat Republic — 1 operation(s) for virtual account transactions.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Virtual Account Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-virtual-account-transactions-api-openapi.yml
+- aid: fiat-republic:fiat-republic-virtual-accounts-api
+  name: Fiat Republic Virtual Accounts API
+  description: The Virtual Accounts API from Fiat Republic — 2 operation(s) for virtual accounts.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Virtual Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-virtual-accounts-api-openapi.yml
+- aid: fiat-republic:fiat-republic-webhook-notifications-api
+  name: Fiat Republic Webhook Notifications API
+  description: >-
+    The Webhook Notifications API from Fiat Republic — 1 operation(s) for webhook notifications.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Webhook Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-webhook-notifications-api-openapi.yml
+- aid: fiat-republic:fiat-republic-webhooks-api
+  name: Fiat Republic Webhooks API
+  description: The Webhooks API from Fiat Republic — 2 operation(s) for webhooks.
+  humanURL: https://docs.fiatrepublic.com/docs/introduction
+  baseURL: https://member.fiatrepublic.com/api/v1
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/fiat-republic-webhooks-api-openapi.yml
 x-enrichment:
   date: '2026-07-19'
   status: backfilled

@@ -1,0 +1,189 @@
+openapi: 3.2.0
+info:
+  title: fiat-republic Quotes API
+  version: '1.0'
+servers:
+- url: https://sandbox.fiatrepublic.com/api/v1
+security:
+- sec0: []
+tags:
+- name: Quotes
+paths:
+  /quotes:
+    post:
+      summary: Create Quote
+      description: ''
+      operationId: create-quote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - sellCurrency
+              - buyCurrency
+              - amount
+              - fixedSide
+              properties:
+                sellCurrency:
+                  type: string
+                  description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency you want to sell. e.g. `GBP` for Pound Sterling
+                  enum:
+                  - GBP
+                  - EUR
+                buyCurrency:
+                  type: string
+                  description: 3 letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency you want to buy. e.g. `EUR` for Euros.
+                  enum:
+                  - GBP
+                  - EUR
+                amount:
+                  type: string
+                  description: Amount to be converted in 2 decimal places. e.g. `10000.00`
+                fixedSide:
+                  type: string
+                  description: The side of the exchange currency pair that you wish to fix. Fix the SELL side if you have a specific amount of currency you want to convert. Fix the BUY side if you want to get a specific amount in the converted currency.
+                  enum:
+                  - BUY
+                  - SELL
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"id\": \"qot_grbvdy1vxnd0z54n6m\",\n    \"sellCurrency\": \"GBP\",\n    \"buyCurrency\": \"EUR\",\n    \"sellAmount\": \"840.00\",\n    \"buyAmount\": \"1000.00\",\n    \"fixedSide\": \"BUY\",\n    \"rate\": \"0.84000\",\n    \"expiresAt\": 1668335493322\n}"
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: qot_grbvdy1vxnd0z54n6m
+                  sellCurrency:
+                    type: string
+                    example: GBP
+                  buyCurrency:
+                    type: string
+                    example: EUR
+                  sellAmount:
+                    type: string
+                    example: '840.00'
+                  buyAmount:
+                    type: string
+                    example: '1000.00'
+                  fixedSide:
+                    type: string
+                    example: BUY
+                  rate:
+                    type: string
+                    example: '0.84000'
+                  expiresAt:
+                    type: integer
+                    example: 1668335493322
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl --request POST \\\n     --url https://sandbox.fiatrepublic.com/api/v1/quotes \\\n     --header 'Accept: application/json' \\\n     --header 'Authorization: Bearer ZmlhdHJlcHVibGljOmZpYXRyZXB1YmxpYw==' \\\n     --header 'Content-Type: application/json' \\\n     --data '\n{\n    \"sellCurrency\": \"GBP\",\n    \"buyCurrency\": \"EUR\",\n    \"amount\": \"1000.00\",\n    \"fixedSide\": \"BUY\"\n}\n'"
+        samples-languages:
+        - curl
+      tags:
+      - Quotes
+components:
+  securitySchemes:
+    sec0:
+      type: oauth2
+      flows: {}
+x-readme-fauxas: true
+x-provenance:
+  method: searched
+  source: https://docs.fiatrepublic.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.fiatrepublic.com/reference/create-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-conversion.md
+  - https://docs.fiatrepublic.com/reference/create-document.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/create-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/create-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/create-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/create-payee.md
+  - https://docs.fiatrepublic.com/reference/create-payin.md
+  - https://docs.fiatrepublic.com/reference/create-payment.md
+  - https://docs.fiatrepublic.com/reference/create-quote.md
+  - https://docs.fiatrepublic.com/reference/create-return.md
+  - https://docs.fiatrepublic.com/reference/create-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/create-webhook.md
+  - https://docs.fiatrepublic.com/reference/delete-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-payee.md
+  - https://docs.fiatrepublic.com/reference/delete-webhook.md
+  - https://docs.fiatrepublic.com/reference/get-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-business.md
+  - https://docs.fiatrepublic.com/reference/get-conversion.md
+  - https://docs.fiatrepublic.com/reference/get-documents.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payee.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payer.md
+  - https://docs.fiatrepublic.com/reference/get-emt-payment.md
+  - https://docs.fiatrepublic.com/reference/get-emt-wallet.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account-copy.md
+  - https://docs.fiatrepublic.com/reference/get-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/get-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/get-member-details.md
+  - https://docs.fiatrepublic.com/reference/get-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/get-payee-verification.md
+  - https://docs.fiatrepublic.com/reference/get-payee.md
+  - https://docs.fiatrepublic.com/reference/get-payer.md
+  - https://docs.fiatrepublic.com/reference/get-payment.md
+  - https://docs.fiatrepublic.com/reference/get-return.md
+  - https://docs.fiatrepublic.com/reference/get-transaction.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account-transactions.md
+  - https://docs.fiatrepublic.com/reference/get-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/get-webhook.md
+  - https://docs.fiatrepublic.com/reference/list-business-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-conversions.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payees.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payers.md
+  - https://docs.fiatrepublic.com/reference/list-emt-payments.md
+  - https://docs.fiatrepublic.com/reference/list-emt-wallets.md
+  - https://docs.fiatrepublic.com/reference/list-fiat-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-individual-end-users.md
+  - https://docs.fiatrepublic.com/reference/list-member-businesses.md
+  - https://docs.fiatrepublic.com/reference/list-payee.md
+  - https://docs.fiatrepublic.com/reference/list-payers.md
+  - https://docs.fiatrepublic.com/reference/list-payments.md
+  - https://docs.fiatrepublic.com/reference/list-returns.md
+  - https://docs.fiatrepublic.com/reference/list-transactions.md
+  - https://docs.fiatrepublic.com/reference/list-virtual-accounts.md
+  - https://docs.fiatrepublic.com/reference/list-webhook-notifications.md
+  - https://docs.fiatrepublic.com/reference/list-webhooks.md
+  - https://docs.fiatrepublic.com/reference/payee-verification-review.md
+  - https://docs.fiatrepublic.com/reference/payment-review.md
+  - https://docs.fiatrepublic.com/reference/transactions-summary.md
+  - https://docs.fiatrepublic.com/reference/update-business-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-document.md
+  - https://docs.fiatrepublic.com/reference/update-fiat-account.md
+  - https://docs.fiatrepublic.com/reference/update-individual-end-user.md
+  - https://docs.fiatrepublic.com/reference/update-member-review-settings.md
+  - https://docs.fiatrepublic.com/reference/update-payee.md
+  - https://docs.fiatrepublic.com/reference/update-virtual-account.md
+  - https://docs.fiatrepublic.com/reference/update-webhook.md
+  - https://docs.fiatrepublic.com/reference/validate-payee.md
+  - https://docs.fiatrepublic.com/reference/verify-payee.md
+  merge:
+    pages: 69
+    deduped: 68
+    conflicts_kept_first: 0
