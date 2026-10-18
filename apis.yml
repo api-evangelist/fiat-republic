@@ -240,6 +240,8 @@ apis:
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
+  - Conversion
+  tags_raw:
   - Conversions
   properties:
   - type: OpenAPI
@@ -320,6 +322,8 @@ apis:
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -381,6 +385,8 @@ apis:
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
@@ -481,6 +487,8 @@ apis:
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
@@ -534,6 +542,8 @@ apis:
   humanURL: https://docs.fiatrepublic.com/docs/introduction
   baseURL: https://member.fiatrepublic.com/api/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
