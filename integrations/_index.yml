@@ -28,3 +28,40 @@
     detected: '2026-10-14'
   status: not-a-workflow
   arazzo: null
+- slug: fiat-republic-mica-eu-e-money-asset-referenced-token-issuers
+  label: MiCA (EU) e-money / asset-referenced token issuers
+  partner_name: MiCA (EU) e-money / asset-referenced token issuers
+  category: stablecoin / token issuer register
+  type: contract
+  channel: regulator-register
+  evidence: https://www.esma.europa.eu/sites/default/files/2024-12/EMTWP.csv
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: 'ESMA interim MiCA register: e-money token issuers (EMTWP.csv)'
+    standard: MiCA (Regulation (EU) 2023/1114)
+    spec_file: null
+    role: emt-issuer
+    registered_name: Fiat Republic Netherlands
+    register_id: 724500GVWT7QULV8CR59
+    competent_authority: De Nederlandsche Bank (DNB)
+    home_member_state: NL
+    matched_domain: fiatrepublic.com
+    matched_by: domain
+    white_papers:
+    - white_paper: https://fiatrepublic.com/about/eaglenetcoin/
+      notified: 02/12/2024
+      dti: null
+    - white_paper: https://fiatrepublic.com/about/eaglenetcoin/
+      notified: 02/12/2024
+      dti: null
+    - white_paper: https://fiatrepublic.com/about/eaglenetcoin/
+      notified: 24/03/2025
+      dti: null
+    signal_note: 'participation only: a MiCA notification / authorisation; white papers and tokens are context,
+      never counted'
+    detected_by: sweep-stablecoins-tokenization.py
+    detected: '2026-10-20'
+    authorisation_type: Electronic money Institution
+  status: not-a-workflow
+  arazzo: null
