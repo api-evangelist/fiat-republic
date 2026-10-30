@@ -64,6 +64,164 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Fiat Republic is a company surfaced as a portfolio company of seedcamp, speedinvest and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Fiat Republic is a UK- and EU-regulated Banking-as-a-Service provider that gives crypto platforms, exchanges and stablecoin issuers a single API and single liability contract for local fiat rails. Its RESTful API automates end-user onboarding with embedded KYC/AML, named and virtual fiat accounts, pay-ins and payouts across GBP (Faster Payments / CHAPS), EUR (SEPA / SEPA Instant) and USD schemes, FX conversion, Verification of Payee (VoP), returns and recalls, and its Oxygen transaction-monitoring product. Access is via OAuth 2.0 client-credentials with PAYMENTS and OXYGEN scopes, HMAC-SHA256-signed webhooks using the HTTP Message Signatures standard, idempotency keys, and separate sandbox and production environments. Fiat Republic operates as an Electronic Money Institution regulated by the FCA (UK) and De Nederlandsche Bank (NL), with MSB registrations in the US and Canada.
 
-Backed by: seedcamp, speedinvest — http://fiatrepublic.com
+**Areas:** Company · Banking · Payments · Fintech · Cryptocurrency · Stablecoins · Banking as a Service · Embedded Finance · Compliance · KYC · SEPA · Faster Payments
+
+## Fiat Republic on APIs.io
+
+Everything profiled for Fiat Republic is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/fiat-republic/](https://apis.io/providers/fiat-republic/)** — or go straight to one of the APIs or properties below.
+
+### APIs (32)
+
+- [Fiat Republic API](https://apis.io/apis/fiat-republic/fiat-republic-api/) — RESTful API for crypto and stablecoin platforms to onboard end users (KYC/AML), open named and virtual fiat accounts, receive pay-ins and send payouts…
+- [Fiat Republic Alerts API](https://apis.io/apis/fiat-republic/fiat-republic-alerts-api/) — The Alerts API from Fiat Republic — 2 operation(s) for alerts.
+- [Fiat Republic Conversions API](https://apis.io/apis/fiat-republic/fiat-republic-conversions-api/) — The Conversions API from Fiat Republic — 2 operation(s) for conversions.
+- [Fiat Republic Documents API](https://apis.io/apis/fiat-republic/fiat-republic-documents-api/) — The Documents API from Fiat Republic — 2 operation(s) for documents.
+- [Fiat Republic Emt Payee API](https://apis.io/apis/fiat-republic/fiat-republic-emt-payee-api/) — The Emt Payee API from Fiat Republic — 2 operation(s) for emt payee.
+- [Fiat Republic Emt Payers API](https://apis.io/apis/fiat-republic/fiat-republic-emt-payers-api/) — The Emt Payers API from Fiat Republic — 2 operation(s) for emt payers.
+- [Fiat Republic Emt Payments API](https://apis.io/apis/fiat-republic/fiat-republic-emt-payments-api/) — The Emt Payments API from Fiat Republic — 2 operation(s) for emt payments.
+- [Fiat Republic Emt Wallets API](https://apis.io/apis/fiat-republic/fiat-republic-emt-wallets-api/) — The Emt Wallets API from Fiat Republic — 2 operation(s) for emt wallets.
+- [Fiat Republic End Users API](https://apis.io/apis/fiat-republic/fiat-republic-end-users-api/) — The End Users API from Fiat Republic — 4 operation(s) for end users.
+- [Fiat Republic Entities API](https://apis.io/apis/fiat-republic/fiat-republic-entities-api/) — The Entities API from Fiat Republic — 2 operation(s) for entities.
+- [Fiat Republic Events API](https://apis.io/apis/fiat-republic/fiat-republic-events-api/) — The Events API from Fiat Republic — 3 operation(s) for events.
+- [Fiat Republic Fiat Accounts API](https://apis.io/apis/fiat-republic/fiat-republic-fiat-accounts-api/) — The Fiat Accounts API from Fiat Republic — 3 operation(s) for fiat accounts.
+- [Fiat Republic Investigations API](https://apis.io/apis/fiat-republic/fiat-republic-investigations-api/) — The Investigations API from Fiat Republic — 2 operation(s) for investigations.
+- [Fiat Republic Member Businesses API](https://apis.io/apis/fiat-republic/fiat-republic-member-businesses-api/) — The Member Businesses API from Fiat Republic — 2 operation(s) for member businesses.
+- [Fiat Republic Member Details API](https://apis.io/apis/fiat-republic/fiat-republic-member-details-api/) — The Member Details API from Fiat Republic — 1 operation(s) for member details.
+- [Fiat Republic Member Review Settings API](https://apis.io/apis/fiat-republic/fiat-republic-member-review-settings-api/) — The Member Review Settings API from Fiat Republic — 1 operation(s) for member review settings.
+- [Fiat Republic OAuth API](https://apis.io/apis/fiat-republic/fiat-republic-oauth-api/) — The Oauth API from Fiat Republic — 1 operation(s) for oauth.
+- [Fiat Republic Payees API](https://apis.io/apis/fiat-republic/fiat-republic-payees-api/) — The Payees API from Fiat Republic — 6 operation(s) for payees.
+- [Fiat Republic Payers API](https://apis.io/apis/fiat-republic/fiat-republic-payers-api/) — The Payers API from Fiat Republic — 2 operation(s) for payers.
+- [Fiat Republic Payment Channels API](https://apis.io/apis/fiat-republic/fiat-republic-payment-channels-api/) — The Payment Channels API from Fiat Republic — 2 operation(s) for payment channels.
+- [Fiat Republic Payment Returns API](https://apis.io/apis/fiat-republic/fiat-republic-payment-returns-api/) — The Payment Returns API from Fiat Republic — 3 operation(s) for payment returns.
+- [Fiat Republic Payments API](https://apis.io/apis/fiat-republic/fiat-republic-payments-api/) — The Payments API from Fiat Republic — 3 operation(s) for payments.
+- [Fiat Republic Platform Users API](https://apis.io/apis/fiat-republic/fiat-republic-platform-users-api/) — The Platform Users API from Fiat Republic — 2 operation(s) for platform users.
+- [Fiat Republic Quotes API](https://apis.io/apis/fiat-republic/fiat-republic-quotes-api/) — The Quotes API from Fiat Republic — 1 operation(s) for quotes.
+- [Fiat Republic Rules API](https://apis.io/apis/fiat-republic/fiat-republic-rules-api/) — The Rules API from Fiat Republic — 3 operation(s) for rules.
+- [Fiat Republic Simulator API](https://apis.io/apis/fiat-republic/fiat-republic-simulator-api/) — The Simulator API from Fiat Republic — 1 operation(s) for simulator.
+- [Fiat Republic Transactions API](https://apis.io/apis/fiat-republic/fiat-republic-transactions-api/) — The Transactions API from Fiat Republic — 2 operation(s) for transactions.
+- [Fiat Republic Transactions Summary API](https://apis.io/apis/fiat-republic/fiat-republic-transactions-summary-api/) — The Transactions Summary API from Fiat Republic — 1 operation(s) for transactions summary.
+- [Fiat Republic Virtual Account Transactions API](https://apis.io/apis/fiat-republic/fiat-republic-virtual-account-transactions-api/) — The Virtual Account Transactions API from Fiat Republic — 1 operation(s) for virtual account transactions.
+- [Fiat Republic Virtual Accounts API](https://apis.io/apis/fiat-republic/fiat-republic-virtual-accounts-api/) — The Virtual Accounts API from Fiat Republic — 2 operation(s) for virtual accounts.
+- [Fiat Republic Webhook Notifications API](https://apis.io/apis/fiat-republic/fiat-republic-webhook-notifications-api/) — The Webhook Notifications API from Fiat Republic — 1 operation(s) for webhook notifications.
+- [Fiat Republic Webhooks API](https://apis.io/apis/fiat-republic/fiat-republic-webhooks-api/) — The Webhooks API from Fiat Republic — 2 operation(s) for webhooks.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Fiat Republic Webhooks](https://apis.io/asyncapis/fiat-republic/fiat-republic-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [fiat-republic](https://apis.io/servers/fiat-republic/fiat-republic/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Fiat Republic Agentic Access](https://apis.io/agentic-access/fiat-republic/fiat-republic-agentic-access/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Fiat Republic API Rules](https://apis.io/rules/fiat-republic/fiat-republic-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Fiat Republic Authentication](https://apis.io/security/fiat-republic/fiat-republic-authentication/)
+- [Fiat Republic Domain Security](https://apis.io/security/fiat-republic/fiat-republic-domain-security/)
+- [Fiat Republic Vulnerability Disclosure](https://apis.io/security/fiat-republic/fiat-republic-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Fiat Republic Scopes](https://apis.io/scopes/fiat-republic/fiat-republic-scopes/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Fiat Republic Rate Limits](https://apis.io/rate-limits/fiat-republic/fiat-republic-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://fiatrepublic.com)
+- [Documentation](https://docs.fiatrepublic.com/docs/introduction)
+- [Getting started](https://docs.fiatrepublic.com/docs/authentication-webhook-setup)
+- [API reference](https://docs.fiatrepublic.com/reference/create-api-token)
+- [Sign up](https://member.fiatrepublic.com/dashboard)
+- [Support](https://fiatrepublic.atlassian.net/servicedesk/customer/portal/4)
+- [Changelog](https://docs.fiatrepublic.com/changelog)
+- [Blog](https://fiatrepublic.com/blog)
+- [Compliance](https://fiatrepublic.com/compliance)
+- [Privacy policy](https://fiatrepublic.com/privacy-policy)
+- [Status](https://status.fiatrepublic.com)
+
+## API Evangelist rating
+
+**Kin Score 55.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 54.0 |
+| Contract governance | 31.8 |
+| Operational transparency | 81.6 |
+| Developer ergonomics | 52.4 |
+| Access clarity | 23.7 |
+
+**Agent readiness 35.4** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 34.6** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/fiat-republic/](https://apis.io/providers/fiat-republic/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Fiat Republic: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/fiat-republic/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
